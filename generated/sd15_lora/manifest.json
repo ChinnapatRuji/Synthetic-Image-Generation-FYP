@@ -1,309 +1,711 @@
 {
   "checkpoint": "sd15_lora.safetensors",
   "base_model": "SG161222/Realistic_Vision_V5.1_noVAE",
+  "mode": "img2img",
+  "strength": 0.25,
   "lora_scale": 0.95,
   "sampler": "dpmpp_2m_karras",
-  "negative": "two separate objects, side by side, multiple objects, duplicate, deformed, blurry background blobs, text, watermark",
+  "negative": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
   "image": [
     {
       "file": "align/align_00000.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1000
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1000,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922816157341003_20250114_144038_802.jpg"
     },
     {
       "file": "align/align_00001.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1001
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1001,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922966361045837_20250113_005915_669.jpg"
     },
     {
       "file": "align/align_00002.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1002
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1002,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923110008239746_20250110_002517_718.jpg"
     },
     {
       "file": "align/align_00003.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1003
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1003,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923284649848938_20250114_145911_257.jpg"
     },
     {
       "file": "align/align_00004.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1004
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1004,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923319816589355_20250114_143034_296.jpg"
     },
     {
       "file": "align/align_00005.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1005
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1005,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923539161682129_20250110_001841_208.jpg"
     },
     {
       "file": "align/align_00006.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1006
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1006,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9924896359443665_20250110_001352_514.jpg"
     },
     {
       "file": "align/align_00007.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1007
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1007,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9924915432929993_20250113_003908_090.jpg"
     },
     {
       "file": "align/align_00008.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1008
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1008,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925023317337036_20250113_000430_678.jpg"
     },
     {
       "file": "align/align_00009.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1009
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1009,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925119876861572_20250110_001104_166.jpg"
     },
     {
       "file": "align/align_00010.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1010
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1010,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925143122673035_20250113_003206_273.jpg"
     },
     {
       "file": "align/align_00011.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1011
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1011,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925170540809631_20250113_004756_323.jpg"
     },
     {
       "file": "align/align_00012.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1012
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1012,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925190210342407_20250114_141403_027.jpg"
     },
     {
       "file": "align/align_00013.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1013
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1013,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925214648246765_20250113_002924_136.jpg"
     },
     {
       "file": "align/align_00014.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1014
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1014,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925286769866943_20250113_001633_192.jpg"
     },
     {
       "file": "align/align_00015.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1015
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1015,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922816157341003_20250114_144038_802.jpg"
     },
     {
       "file": "align/align_00016.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1016
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1016,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922966361045837_20250113_005915_669.jpg"
     },
     {
       "file": "align/align_00017.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1017
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1017,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923110008239746_20250110_002517_718.jpg"
     },
     {
       "file": "align/align_00018.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1018
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1018,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923284649848938_20250114_145911_257.jpg"
     },
     {
       "file": "align/align_00019.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1019
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1019,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923319816589355_20250114_143034_296.jpg"
     },
     {
       "file": "align/align_00020.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1020
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1020,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923539161682129_20250110_001841_208.jpg"
     },
     {
       "file": "align/align_00021.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1021
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1021,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9924896359443665_20250110_001352_514.jpg"
     },
     {
       "file": "align/align_00022.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1022
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1022,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9924915432929993_20250113_003908_090.jpg"
     },
     {
       "file": "align/align_00023.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1023
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1023,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925023317337036_20250113_000430_678.jpg"
     },
     {
       "file": "align/align_00024.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1024
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1024,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925119876861572_20250110_001104_166.jpg"
     },
     {
       "file": "align/align_00025.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1025
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1025,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925143122673035_20250113_003206_273.jpg"
     },
     {
       "file": "align/align_00026.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1026
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1026,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925170540809631_20250113_004756_323.jpg"
     },
     {
       "file": "align/align_00027.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1027
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1027,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925190210342407_20250114_141403_027.jpg"
     },
     {
       "file": "align/align_00028.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1028
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1028,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925214648246765_20250113_002924_136.jpg"
     },
     {
       "file": "align/align_00029.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1029
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1029,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925286769866943_20250113_001633_192.jpg"
     },
     {
       "file": "align/align_00030.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1030
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1030,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922816157341003_20250114_144038_802.jpg"
     },
     {
       "file": "align/align_00031.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1031
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1031,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922966361045837_20250113_005915_669.jpg"
     },
     {
       "file": "align/align_00032.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1032
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1032,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923110008239746_20250110_002517_718.jpg"
     },
     {
       "file": "align/align_00033.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1033
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1033,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923284649848938_20250114_145911_257.jpg"
     },
     {
       "file": "align/align_00034.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1034
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1034,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923319816589355_20250114_143034_296.jpg"
     },
     {
       "file": "align/align_00035.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1035
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1035,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923539161682129_20250110_001841_208.jpg"
     },
     {
       "file": "align/align_00036.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1036
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1036,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9924896359443665_20250110_001352_514.jpg"
     },
     {
       "file": "align/align_00037.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1037
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1037,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9924915432929993_20250113_003908_090.jpg"
     },
     {
       "file": "align/align_00038.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1038
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1038,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925023317337036_20250113_000430_678.jpg"
     },
     {
       "file": "align/align_00039.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1039
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1039,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925119876861572_20250110_001104_166.jpg"
     },
     {
       "file": "align/align_00040.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1040
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1040,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925143122673035_20250113_003206_273.jpg"
     },
     {
       "file": "align/align_00041.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1041
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1041,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925170540809631_20250113_004756_323.jpg"
     },
     {
       "file": "align/align_00042.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1042
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1042,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925190210342407_20250114_141403_027.jpg"
     },
     {
       "file": "align/align_00043.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1043
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1043,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925214648246765_20250113_002924_136.jpg"
     },
     {
       "file": "align/align_00044.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1044
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1044,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9925286769866943_20250113_001633_192.jpg"
     },
     {
       "file": "align/align_00045.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1045
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1045,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922816157341003_20250114_144038_802.jpg"
     },
     {
       "file": "align/align_00046.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1046
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1046,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9922966361045837_20250113_005915_669.jpg"
     },
     {
       "file": "align/align_00047.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1047
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1047,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923110008239746_20250110_002517_718.jpg"
     },
     {
       "file": "align/align_00048.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1048
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1048,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923284649848938_20250114_145911_257.jpg"
     },
     {
       "file": "align/align_00049.png",
       "class": "align",
-      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
-      "seed": 1049
+      "prompt": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1049,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/align/0.9923319816589355_20250114_143034_296.jpg"
+    },
+    {
+      "file": "misalign/misalign_00000.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1000,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.01693227142095565805_20241212_164650_217.jpg"
+    },
+    {
+      "file": "misalign/misalign_00001.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1001,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.03449007496237755_20250111_003920_721.jpg"
+    },
+    {
+      "file": "misalign/misalign_00002.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1002,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.13636112213134766_20250111_001241_984.jpg"
+    },
+    {
+      "file": "misalign/misalign_00003.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1003,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.14496548473834991_20250114_144646_884.jpg"
+    },
+    {
+      "file": "misalign/misalign_00004.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1004,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.15834249556064606_20250113_005815_082.jpg"
+    },
+    {
+      "file": "misalign/misalign_00005.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1005,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.18168185651302338_20250114_145416_373.jpg"
+    },
+    {
+      "file": "misalign/misalign_00006.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1006,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.20210430026054382_20250113_004224_142.jpg"
+    },
+    {
+      "file": "misalign/misalign_00007.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1007,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.21137727797031403_20241229_102314_954.jpg"
+    },
+    {
+      "file": "misalign/misalign_00008.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1008,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.28868699073791504_20241229_101700_147.jpg"
+    },
+    {
+      "file": "misalign/misalign_00009.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1009,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.28963911533355713_20250111_030133_706.jpg"
+    },
+    {
+      "file": "misalign/misalign_00010.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1010,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.5943959355354309_20250114_141120_197.jpg"
+    },
+    {
+      "file": "misalign/misalign_00011.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1011,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.6214937567710876_20250111_001128_188.jpg"
+    },
+    {
+      "file": "misalign/misalign_00012.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1012,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.6896922588348389_20241229_095425_720.jpg"
+    },
+    {
+      "file": "misalign/misalign_00013.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1013,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.7983086109161377_20241229_101215_745.jpg"
+    },
+    {
+      "file": "misalign/misalign_00014.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1014,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/rightweld__20250114_150026_268.png"
+    },
+    {
+      "file": "misalign/misalign_00015.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1015,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.01693227142095565805_20241212_164650_217.jpg"
+    },
+    {
+      "file": "misalign/misalign_00016.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1016,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.03449007496237755_20250111_003920_721.jpg"
+    },
+    {
+      "file": "misalign/misalign_00017.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1017,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.13636112213134766_20250111_001241_984.jpg"
+    },
+    {
+      "file": "misalign/misalign_00018.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1018,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.14496548473834991_20250114_144646_884.jpg"
+    },
+    {
+      "file": "misalign/misalign_00019.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1019,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.15834249556064606_20250113_005815_082.jpg"
+    },
+    {
+      "file": "misalign/misalign_00020.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1020,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.18168185651302338_20250114_145416_373.jpg"
+    },
+    {
+      "file": "misalign/misalign_00021.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1021,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.20210430026054382_20250113_004224_142.jpg"
+    },
+    {
+      "file": "misalign/misalign_00022.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1022,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.21137727797031403_20241229_102314_954.jpg"
+    },
+    {
+      "file": "misalign/misalign_00023.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1023,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.28868699073791504_20241229_101700_147.jpg"
+    },
+    {
+      "file": "misalign/misalign_00024.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1024,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.28963911533355713_20250111_030133_706.jpg"
+    },
+    {
+      "file": "misalign/misalign_00025.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1025,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.5943959355354309_20250114_141120_197.jpg"
+    },
+    {
+      "file": "misalign/misalign_00026.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1026,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.6214937567710876_20250111_001128_188.jpg"
+    },
+    {
+      "file": "misalign/misalign_00027.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1027,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.6896922588348389_20241229_095425_720.jpg"
+    },
+    {
+      "file": "misalign/misalign_00028.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1028,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.7983086109161377_20241229_101215_745.jpg"
+    },
+    {
+      "file": "misalign/misalign_00029.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1029,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/rightweld__20250114_150026_268.png"
+    },
+    {
+      "file": "misalign/misalign_00030.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1030,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.01693227142095565805_20241212_164650_217.jpg"
+    },
+    {
+      "file": "misalign/misalign_00031.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1031,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.03449007496237755_20250111_003920_721.jpg"
+    },
+    {
+      "file": "misalign/misalign_00032.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1032,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.13636112213134766_20250111_001241_984.jpg"
+    },
+    {
+      "file": "misalign/misalign_00033.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1033,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.14496548473834991_20250114_144646_884.jpg"
+    },
+    {
+      "file": "misalign/misalign_00034.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1034,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.15834249556064606_20250113_005815_082.jpg"
+    },
+    {
+      "file": "misalign/misalign_00035.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1035,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.18168185651302338_20250114_145416_373.jpg"
+    },
+    {
+      "file": "misalign/misalign_00036.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1036,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.20210430026054382_20250113_004224_142.jpg"
+    },
+    {
+      "file": "misalign/misalign_00037.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1037,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.21137727797031403_20241229_102314_954.jpg"
+    },
+    {
+      "file": "misalign/misalign_00038.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1038,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.28868699073791504_20241229_101700_147.jpg"
+    },
+    {
+      "file": "misalign/misalign_00039.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1039,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.28963911533355713_20250111_030133_706.jpg"
+    },
+    {
+      "file": "misalign/misalign_00040.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1040,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.5943959355354309_20250114_141120_197.jpg"
+    },
+    {
+      "file": "misalign/misalign_00041.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1041,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.6214937567710876_20250111_001128_188.jpg"
+    },
+    {
+      "file": "misalign/misalign_00042.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1042,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.6896922588348389_20241229_095425_720.jpg"
+    },
+    {
+      "file": "misalign/misalign_00043.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1043,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.7983086109161377_20241229_101215_745.jpg"
+    },
+    {
+      "file": "misalign/misalign_00044.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1044,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/rightweld__20250114_150026_268.png"
+    },
+    {
+      "file": "misalign/misalign_00045.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1045,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.01693227142095565805_20241212_164650_217.jpg"
+    },
+    {
+      "file": "misalign/misalign_00046.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1046,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.03449007496237755_20250111_003920_721.jpg"
+    },
+    {
+      "file": "misalign/misalign_00047.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1047,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.13636112213134766_20250111_001241_984.jpg"
+    },
+    {
+      "file": "misalign/misalign_00048.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1048,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.14496548473834991_20250114_144646_884.jpg"
+    },
+    {
+      "file": "misalign/misalign_00049.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+      "seed": 1049,
+      "source": "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/raw/misalign/0.15834249556064606_20250113_005815_082.jpg"
     }
   ]
 }

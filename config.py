@@ -152,20 +152,22 @@ class Training(Base):
         return self
 
 class Generate(Base):
-    checkpoint: str
-    images_per_class: int
-    only_classes: list[str]
-    lora_scale: float
-    width: int
-    height: int
-    steps: int
-    cfg: float
-    sampler: Literal["dpmpp_2m_karras", "euler_a"]
-    negative_prompt: str
-    seed: int
-    batch_size: int
-    low_vram: bool
-    prompt_variations: list[str]
+    mode: Literal["txt2img", "img2img"] = "txt2img"
+    checkpoint: str = "final"
+    images_per_class: int = 50
+    only_classes: list[str] = []
+    lora_scale: float = 0.95
+    width: int = 512
+    height: int = 512
+    steps: int = 30
+    cfg: float = 6.5
+    strength: float = 0.25
+    sampler: str = "dpmpp_2m_karras"
+    negative_prompt: str = ""
+    seed: int = 1000
+    batch_size: int = 2
+    low_vram: bool = False
+    prompt_variations: list[str] = []
 
 class Config(Base):
     model: Model

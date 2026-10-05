@@ -6,13 +6,13 @@
     "kohya_dir": "kohya_ss"
   },
   "model": {
-    "base": "runwayml/stable-diffusion-v1-5",
+    "base": "SG161222/Realistic_Vision_V5.1_noVAE",
     "vae": "stabilityai/sd-vae-ft-mse",
     "clip_skip": 1
   },
   "dataset": {
     "trigger": "sldrjnt",
-    "domain": "close-up photo of a single vertical metal electrode joint, dark blurry background",
+    "domain": "close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
     "max_size": 1024,
     "min_size": 256,
     "max_repeats": 10,
@@ -20,12 +20,12 @@
       {
         "name": "align",
         "path": "raw/align",
-        "description": "one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint"
+        "description": "aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint"
       },
       {
         "name": "misalign",
         "path": "raw/misalign",
-        "description": "one electrode on top and one below it, offset sideways from each other, joined by a solder joint"
+        "description": "misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint"
       }
     ]
   },
@@ -39,20 +39,20 @@
   },
   "training": {
     "output_name": "sd15_lora",
-    "epochs": 40,
+    "epochs": 30,
     "max_train_steps": 0,
     "batch_size": 1,
     "grad_accum": 2,
     "resolution": 512,
-    "save_every_n_epochs": 8,
+    "save_every_n_epochs": 10,
     "seed": 42,
     "flip_aug": false,
     "shuffle_caption": false,
     "keep_tokens": 1,
     "optimizer": {
       "name": "AdamW8bit",
-      "unet_lr": 0.0001,
-      "text_encoder_lr": 0.00005,
+      "unet_lr": 0.00005,
+      "text_encoder_lr": 0.00001,
       "lr_scheduler": "cosine",
       "lr_warmup_ratio": 0.05,
       "lr_cycles": 1,
@@ -72,7 +72,7 @@
       }
     },
     "bucketing": {
-      "enabled": true,
+      "enabled": false,
       "min_size": 256,
       "max_size": 512,
       "step": 64
@@ -87,16 +87,18 @@
     }
   },
   "generate": {
+    "mode": "img2img",
     "checkpoint": "final",
     "images_per_class": 50,
     "only_classes": [],
     "lora_scale": 0.95,
     "width": 512,
     "height": 512,
-    "steps": 28,
-    "cfg": 7,
+    "steps": 30,
+    "cfg": 6.5,
+    "strength": 0.25,
     "sampler": "dpmpp_2m_karras",
-    "negative_prompt": "two separate objects, side by side, multiple objects, duplicate, deformed, blurry background blobs, text, watermark",
+    "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
     "seed": 1000,
     "batch_size": 2,
     "low_vram": false,

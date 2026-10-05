@@ -1,21 +1,21 @@
 {
   "trigger": "sldrjnt",
-  "domain": "close-up photo of a single vertical metal electrode joint, dark blurry background",
+  "domain": "close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
   "classes": {
     "align": {
       "count": 15,
       "skipped": 0,
       "num_repeats": 1,
-      "description": "one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint",
-      "caption": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "description": "aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint",
+      "caption": "sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
       "image_dir": "images/align"
     },
     "misalign": {
       "count": 15,
       "skipped": 0,
       "num_repeats": 1,
-      "description": "one electrode on top and one below it, offset sideways from each other, joined by a solder joint",
-      "caption": "sldrjnt, misalign, one electrode on top and one below it, offset sideways from each other, joined by a solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "description": "misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint",
+      "caption": "sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
       "image_dir": "images/misalign"
     }
   }

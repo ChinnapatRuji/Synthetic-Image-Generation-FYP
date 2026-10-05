@@ -1,1 +1,1 @@
-sldrjnt, misalign, one electrode on top and one below it, offset sideways from each other, joined by a solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background
+sldrjnt, misalign, misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background

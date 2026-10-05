@@ -2,10 +2,12 @@ import json
 import random
 from pathlib import Path
 import torch
+from PIL import Image, ImageOps
 from diffusers import(
     DPMSolverMultistepScheduler,
     EulerAncestralDiscreteScheduler,
     StableDiffusionPipeline,
+    StableDiffusionImg2ImgPipeline,
     AutoencoderKL,
 )
 from tqdm.auto import tqdm
@@ -14,6 +16,8 @@ from config import load_config
 
 cfg = load_config()
 gen = cfg.generate
+
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tiff"}
 
 def load_meta():
     meta_path = cfg.paths.dataset_dir / "meta.json"
@@ -54,10 +58,18 @@ def find_checkpoints():
 
 def build_pipeline():
     kwargs = dict(safety_checker=None, requires_safety_checker=False, torch_dtype=torch.float16)
-    if Path(cfg.model.base).is_file():
-        pipe = StableDiffusionPipeline.from_single_file(cfg.model.base, **kwargs)
+
+    if gen.mode == "img2img":
+        pipeline_cls = StableDiffusionImg2ImgPipeline
+    elif gen.mode == "txt2img":
+        pipeline_cls = StableDiffusionPipeline
     else:
-        pipe = StableDiffusionPipeline.from_pretrained(cfg.model.base, **kwargs)
+        raise SystemExit(f"Unknown generation mode: {gen.mode}")
+
+    if Path(cfg.model.base).is_file():
+        pipe = pipeline_cls.from_single_file(cfg.model.base, **kwargs)
+    else:
+        pipe = pipeline_cls.from_pretrained(cfg.model.base, **kwargs)
 
     if cfg.model.vae:
         pipe.vae = AutoencoderKL.from_pretrained(cfg.model.vae, torch_dtype=torch.float16)
@@ -84,6 +96,26 @@ def build_prompt(trigger, name, description, domain, rng):
     parts = [trigger, name.replace("_", " "), description, domain, variation]
     return ", ".join(p.strip() for p in parts if p and p.strip())
 
+def find_source_images(name):
+    entry = next((c for c in cfg.dataset.classes if c.name == name), None)
+    if entry is None:
+        raise SystemExit(f"Class {name} not found in dataset config")
+
+    folder = Path(entry.path)
+    if not folder.is_dir():
+        raise SystemExit(f"{folder} not found")
+
+    images = sorted(p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in IMAGE_SUFFIXES)
+    if not images:
+        raise SystemExit(f"No images found in {folder}")
+    return images
+
+def load_source_image(path):
+    with Image.open(path) as im:
+        im = ImageOps.exif_transpose(im).convert("RGB")
+        im = ImageOps.fit(im, (gen.width, gen.height), method=Image.Resampling.LANCZOS)
+        return im.copy()
+
 def generate_for(pipe, checkpoint, trigger, domain, classes, device):
     label = checkpoint.stem if checkpoint else "base_model"
     root = cfg.paths.generated_dir / label
@@ -98,6 +130,8 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
         folder.mkdir(parents=True, exist_ok=True)
         rng = random.Random(f"{label}:{name}:{gen.seed}")
 
+        source_images = find_source_images(name) if gen.mode == "img2img" else None
+
         made = 0
         bar = tqdm(total=gen.images_per_class, desc=f"{label} / {name}", unit="imge")
 
@@ -107,18 +141,32 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
             seeds = [gen.seed + made + i for i in range(count)]
             generators = [torch.Generator(device=device).manual_seed(s) for s in seeds]
 
-            images = pipe(
+            args = dict(
                 prompt=prompts,
                 negative_prompt=[gen.negative_prompt] * count,
                 num_inference_steps=gen.steps,
                 guidance_scale=gen.cfg,
-                width=gen.width,
-                height=gen.height,
                 generator=generators,
                 clip_skip=cfg.model.clip_skip - 1 if cfg.model.clip_skip > 1 else None,
-            ).images
+            )
 
-            for image, prompt, seed in zip(images, prompts, seeds):
+            if gen.mode == "img2img":
+                init_paths = [source_images[(made + i) % len(source_images)] for i in range(count)]
+                init_images = [load_source_image(p) for p in init_paths]
+                images = pipe(
+                    **args,
+                    image=init_images,
+                    strength=gen.strength,
+                ).images
+            else:
+                init_paths = [None] * count
+                images = pipe(
+                    **args,
+                    width=gen.width,
+                    height=gen.height,
+                ).images
+
+            for image, prompt, seed, source in zip(images, prompts, seeds, init_paths):
                 filename = f"{name}_{made:05d}.png"
                 image.save(folder / filename)
                 manifest.append(
@@ -126,27 +174,29 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
                         "file": f"{name}/{filename}",
                         "class": name,
                         "prompt": prompt,
-                        "seed": seed
+                        "seed": seed,
+                        "source": str(source) if source else None
                     }
                 )
                 made += 1
                 bar.update(1)
         bar.close()
 
-        if checkpoint:
-            pipe.unfuse_lora()
-            pipe.unload_lora_weights()
+    if checkpoint:
+        pipe.unfuse_lora()
+        pipe.unload_lora_weights()
 
-        (root / "manifest.json").write_text(json.dumps({
-            "checkpoint": checkpoint.name if checkpoint else None,
-            "base_model": cfg.model.base,
-            "lora_scale": gen.lora_scale if checkpoint else 0,
-            "sampler": gen.sampler,
-            "negative": gen.negative_prompt,
-            "image": manifest,
-        }, indent=2), encoding="utf-8")
-        return len(manifest)
-
+    (root / "manifest.json").write_text(json.dumps({
+        "checkpoint": checkpoint.name if checkpoint else None,
+        "base_model": cfg.model.base,
+        "mode": gen.mode,
+        "strength": gen.strength if gen.mode == "img2img" else None,
+        "lora_scale": gen.lora_scale if checkpoint else 0,
+        "sampler": gen.sampler,
+        "negative": gen.negative_prompt,
+        "image": manifest,
+    }, indent=2), encoding="utf-8")
+    return len(manifest)
 
 def main():
     trigger, domain, classes = load_meta()
@@ -159,7 +209,7 @@ def main():
     print(f"Base model: {cfg.model.base}")
     print(f"LoRA folder: {cfg.paths.output_dir}")
     print(f"Checkpoints: {[c.name if c else 'base model' for c in checkpoints]}")
-    print(f"Classes: {cfg.model.base}")
+    print(f"Classes: {list(classes)}")
     print(f"Generating: {gen.images_per_class}/class = {total} images -> {cfg.paths.generated_dir}\n")
 
     pipe = build_pipeline()
