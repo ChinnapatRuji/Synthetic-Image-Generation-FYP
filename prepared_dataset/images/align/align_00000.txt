@@ -1,1 +1,1 @@
-sldrjnt, align, aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint, close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background
+sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background

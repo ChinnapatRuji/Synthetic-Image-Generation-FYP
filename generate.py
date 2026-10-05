@@ -91,10 +91,28 @@ def build_pipeline():
     pipe.enable_vae_slicing()
     return pipe
 
-def build_prompt(trigger, name, description, domain, rng):
+def build_prompt(trigger, name, description, domain, class_prompt, rng):
     variation = rng.choice(gen.prompt_variations) if gen.prompt_variations else ""
-    parts = [trigger, name.replace("_", " "), description, domain, variation]
+    parts = [trigger, name.replace("_", " "), class_prompt, description, domain, variation]
     return ", ".join(p.strip() for p in parts if p and p.strip())
+
+def build_negative_prompt(class_negative):
+    parts = [gen.negative_prompt, class_negative]
+    return ", ".join(p.strip() for p in parts if p and p.strip())
+
+def get_generation_settings(name):
+    entry = next((c for c in cfg.dataset.classes if c.name == name), None)
+    if entry is None:
+        raise SystemExit(f"Class {name} not found in dataset config")
+
+    generation = getattr(entry, "generation", None)
+    if generation is None:
+        return "", ""
+
+    return (
+        getattr(generation, "prompt", ""),
+        getattr(generation, "negative_prompt", ""),
+    )
 
 def find_source_images(name):
     entry = next((c for c in cfg.dataset.classes if c.name == name), None)
@@ -118,7 +136,7 @@ def load_source_image(path):
 
 def generate_for(pipe, checkpoint, trigger, domain, classes, device):
     label = checkpoint.stem if checkpoint else "base_model"
-    root = cfg.paths.generated_dir / label
+    root = cfg.paths.generated_dir / gen.output_name
 
     if checkpoint:
         pipe.load_lora_weights(str(checkpoint))
@@ -130,6 +148,8 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
         folder.mkdir(parents=True, exist_ok=True)
         rng = random.Random(f"{label}:{name}:{gen.seed}")
 
+        class_prompt, class_negative = get_generation_settings(name)
+        negative_prompt = build_negative_prompt(class_negative)
         source_images = find_source_images(name) if gen.mode == "img2img" else None
 
         made = 0
@@ -137,13 +157,23 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
 
         while made < gen.images_per_class:
             count = min(gen.batch_size, gen.images_per_class - made)
-            prompts = [build_prompt(trigger, name, info.get("description", ""), domain, rng) for _ in range(count)]
+            prompts = [
+                build_prompt(
+                    trigger,
+                    name,
+                    info.get("description", ""),
+                    domain,
+                    class_prompt,
+                    rng
+                )
+                for _ in range(count)
+            ]
             seeds = [gen.seed + made + i for i in range(count)]
             generators = [torch.Generator(device=device).manual_seed(s) for s in seeds]
 
             args = dict(
                 prompt=prompts,
-                negative_prompt=[gen.negative_prompt] * count,
+                negative_prompt=[negative_prompt] * count,
                 num_inference_steps=gen.steps,
                 guidance_scale=gen.cfg,
                 generator=generators,
@@ -174,6 +204,7 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
                         "file": f"{name}/{filename}",
                         "class": name,
                         "prompt": prompt,
+                        "negative_prompt": negative_prompt,
                         "seed": seed,
                         "source": str(source) if source else None
                     }
@@ -187,6 +218,7 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
         pipe.unload_lora_weights()
 
     (root / "manifest.json").write_text(json.dumps({
+        "output_name": gen.output_name,
         "checkpoint": checkpoint.name if checkpoint else None,
         "base_model": cfg.model.base,
         "mode": gen.mode,
@@ -210,6 +242,9 @@ def main():
     print(f"LoRA folder: {cfg.paths.output_dir}")
     print(f"Checkpoints: {[c.name if c else 'base model' for c in checkpoints]}")
     print(f"Classes: {list(classes)}")
+    print(f"Mode: {gen.mode}")
+    if gen.mode == "img2img":
+        print(f"Strength: {gen.strength}")
     print(f"Generating: {gen.images_per_class}/class = {total} images -> {cfg.paths.generated_dir}\n")
 
     pipe = build_pipeline()

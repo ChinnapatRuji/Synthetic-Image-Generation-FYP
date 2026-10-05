@@ -1,0 +1,812 @@
+{
+  "output_name": "txt2img",
+  "checkpoint": "sd15_lora.safetensors",
+  "base_model": "SG161222/Realistic_Vision_V5.1_noVAE",
+  "mode": "txt2img",
+  "strength": null,
+  "lora_scale": 0.95,
+  "sampler": "dpmpp_2m_karras",
+  "negative": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+  "image": [
+    {
+      "file": "align/align_00000.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1000,
+      "source": null
+    },
+    {
+      "file": "align/align_00001.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1001,
+      "source": null
+    },
+    {
+      "file": "align/align_00002.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1002,
+      "source": null
+    },
+    {
+      "file": "align/align_00003.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1003,
+      "source": null
+    },
+    {
+      "file": "align/align_00004.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1004,
+      "source": null
+    },
+    {
+      "file": "align/align_00005.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1005,
+      "source": null
+    },
+    {
+      "file": "align/align_00006.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1006,
+      "source": null
+    },
+    {
+      "file": "align/align_00007.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1007,
+      "source": null
+    },
+    {
+      "file": "align/align_00008.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1008,
+      "source": null
+    },
+    {
+      "file": "align/align_00009.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1009,
+      "source": null
+    },
+    {
+      "file": "align/align_00010.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1010,
+      "source": null
+    },
+    {
+      "file": "align/align_00011.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1011,
+      "source": null
+    },
+    {
+      "file": "align/align_00012.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1012,
+      "source": null
+    },
+    {
+      "file": "align/align_00013.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1013,
+      "source": null
+    },
+    {
+      "file": "align/align_00014.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1014,
+      "source": null
+    },
+    {
+      "file": "align/align_00015.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1015,
+      "source": null
+    },
+    {
+      "file": "align/align_00016.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1016,
+      "source": null
+    },
+    {
+      "file": "align/align_00017.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1017,
+      "source": null
+    },
+    {
+      "file": "align/align_00018.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1018,
+      "source": null
+    },
+    {
+      "file": "align/align_00019.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1019,
+      "source": null
+    },
+    {
+      "file": "align/align_00020.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1020,
+      "source": null
+    },
+    {
+      "file": "align/align_00021.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1021,
+      "source": null
+    },
+    {
+      "file": "align/align_00022.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1022,
+      "source": null
+    },
+    {
+      "file": "align/align_00023.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1023,
+      "source": null
+    },
+    {
+      "file": "align/align_00024.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1024,
+      "source": null
+    },
+    {
+      "file": "align/align_00025.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1025,
+      "source": null
+    },
+    {
+      "file": "align/align_00026.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1026,
+      "source": null
+    },
+    {
+      "file": "align/align_00027.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1027,
+      "source": null
+    },
+    {
+      "file": "align/align_00028.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1028,
+      "source": null
+    },
+    {
+      "file": "align/align_00029.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1029,
+      "source": null
+    },
+    {
+      "file": "align/align_00030.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1030,
+      "source": null
+    },
+    {
+      "file": "align/align_00031.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1031,
+      "source": null
+    },
+    {
+      "file": "align/align_00032.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1032,
+      "source": null
+    },
+    {
+      "file": "align/align_00033.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1033,
+      "source": null
+    },
+    {
+      "file": "align/align_00034.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1034,
+      "source": null
+    },
+    {
+      "file": "align/align_00035.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1035,
+      "source": null
+    },
+    {
+      "file": "align/align_00036.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1036,
+      "source": null
+    },
+    {
+      "file": "align/align_00037.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1037,
+      "source": null
+    },
+    {
+      "file": "align/align_00038.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1038,
+      "source": null
+    },
+    {
+      "file": "align/align_00039.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1039,
+      "source": null
+    },
+    {
+      "file": "align/align_00040.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1040,
+      "source": null
+    },
+    {
+      "file": "align/align_00041.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1041,
+      "source": null
+    },
+    {
+      "file": "align/align_00042.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1042,
+      "source": null
+    },
+    {
+      "file": "align/align_00043.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1043,
+      "source": null
+    },
+    {
+      "file": "align/align_00044.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1044,
+      "source": null
+    },
+    {
+      "file": "align/align_00045.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1045,
+      "source": null
+    },
+    {
+      "file": "align/align_00046.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1046,
+      "source": null
+    },
+    {
+      "file": "align/align_00047.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1047,
+      "source": null
+    },
+    {
+      "file": "align/align_00048.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1048,
+      "source": null
+    },
+    {
+      "file": "align/align_00049.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1049,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00000.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1000,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00001.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1001,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00002.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1002,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00003.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1003,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00004.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1004,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00005.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1005,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00006.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1006,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00007.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1007,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00008.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1008,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00009.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1009,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00010.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1010,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00011.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1011,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00012.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1012,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00013.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1013,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00014.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1014,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00015.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1015,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00016.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1016,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00017.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1017,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00018.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1018,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00019.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1019,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00020.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1020,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00021.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1021,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00022.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1022,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00023.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1023,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00024.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1024,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00025.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1025,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00026.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1026,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00027.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1027,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00028.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1028,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00029.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1029,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00030.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1030,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00031.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1031,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00032.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1032,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00033.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1033,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00034.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1034,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00035.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1035,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00036.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1036,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00037.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1037,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00038.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1038,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00039.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1039,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00040.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1040,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00041.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1041,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00042.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different lighting direction, different exposure, different realistic solder coloration",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1042,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00043.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1043,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00044.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1044,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00045.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera position, different magnification, different depth of field",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1045,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00046.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different metallic surface texture, different solder shape, different reflections",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1046,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00047.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1047,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00048.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different color of oxidation and discoloration, different surface texture",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1048,
+      "source": null
+    },
+    {
+      "file": "misalign/misalign_00049.png",
+      "class": "misalign",
+      "prompt": "sldrjnt, misalign, misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, different solder joint appearance, different highlights",
+      "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
+      "seed": 1049,
+      "source": null
+    }
+  ]
+}

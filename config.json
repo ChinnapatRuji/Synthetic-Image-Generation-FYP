@@ -12,7 +12,7 @@
   },
   "dataset": {
     "trigger": "sldrjnt",
-    "domain": "close-up macro photo of a single vertical metal electrode joint, continuous vertical line, dark blurry background",
+    "domain": "close-up macro photo of a vertical metal electrode solder joint, dark blurry background",
     "max_size": 1024,
     "min_size": 256,
     "max_repeats": 10,
@@ -20,12 +20,12 @@
       {
         "name": "align",
         "path": "raw/align",
-        "description": "aligned electrode, straight electrode, top electrode and bottom electrode share the same vertical center axis, zero lateral offset, centered solder joint"
+        "description": "aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint"
       },
       {
         "name": "misalign",
         "path": "raw/misalign",
-        "description": "misaligned electrode, top electrode and bottom electrode have different vertical center axes, visible lateral offset between top and bottom electrode, sideways step at the solder joint"
+        "description": "misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint"
       }
     ]
   },
@@ -39,7 +39,7 @@
   },
   "training": {
     "output_name": "sd15_lora",
-    "epochs": 30,
+    "epochs": 50,
     "max_train_steps": 0,
     "batch_size": 1,
     "grad_accum": 2,
@@ -87,7 +87,9 @@
     }
   },
   "generate": {
-    "mode": "img2img",
+    "output_name": "txt2img",
+    "mode": "txt2img",
+    "strength": 0.6,
     "checkpoint": "final",
     "images_per_class": 50,
     "only_classes": [],
@@ -96,12 +98,17 @@
     "height": 512,
     "steps": 30,
     "cfg": 6.5,
-    "strength": 0.25,
     "sampler": "dpmpp_2m_karras",
     "negative_prompt": "horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark",
     "seed": 1000,
     "batch_size": 2,
     "low_vram": false,
-    "prompt_variations": []
+    "prompt_variations": [
+      "different metallic surface texture, different solder shape, different reflections",
+      "different lighting direction, different exposure, different realistic solder coloration",
+      "different solder joint appearance, different highlights",
+      "slightly different camera position, different magnification, different depth of field",
+      "different color of oxidation and discoloration, different surface texture"
+    ]
   }
 }

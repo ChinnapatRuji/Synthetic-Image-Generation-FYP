@@ -152,6 +152,7 @@ class Training(Base):
         return self
 
 class Generate(Base):
+    output_name: str
     mode: Literal["txt2img", "img2img"] = "txt2img"
     checkpoint: str = "final"
     images_per_class: int = 50
