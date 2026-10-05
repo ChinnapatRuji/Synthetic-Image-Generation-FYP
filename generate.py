@@ -101,7 +101,7 @@ def build_negative_prompt(class_negative):
     return ", ".join(p.strip() for p in parts if p and p.strip())
 
 def get_generation_settings(name):
-    entry = next((c for c in cfg.dataset.classes if c.name == name), None)
+    entry = next((c for c in cfg.dataset.classes if c.folder == name), None)
     if entry is None:
         raise SystemExit(f"Class {name} not found in dataset config")
 
@@ -115,7 +115,7 @@ def get_generation_settings(name):
     )
 
 def find_source_images(name):
-    entry = next((c for c in cfg.dataset.classes if c.name == name), None)
+    entry = next((c for c in cfg.dataset.classes if c.folder == name), None)
     if entry is None:
         raise SystemExit(f"Class {name} not found in dataset config")
 

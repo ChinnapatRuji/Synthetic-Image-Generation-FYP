@@ -1,7 +1,7 @@
 {
   "paths": {
     "dataset_dir": "prepared_dataset",
-    "output_dir": "output",
+    "output_dir": "output_model",
     "generated_dir": "generated",
     "kohya_dir": "kohya_ss"
   },
@@ -18,14 +18,29 @@
     "max_repeats": 10,
     "classes": [
       {
-        "name": "align",
-        "path": "raw/align",
-        "description": "aligned vertically stacked electrode, top and bottom electrode on the same vertical center axis, centered solder joint"
+        "name": "OK",
+        "path": "raw/OK",
+        "description": "aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint"
       },
       {
-        "name": "misalign",
-        "path": "raw/misalign",
-        "description": "misaligned vertically stacked electrode, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint"
+        "name": "NG-Misalign",
+        "path": "raw/NG-Misalign",
+        "description": "misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint"
+      },
+      {
+        "name": "NG-Single",
+        "path": "raw/NG-Single",
+        "description": "vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint"
+      },
+      {
+        "name": "NG-No solder",
+        "path": "raw/NG-No solder",
+        "description": "vertically stacked electrodes with no solder, missing solder material between top and bottom electrode"
+      },
+      {
+        "name": "NG-Not enough solder",
+        "path": "raw/NG-Not enough solder",
+        "description": "vertically stacked electrodes with insufficient solder, too little solder material at the joint between top and bottom electrode"
       }
     ]
   },

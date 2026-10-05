@@ -13,11 +13,26 @@ max_bucket_reso = 512
 bucket_reso_steps = 64
 
   [[datasets.subsets]]
-  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/align"
+  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/ok"
   num_repeats = 1
   flip_aug = false
 
   [[datasets.subsets]]
-  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/misalign"
+  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/ng_misalign"
+  num_repeats = 1
+  flip_aug = false
+
+  [[datasets.subsets]]
+  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/ng_single"
+  num_repeats = 1
+  flip_aug = false
+
+  [[datasets.subsets]]
+  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/ng_no_solder"
+  num_repeats = 1
+  flip_aug = false
+
+  [[datasets.subsets]]
+  image_dir = "/home/chinnapat/Work/FYP/Synthetic Image Generation NUS FYP/prepared_dataset/images/ng_not_enough_solder"
   num_repeats = 1
   flip_aug = false
