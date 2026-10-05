@@ -1,0 +1,105 @@
+{
+  "paths": {
+    "dataset_dir": "prepared_dataset",
+    "output_dir": "output",
+    "generated_dir": "generated",
+    "kohya_dir": "kohya_ss"
+  },
+  "model": {
+    "base": "runwayml/stable-diffusion-v1-5",
+    "vae": "stabilityai/sd-vae-ft-mse",
+    "clip_skip": 1
+  },
+  "dataset": {
+    "trigger": "sldrjnt",
+    "domain": "close-up photo of a single vertical metal electrode joint, dark blurry background",
+    "max_size": 1024,
+    "min_size": 256,
+    "max_repeats": 10,
+    "classes": [
+      {
+        "name": "align",
+        "path": "raw/align",
+        "description": "one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint"
+      },
+      {
+        "name": "misalign",
+        "path": "raw/misalign",
+        "description": "one electrode on top and one below it, offset sideways from each other, joined by a solder joint"
+      }
+    ]
+  },
+  "lora": {
+    "network_dim": 32,
+    "network_alpha": 16,
+    "train_text_encoder": true,
+    "train_conv_layers": false,
+    "conv_dim": 16,
+    "conv_alpha": 8
+  },
+  "training": {
+    "output_name": "sd15_lora",
+    "epochs": 40,
+    "max_train_steps": 0,
+    "batch_size": 1,
+    "grad_accum": 2,
+    "resolution": 512,
+    "save_every_n_epochs": 8,
+    "seed": 42,
+    "flip_aug": false,
+    "shuffle_caption": false,
+    "keep_tokens": 1,
+    "optimizer": {
+      "name": "AdamW8bit",
+      "unet_lr": 0.0001,
+      "text_encoder_lr": 0.00005,
+      "lr_scheduler": "cosine",
+      "lr_warmup_ratio": 0.05,
+      "lr_cycles": 1,
+      "min_snr_gamma": 5,
+      "noise_offset": 0.05,
+      "max_grad_norm": 1,
+      "prodigy": {
+        "weight_decay": 0.01,
+        "decouple": true,
+        "d_coef": 2,
+        "use_bias_correction": true,
+        "safeguard_warmup": true,
+        "betas": [
+          0.9,
+          0.99
+        ]
+      }
+    },
+    "bucketing": {
+      "enabled": true,
+      "min_size": 256,
+      "max_size": 512,
+      "step": 64
+    },
+    "memory": {
+      "mixed_precision": "fp16",
+      "attention": "sdpa",
+      "gradient_checkpointing": true,
+      "cache_latents": true,
+      "cache_to_disk": true,
+      "full_fp16": false
+    }
+  },
+  "generate": {
+    "checkpoint": "final",
+    "images_per_class": 50,
+    "only_classes": [],
+    "lora_scale": 0.95,
+    "width": 512,
+    "height": 512,
+    "steps": 28,
+    "cfg": 7,
+    "sampler": "dpmpp_2m_karras",
+    "negative_prompt": "two separate objects, side by side, multiple objects, duplicate, deformed, blurry background blobs, text, watermark",
+    "seed": 1000,
+    "batch_size": 2,
+    "low_vram": false,
+    "prompt_variations": []
+  }
+}

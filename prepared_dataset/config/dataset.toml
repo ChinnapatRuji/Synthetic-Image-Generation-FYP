@@ -1,0 +1,23 @@
+[general]
+caption_extension = ".txt"
+shuffle_caption = false
+keep_tokens = 1
+
+[[datasets]]
+resolution = 512
+batch_size = 1
+enable_bucket = true
+bucket_no_upscale = true
+min_bucket_reso = 256
+max_bucket_reso = 512
+bucket_reso_steps = 64
+
+  [[datasets.subsets]]
+  image_dir = "/home/chinnapat/Work/FYP/NUS_TE_Chin/prepared_dataset/images/align"
+  num_repeats = 1
+  flip_aug = false
+
+  [[datasets.subsets]]
+  image_dir = "/home/chinnapat/Work/FYP/NUS_TE_Chin/prepared_dataset/images/misalign"
+  num_repeats = 1
+  flip_aug = false

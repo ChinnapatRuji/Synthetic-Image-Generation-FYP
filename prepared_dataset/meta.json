@@ -1,0 +1,22 @@
+{
+  "trigger": "sldrjnt",
+  "domain": "close-up photo of a single vertical metal electrode joint, dark blurry background",
+  "classes": {
+    "align": {
+      "count": 15,
+      "skipped": 0,
+      "num_repeats": 1,
+      "description": "one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint",
+      "caption": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "image_dir": "images/align"
+    },
+    "misalign": {
+      "count": 15,
+      "skipped": 0,
+      "num_repeats": 1,
+      "description": "one electrode on top and one below it, offset sideways from each other, joined by a solder joint",
+      "caption": "sldrjnt, misalign, one electrode on top and one below it, offset sideways from each other, joined by a solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "image_dir": "images/misalign"
+    }
+  }
+}

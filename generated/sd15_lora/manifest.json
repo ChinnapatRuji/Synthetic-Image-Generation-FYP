@@ -1,0 +1,309 @@
+{
+  "checkpoint": "sd15_lora.safetensors",
+  "base_model": "SG161222/Realistic_Vision_V5.1_noVAE",
+  "lora_scale": 0.95,
+  "sampler": "dpmpp_2m_karras",
+  "negative": "two separate objects, side by side, multiple objects, duplicate, deformed, blurry background blobs, text, watermark",
+  "image": [
+    {
+      "file": "align/align_00000.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1000
+    },
+    {
+      "file": "align/align_00001.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1001
+    },
+    {
+      "file": "align/align_00002.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1002
+    },
+    {
+      "file": "align/align_00003.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1003
+    },
+    {
+      "file": "align/align_00004.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1004
+    },
+    {
+      "file": "align/align_00005.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1005
+    },
+    {
+      "file": "align/align_00006.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1006
+    },
+    {
+      "file": "align/align_00007.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1007
+    },
+    {
+      "file": "align/align_00008.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1008
+    },
+    {
+      "file": "align/align_00009.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1009
+    },
+    {
+      "file": "align/align_00010.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1010
+    },
+    {
+      "file": "align/align_00011.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1011
+    },
+    {
+      "file": "align/align_00012.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1012
+    },
+    {
+      "file": "align/align_00013.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1013
+    },
+    {
+      "file": "align/align_00014.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1014
+    },
+    {
+      "file": "align/align_00015.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1015
+    },
+    {
+      "file": "align/align_00016.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1016
+    },
+    {
+      "file": "align/align_00017.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1017
+    },
+    {
+      "file": "align/align_00018.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1018
+    },
+    {
+      "file": "align/align_00019.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1019
+    },
+    {
+      "file": "align/align_00020.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1020
+    },
+    {
+      "file": "align/align_00021.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1021
+    },
+    {
+      "file": "align/align_00022.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1022
+    },
+    {
+      "file": "align/align_00023.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1023
+    },
+    {
+      "file": "align/align_00024.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1024
+    },
+    {
+      "file": "align/align_00025.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1025
+    },
+    {
+      "file": "align/align_00026.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1026
+    },
+    {
+      "file": "align/align_00027.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1027
+    },
+    {
+      "file": "align/align_00028.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1028
+    },
+    {
+      "file": "align/align_00029.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1029
+    },
+    {
+      "file": "align/align_00030.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1030
+    },
+    {
+      "file": "align/align_00031.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1031
+    },
+    {
+      "file": "align/align_00032.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1032
+    },
+    {
+      "file": "align/align_00033.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1033
+    },
+    {
+      "file": "align/align_00034.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1034
+    },
+    {
+      "file": "align/align_00035.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1035
+    },
+    {
+      "file": "align/align_00036.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1036
+    },
+    {
+      "file": "align/align_00037.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1037
+    },
+    {
+      "file": "align/align_00038.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1038
+    },
+    {
+      "file": "align/align_00039.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1039
+    },
+    {
+      "file": "align/align_00040.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1040
+    },
+    {
+      "file": "align/align_00041.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1041
+    },
+    {
+      "file": "align/align_00042.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1042
+    },
+    {
+      "file": "align/align_00043.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1043
+    },
+    {
+      "file": "align/align_00044.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1044
+    },
+    {
+      "file": "align/align_00045.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1045
+    },
+    {
+      "file": "align/align_00046.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1046
+    },
+    {
+      "file": "align/align_00047.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1047
+    },
+    {
+      "file": "align/align_00048.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1048
+    },
+    {
+      "file": "align/align_00049.png",
+      "class": "align",
+      "prompt": "sldrjnt, align, one electrode on top and one directly below it, stacked vertically in a straight line, joined in the center by a reddish solder joint, close-up photo of a single vertical metal electrode joint, dark blurry background",
+      "seed": 1049
+    }
+  ]
+}
