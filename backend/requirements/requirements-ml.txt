@@ -1,9 +1,3 @@
-# Kohya SS dependencies
--r ../kohya_ss/requirements.txt
-
-# Install Kohya SS as an editable package
--e ./kohya_ss
-
 # Additional ML dependencies
 torchvision
 diffusers
