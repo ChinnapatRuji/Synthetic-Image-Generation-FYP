@@ -1,5 +1,5 @@
+from app.modules.training.execution import execution_lock
 import json
-from pathlib import Path
 from uuid import UUID
 
 from config import Config
@@ -9,36 +9,16 @@ from app.infrastructure.storage.paths import StoragePaths
 from app.ml.preprocessing.prepare_dataset import prepare_dataset
 from app.ml.training.train_sd_lora_kohya import train
 from app.modules.workspaces.service import get_workspace
+from app.modules.training.lifecycle import (
+    TrainingCancelled,
+    check_cancellation,
+    update_run,
+)
 from app.workers.celery_app import celery_app
 
 
-
-
-def update_run_status(run_dir, status, **extra):
-    """Persist training status in run.json."""
-    path = run_dir / "run.json"
-
-    metadata = json.loads(
-        path.read_text(encoding="utf-8")
-    )
-
-    metadata["status"] = status
-    metadata.update(extra)
-
-    temporary = path.with_suffix(".json.tmp")
-    temporary.write_text(
-        json.dumps(metadata, indent=4),
-        encoding="utf-8",
-    )
-    temporary.replace(path)
-
-
 @celery_app.task(bind=True, name="training.train_lora")
-def train_lora_task(
-    self,
-    workspace_id: str,
-    run_id: str,
-):
+def train_lora_task(self, workspace_id: str, run_id: str):
     workspace_id = UUID(workspace_id)
     run_id = UUID(run_id)
 
@@ -56,64 +36,106 @@ def train_lora_task(
         / StoragePaths.training(workspace_id, run_id)
     )
 
-    config_path = run_dir / "config.json"
-
-    if not config_path.is_file():
-        raise FileNotFoundError(
-            f"Training configuration missing: {config_path}"
+    # Reject jobs whose run directory was removed.
+    if not (run_dir / "run.json").is_file():
+        raise RuntimeError(
+            f"Training run no longer exists: {run_id}"
         )
 
-    cfg = Config.model_validate_json(
-        config_path.read_text(encoding="utf-8")
+    with execution_lock(run_dir):
+        # Recheck after acquiring the execution lock.
+        if not (run_dir / "run.json").is_file():
+            raise RuntimeError(
+                f"Training run was deleted: {run_id}"
+            )
+
+        return execute_training(self, workspace_id, run_id, run_dir)
+
+
+def execute_training(self, workspace_id, run_id, run_dir):
+    workspace_dir = (
+        settings.STORAGE_ROOT
+        / StoragePaths.workspace(workspace_id)
     )
+    dataset_dir = workspace_dir / "dataset"
 
-    prepared_dir = run_dir / "prepared"
-    config_dir = run_dir / "config"
-    checkpoint_dir = run_dir / "checkpoints"
+    try:
+        check_cancellation(run_dir)
 
-    config_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+        cfg = Config.model_validate_json(
+            (run_dir / "config.json").read_text(encoding="utf-8")
+        )
 
-    update_run_status(run_dir, "PREPARING")
+        prepared_dir = run_dir / "prepared"
+        config_dir = run_dir / "config"
+        checkpoint_dir = run_dir / "checkpoints"
 
-    self.update_state(
-        state="PREPARING",
-        meta={"stage": "Preparing dataset"},
-    )
+        config_dir.mkdir(parents=True, exist_ok=True)
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
-    prepare_dataset(
-        dataset_dir=dataset_dir,
-        output_dir=prepared_dir,
-        trigger=cfg.dataset.trigger,
-        domain=cfg.dataset.domain,
-        min_size=cfg.dataset.min_size,
-        max_size=cfg.dataset.max_size,
-        max_repeats=cfg.dataset.max_repeats,
-    )
+        update_run(run_dir, "PREPARING")
 
-    update_run_status(run_dir, "TRAINING")
+        self.update_state(
+            state="PREPARING",
+            meta={"stage": "Preparing dataset"},
+        )
 
-    self.update_state(
-        state="TRAINING",
-        meta={"stage": "Training LoRA with Kohya SS"},
-    )
+        check_cancellation(run_dir)
 
-    train(
-        cfg=cfg,
-        dataset_dir=prepared_dir,
-        output_dir=checkpoint_dir,
-        config_dir=config_dir,
-    )
+        prepare_dataset(
+            dataset_dir=dataset_dir,
+            output_dir=prepared_dir,
+            trigger=cfg.dataset.trigger,
+            domain=cfg.dataset.domain,
+            min_size=cfg.dataset.min_size,
+            max_size=cfg.dataset.max_size,
+            max_repeats=cfg.dataset.max_repeats,
+        )
 
-    update_run_status(
-        run_dir,
-        "COMPLETED",
-        checkpoint_dir=str(checkpoint_dir),
-    )
+        check_cancellation(run_dir)
 
-    return {
-        "run_id": str(run_id),
-        "workspace_id": str(workspace_id),
-        "status": "completed",
-        "checkpoint_dir": str(checkpoint_dir),
-    }
+        update_run(run_dir, "TRAINING")
+
+        self.update_state(
+            state="TRAINING",
+            meta={"stage": "Training LoRA with Kohya SS"},
+        )
+
+        train(
+            cfg=cfg,
+            dataset_dir=prepared_dir,
+            output_dir=checkpoint_dir,
+            config_dir=config_dir,
+            cancel_check=lambda: check_cancellation(run_dir),
+            process_callback=lambda pid: update_run(
+                run_dir,
+                process_group_id=pid,
+            ),
+        )
+
+        check_cancellation(run_dir)
+
+        update_run(
+            run_dir,
+            "COMPLETED",
+            checkpoint_dir=str(checkpoint_dir),
+        )
+
+        return {
+            "run_id": str(run_id),
+            "workspace_id": str(workspace_id),
+            "status": "completed",
+            "checkpoint_dir": str(checkpoint_dir),
+        }
+
+    except TrainingCancelled:
+        update_run(run_dir, "CANCELLED")
+        return {
+            "run_id": str(run_id),
+            "workspace_id": str(workspace_id),
+            "status": "cancelled",
+        }
+
+    except Exception as exc:
+        update_run(run_dir, "FAILED", error=str(exc))
+        raise

@@ -4,6 +4,10 @@
 
 import json
 import subprocess
+import psutil
+import os
+import signal
+import time
 import sys
 from pathlib import Path
 
@@ -257,7 +261,7 @@ def build_command(
     return cmd
 
 
-def train(cfg, dataset_dir=None, output_dir=None, config_dir=None):
+def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=None, process_callback=None):
     """
     Execute LoRA training using a supplied configuration.
 
@@ -444,11 +448,78 @@ def train(cfg, dataset_dir=None, output_dir=None, config_dir=None):
     # Execute Kohya SS
     # --------------------------------------------------
 
-    subprocess.run(
+    process = subprocess.Popen(
         cmd,
-        check=True,
         cwd=script_dir,
+        start_new_session=True,
     )
+
+    try:
+        if process_callback is not None:
+            process_callback(process.pid)
+
+        while process.poll() is None:
+            if cancel_check is not None:
+                cancel_check()
+
+            time.sleep(1)
+
+        if process.returncode != 0:
+            raise subprocess.CalledProcessError(
+                process.returncode,
+                cmd,
+            )
+
+    except BaseException:
+        # Capture child processes before terminating.
+        try:
+            parent = psutil.Process(process.pid)
+            children = parent.children(recursive=True)
+        except psutil.NoSuchProcess:
+            children = []
+
+        # Terminate Kohya SS process group.
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+
+        # Wait for graceful shutdown.
+        try:
+            process.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            pass
+
+        # Terminate remaining child processes.
+        _, alive = psutil.wait_procs(children, timeout=5)
+
+        for child in alive:
+            try:
+                child.kill()
+            except psutil.NoSuchProcess:
+                pass
+
+        psutil.wait_procs(alive, timeout=5)
+
+        # Kill remaining process-group members.
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+
+        if process.poll() is None:
+            process.wait()
+
+        raise
+
+    finally:
+        if process.poll() is None:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+
+            process.wait()
 
     print("LoRA training completed successfully.")
 

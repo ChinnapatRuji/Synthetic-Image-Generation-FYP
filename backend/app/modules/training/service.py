@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 from uuid import UUID, uuid4
 
@@ -11,6 +12,11 @@ from config import Config, load_config
 from app.core.settings import settings
 from app.infrastructure.storage.paths import StoragePaths
 from app.modules.training.schemas import TrainingRunCreate
+from app.modules.training.lifecycle import (
+    TERMINAL,
+    read_run,
+    update_run,
+)
 from app.modules.workspaces.service import get_workspace
 from app.workers.celery_app import celery_app
 from app.workers.training_tasks import train_lora_task
@@ -26,6 +32,48 @@ def get_run_dir(workspace_id: UUID, run_id: UUID):
     )
 
 
+def get_runs_dir(workspace_id: UUID):
+    get_workspace(workspace_id)
+    return (
+        settings.STORAGE_ROOT
+        / StoragePaths.workspace(workspace_id)
+        / "training"
+    )
+
+
+def require_run(workspace_id: UUID, run_id: UUID):
+    get_workspace(workspace_id)
+
+    directory = get_run_dir(workspace_id, run_id)
+
+    if not (directory / "run.json").is_file():
+        raise HTTPException(404, "Training run not found")
+
+    metadata = read_run(directory)
+
+    if metadata.get("workspace_id") != str(workspace_id):
+        raise HTTPException(404, "Training run not found")
+
+    return directory, metadata
+
+
+def default_config():
+    cfg = load_config()
+
+    return {
+        "model": cfg.model.model_dump(mode="json"),
+        "dataset": {
+            "trigger": cfg.dataset.trigger,
+            "domain": cfg.dataset.domain,
+            "min_size": cfg.dataset.min_size,
+            "max_size": cfg.dataset.max_size,
+            "max_repeats": cfg.dataset.max_repeats,
+        },
+        "lora": cfg.lora.model_dump(mode="json"),
+        "training": cfg.training.model_dump(mode="json"),
+    }
+
+
 def validate_dataset(workspace_id: UUID):
     dataset_dir = (
         settings.STORAGE_ROOT
@@ -37,10 +85,7 @@ def validate_dataset(workspace_id: UUID):
     if not metadata_path.is_file():
         raise HTTPException(400, "Workspace dataset not found")
 
-    metadata = json.loads(
-        metadata_path.read_text(encoding="utf-8")
-    )
-
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     classes = metadata.get("classes", [])
 
     if not classes:
@@ -55,13 +100,10 @@ def validate_dataset(workspace_id: UUID):
                 f"Class directory missing: {entry['name']}",
             )
 
-        images = [
-            p for p in class_dir.iterdir()
-            if p.is_file()
-            and p.suffix.lower() in IMAGE_SUFFIXES
-        ]
-
-        if not images:
+        if not any(
+            p.is_file() and p.suffix.lower() in IMAGE_SUFFIXES
+            for p in class_dir.iterdir()
+        ):
             raise HTTPException(
                 400,
                 f"Class '{entry['name']}' has no images",
@@ -71,30 +113,27 @@ def validate_dataset(workspace_id: UUID):
 def build_config(data: TrainingRunCreate):
     cfg = load_config()
 
-    config_data = cfg.model_dump(mode="python")
-    overrides = data.model_dump(exclude_none=True)
+    # Preserve backend-managed paths and other internal settings.
+    values = cfg.model_dump(mode="python")
+    request = data.model_dump(mode="python")
 
-    for key in ("epochs", "batch_size"):
-        if key in overrides:
-            config_data["training"][key] = overrides[key]
+    values["model"] = request["model"]
+    values["lora"] = request["lora"]
+    values["training"] = request["training"]
 
-    for key in ("network_dim", "network_alpha"):
-        if key in overrides:
-            config_data["lora"][key] = overrides[key]
+    for key, value in request["dataset"].items():
+        values["dataset"][key] = value
 
     try:
-        return Config.model_validate(config_data)
+        return Config.model_validate(values)
     except ValidationError as exc:
         raise HTTPException(
-            status_code=422,
+            422,
             detail=exc.errors(include_context=False),
         )
 
 
-def start_training(
-    workspace_id: UUID,
-    data: TrainingRunCreate,
-):
+def start_training(workspace_id: UUID, data: TrainingRunCreate):
     get_workspace(workspace_id)
     validate_dataset(workspace_id)
 
@@ -102,13 +141,10 @@ def start_training(
 
     run_id = uuid4()
     run_dir = get_run_dir(workspace_id, run_id)
-
     run_dir.mkdir(parents=True, exist_ok=False)
 
-    config_snapshot = cfg.model_dump(mode="json")
-
     (run_dir / "config.json").write_text(
-        json.dumps(config_snapshot, indent=4),
+        cfg.model_dump_json(indent=4),
         encoding="utf-8",
     )
 
@@ -123,25 +159,12 @@ def start_training(
 
     try:
         train_lora_task.apply_async(
-            args=[
-                str(workspace_id),
-                str(run_id),
-            ],
+            args=[str(workspace_id), str(run_id)],
             task_id=str(run_id),
         )
     except Exception as exc:
-        (run_dir / "run.json").write_text(
-            json.dumps({
-                "run_id": str(run_id),
-                "workspace_id": str(workspace_id),
-                "status": "SUBMISSION_FAILED",
-            }, indent=4),
-            encoding="utf-8",
-        )
-        raise HTTPException(
-            503,
-            "Unable to submit training job",
-        ) from exc
+        update_run(run_dir, "SUBMISSION_FAILED", error=str(exc))
+        raise HTTPException(503, "Unable to submit training job") from exc
 
     return {
         "run_id": run_id,
@@ -151,39 +174,173 @@ def start_training(
 
 
 def get_training_status(workspace_id: UUID, run_id: UUID):
-    get_workspace(workspace_id)
+    directory, metadata = require_run(workspace_id, run_id)
 
-    run_dir = get_run_dir(workspace_id, run_id)
-    run_metadata = run_dir / "run.json"
+    # Persistent metadata is authoritative for terminal states.
+    status = metadata["status"]
 
-    if not run_metadata.is_file():
-        raise HTTPException(404, "Training run not found")
-
-    metadata = json.loads(run_metadata.read_text())
-
-    if metadata.get("workspace_id") != str(workspace_id):
-        raise HTTPException(404, "Training run not found")
+    if status in TERMINAL:
+        return metadata
 
     task = AsyncResult(str(run_id), app=celery_app)
 
-    result = {
-        "run_id": run_id,
-        "workspace_id": workspace_id,
-        "status": task.status,
+    if task.status == "FAILURE":
+        update_run(directory, "FAILED", error=str(task.result))
+        return read_run(directory)
+
+    if task.status == "SUCCESS":
+        update_run(directory, "COMPLETED")
+        return read_run(directory)
+
+    return metadata
+
+
+def list_training_runs(workspace_id: UUID):
+    root = get_runs_dir(workspace_id)
+
+    if not root.exists():
+        return []
+
+    runs = []
+
+    for directory in sorted(root.iterdir(), reverse=True):
+        if not directory.is_dir():
+            continue
+
+        path = directory / "run.json"
+
+        if path.is_file():
+            metadata = read_run(directory)
+
+            if metadata.get("workspace_id") == str(workspace_id):
+                runs.append(metadata)
+
+    return runs
+
+
+def get_run_config(workspace_id: UUID, run_id: UUID):
+    directory, _ = require_run(workspace_id, run_id)
+
+    path = directory / "config.json"
+
+    if not path.is_file():
+        raise HTTPException(404, "Training configuration not found")
+
+    cfg = Config.model_validate_json(
+        path.read_text(encoding="utf-8")
+    )
+
+    return {
+        "model": cfg.model.model_dump(mode="json"),
+        "dataset": {
+            "trigger": cfg.dataset.trigger,
+            "domain": cfg.dataset.domain,
+            "min_size": cfg.dataset.min_size,
+            "max_size": cfg.dataset.max_size,
+            "max_repeats": cfg.dataset.max_repeats,
+        },
+        "lora": cfg.lora.model_dump(mode="json"),
+        "training": cfg.training.model_dump(mode="json"),
     }
 
-    if task.status in {"PREPARING", "TRAINING", "STARTED"}:
-        result["progress"] = task.info
 
-    elif task.status == "SUCCESS":
-        result["result"] = task.result
+def checkpoint_directory(workspace_id: UUID, run_id: UUID):
+    directory, _ = require_run(workspace_id, run_id)
+    return directory / "checkpoints"
 
-    elif task.status == "FAILURE":
-        result["error"] = str(task.result)
 
-    elif task.status == "PENDING":
-        result["message"] = (
-            "Task queued, not yet started, or result expired"
+def list_checkpoints(workspace_id: UUID, run_id: UUID):
+    directory = checkpoint_directory(workspace_id, run_id)
+
+    if not directory.exists():
+        return []
+
+    return [
+        {
+            "filename": path.name,
+            "size_bytes": path.stat().st_size,
+        }
+        for path in sorted(directory.iterdir())
+        if path.is_file() and path.suffix == ".safetensors"
+    ]
+
+
+def get_checkpoint(workspace_id: UUID, run_id: UUID, filename: str):
+    directory = checkpoint_directory(workspace_id, run_id)
+
+    # Prevent path traversal and restrict downloads to LoRA files.
+    if Path(filename).name != filename:
+        raise HTTPException(400, "Invalid filename")
+
+    if not filename.endswith(".safetensors"):
+        raise HTTPException(400, "Unsupported checkpoint format")
+
+    path = directory / filename
+
+    if not path.is_file():
+        raise HTTPException(404, "Checkpoint not found")
+
+    return path
+
+
+def cancel_training(workspace_id: UUID, run_id: UUID):
+    directory, metadata = require_run(workspace_id, run_id)
+
+    if metadata["status"] in TERMINAL:
+        raise HTTPException(
+            409,
+            "Training run already finished",
         )
 
-    return result
+    from app.modules.training.lifecycle import request_cancellation
+
+    return request_cancellation(directory)
+
+
+
+def delete_training(workspace_id: UUID, run_id: UUID):
+    directory, metadata = require_run(workspace_id, run_id)
+
+    if metadata["status"] not in TERMINAL:
+        raise HTTPException(
+            status_code=409,
+            detail="Training must finish or be cancelled before deletion",
+        )
+
+    from filelock import Timeout
+    from app.modules.training.execution import execution_lock
+
+    # Acquire the lock before deleting anything.
+    lock = execution_lock(directory)
+
+    try:
+        with lock.acquire(timeout=0):
+            # Recheck status after acquiring the lock.
+            metadata = read_run(directory)
+
+            if metadata["status"] not in TERMINAL:
+                raise HTTPException(
+                    409,
+                    "Training run is not finished",
+                )
+
+            task = AsyncResult(str(run_id), app=celery_app)
+
+            if task.status in {
+                "STARTED",
+                "PREPARING",
+                "TRAINING",
+                "RETRY",
+            }:
+                raise HTTPException(
+                    409,
+                    "Training worker is still active",
+                )
+
+            shutil.rmtree(directory)
+
+    except Timeout:
+        raise HTTPException(
+            status_code=409,
+            detail="Training execution is still active",
+        )
