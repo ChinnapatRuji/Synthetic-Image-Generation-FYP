@@ -22,8 +22,8 @@ def find_train_script(cfg):
     )
 
 
-def load_dataset(cfg):
-    meta_path = cfg.paths.dataset_dir / "meta.json"
+def load_dataset(cfg, dataset_dir):
+    meta_path = Path(dataset_dir) / "meta.json"
 
     if not meta_path.is_file():
         raise RuntimeError(
@@ -35,7 +35,7 @@ def load_dataset(cfg):
     )["classes"]
 
 
-def write_dataset_toml(path, classes, cfg):
+def write_dataset_toml(path, classes, cfg, dataset_dir):
     t = cfg.training
     bucketing = t.bucketing
 
@@ -58,7 +58,7 @@ def write_dataset_toml(path, classes, cfg):
 
     for info in classes.values():
         image_dir = (
-            cfg.paths.dataset_dir / info["image_dir"]
+            Path(dataset_dir) / info["image_dir"]
         ).resolve()
 
         lines += [
@@ -257,7 +257,7 @@ def build_command(
     return cmd
 
 
-def train(cfg, output_dir=None, config_dir=None):
+def train(cfg, dataset_dir=None, output_dir=None, config_dir=None):
     """
     Execute LoRA training using a supplied configuration.
 
@@ -285,9 +285,9 @@ def train(cfg, output_dir=None, config_dir=None):
     # --------------------------------------------------
 
     script_dir = find_train_script(cfg)
-    classes = load_dataset(cfg)
+    dataset_dir = Path(dataset_dir if dataset_dir is not None else cfg.paths.dataset_dir).resolve()
+    classes = load_dataset(cfg, dataset_dir)
 
-    dataset_dir = Path(cfg.paths.dataset_dir)
 
     output_dir = Path(
         output_dir if output_dir is not None
@@ -319,6 +319,7 @@ def train(cfg, output_dir=None, config_dir=None):
         dataset_toml,
         classes,
         cfg,
+        dataset_dir,
     )
 
     # --------------------------------------------------
