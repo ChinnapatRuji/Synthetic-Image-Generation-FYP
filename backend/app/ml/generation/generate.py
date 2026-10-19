@@ -12,7 +12,7 @@ from diffusers import(
 )
 from tqdm.auto import tqdm
 
-from config import load_config
+from backend.config import load_config
 
 cfg = load_config()
 gen = cfg.generate

@@ -1,0 +1,18 @@
+# Kohya SS dependencies
+-r ../kohya_ss/requirements.txt
+
+# Install Kohya SS as an editable package
+-e ./kohya_ss
+
+# Additional ML dependencies
+torchvision
+diffusers
+transformers
+accelerate
+huggingface_hub
+safetensors
+Pillow
+numpy
+tqdm
+bitsandbytes
+prodigyopt
