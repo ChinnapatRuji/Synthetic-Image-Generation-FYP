@@ -10,3 +10,4 @@ numpy
 tqdm
 bitsandbytes
 prodigyopt
+opencv-python-headless>=4.8,<5

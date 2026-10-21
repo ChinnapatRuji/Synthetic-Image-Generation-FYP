@@ -7,7 +7,7 @@ from PIL import Image, UnidentifiedImageError
 
 from app.infrastructure.storage.paths import StoragePaths
 from app.core.settings import settings
-from app.modules.datasets.schemas import ClassCreate, ClassUpdate
+from app.modules.dataset.schemas import ClassCreate, ClassUpdate
 from app.modules.workspaces.service import (
     get_workspace,
     get_workspace_path,

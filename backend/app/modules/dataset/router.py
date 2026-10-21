@@ -3,13 +3,13 @@ from uuid import UUID
 from fastapi import APIRouter, File, UploadFile, Response, status
 from fastapi.responses import FileResponse
 
-from app.modules.datasets.schemas import (
+from app.modules.dataset.schemas import (
     ClassCreate,
     ClassUpdate,
     ClassResponse,
     DatasetResponse,
 )
-from app.modules.datasets.service import (
+from app.modules.dataset.service import (
     get_dataset,
     create_class,
     update_class,

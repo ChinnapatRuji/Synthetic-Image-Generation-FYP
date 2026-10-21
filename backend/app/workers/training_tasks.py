@@ -10,6 +10,7 @@ from app.ml.preprocessing.prepare_dataset import prepare_dataset
 from app.ml.training.train_sd_lora_kohya import train
 from app.modules.workspaces.service import get_workspace
 from app.modules.training.lifecycle import (
+    read_run,
     TrainingCancelled,
     check_cancellation,
     update_run,
@@ -101,6 +102,8 @@ def execute_training(self, workspace_id, run_id, run_dir):
             meta={"stage": "Training LoRA with Kohya SS"},
         )
 
+        update_run(run_dir, process_cleanup="PENDING")
+
         train(
             cfg=cfg,
             dataset_dir=prepared_dir,
@@ -111,6 +114,17 @@ def execute_training(self, workspace_id, run_id, run_dir):
                 run_dir,
                 process_group_id=pid,
             ),
+            cleanup_callback=lambda: update_run(
+                run_dir,
+                process_cleanup="VERIFIED",
+                process_group_id=None,
+            ),
+        )
+
+        update_run(
+            run_dir,
+            process_cleanup="VERIFIED",
+            process_group_id=None,
         )
 
         check_cancellation(run_dir)
@@ -129,7 +143,36 @@ def execute_training(self, workspace_id, run_id, run_dir):
         }
 
     except TrainingCancelled:
-        update_run(run_dir, "CANCELLED")
+        metadata = read_run(run_dir)
+
+        if metadata.get("process_cleanup") == "VERIFIED":
+            update_run(run_dir, "CANCELLED")
+            return {
+                "run_id": str(run_id),
+                "workspace_id": str(workspace_id),
+                "status": "cancelled",
+            }
+
+        # Cancellation before Kohya starts requires no GPU cleanup.
+        # Cancellation during Kohya must be independently verified.
+        if metadata.get("process_group_id") is not None:
+            update_run(
+                run_dir,
+                "CLEANUP_UNCERTAIN",
+                process_cleanup="UNCERTAIN",
+            )
+            return {
+                "run_id": str(run_id),
+                "workspace_id": str(workspace_id),
+                "status": "cleanup_uncertain",
+            }
+
+        update_run(
+            run_dir,
+            "CANCELLED",
+            process_cleanup="NOT_REQUIRED",
+        )
+
         return {
             "run_id": str(run_id),
             "workspace_id": str(workspace_id),

@@ -1,3 +1,4 @@
+from app.core.timestamps import utc_now, elapsed_seconds
 import json
 from pathlib import Path
 
@@ -59,6 +60,30 @@ def update_run(run_dir, status=None, **extra):
                 )
 
             data["status"] = status
+
+            if status == "PREPARING" and not data.get("started_at"):
+                data["started_at"] = utc_now()
+
+            elif status in {
+                "COMPLETED",
+                "FAILED",
+                "CANCELLED",
+            }:
+                finished_at = utc_now()
+
+                field = {
+                    "COMPLETED": "completed_at",
+                    "FAILED": "failed_at",
+                    "CANCELLED": "cancelled_at",
+                }[status]
+
+                if not data.get(field):
+                    data[field] = finished_at
+
+                data["duration_seconds"] = elapsed_seconds(
+                    data.get("started_at"),
+                    data[field],
+                )
 
         data.update(extra)
 

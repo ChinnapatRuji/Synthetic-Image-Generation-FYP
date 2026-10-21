@@ -261,7 +261,7 @@ def build_command(
     return cmd
 
 
-def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=None, process_callback=None):
+def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=None, process_callback=None, cleanup_callback=None):
     """
     Execute LoRA training using a supplied configuration.
 
@@ -454,6 +454,59 @@ def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=
         start_new_session=True,
     )
 
+    def group_members():
+        """Find live processes belonging to this training process group."""
+        members = []
+
+        for candidate in psutil.process_iter(["pid", "status"]):
+            try:
+                if (
+                    candidate.pid != process.pid
+                    and os.getpgid(candidate.pid) == process.pid
+                    and candidate.status() != psutil.STATUS_ZOMBIE
+                ):
+                    members.append(candidate)
+            except (ProcessLookupError, psutil.Error):
+                continue
+
+        return members
+
+    def terminate_training():
+        """Terminate the launcher and remaining process-group members."""
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+
+        try:
+            process.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            pass
+
+        remaining = group_members()
+
+        if process.poll() is None or remaining:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+
+            for child in remaining:
+                try:
+                    child.kill()
+                except psutil.NoSuchProcess:
+                    pass
+
+            if process.poll() is None:
+                process.wait(timeout=10)
+
+            psutil.wait_procs(remaining, timeout=10)
+
+        if process.poll() is None or group_members():
+            raise RuntimeError(
+                "Kohya process cleanup could not be confirmed"
+            )
+
     try:
         if process_callback is not None:
             process_callback(process.pid)
@@ -470,56 +523,24 @@ def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=
                 cmd,
             )
 
+        if group_members():
+            raise RuntimeError(
+                "Kohya launcher exited but child processes remain"
+            )
+
     except BaseException:
-        # Capture child processes before terminating.
-        try:
-            parent = psutil.Process(process.pid)
-            children = parent.children(recursive=True)
-        except psutil.NoSuchProcess:
-            children = []
-
-        # Terminate Kohya SS process group.
-        try:
-            os.killpg(process.pid, signal.SIGTERM)
-        except ProcessLookupError:
-            pass
-
-        # Wait for graceful shutdown.
-        try:
-            process.wait(timeout=15)
-        except subprocess.TimeoutExpired:
-            pass
-
-        # Terminate remaining child processes.
-        _, alive = psutil.wait_procs(children, timeout=5)
-
-        for child in alive:
-            try:
-                child.kill()
-            except psutil.NoSuchProcess:
-                pass
-
-        psutil.wait_procs(alive, timeout=5)
-
-        # Kill remaining process-group members.
-        try:
-            os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
-
-        if process.poll() is None:
-            process.wait()
-
+        terminate_training()
         raise
 
     finally:
-        if process.poll() is None:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
+        if process.poll() is None or group_members():
+            terminate_training()
 
-            process.wait()
+        # Only report successful cleanup after verifying
+        # the launcher and its process group have stopped.
+        if process.poll() is not None and not group_members():
+            if cleanup_callback is not None:
+                cleanup_callback()
 
     print("LoRA training completed successfully.")
 

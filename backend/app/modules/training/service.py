@@ -1,3 +1,4 @@
+from app.core.timestamps import utc_now, elapsed_seconds
 import json
 import shutil
 from pathlib import Path
@@ -170,6 +171,12 @@ def start_training(workspace_id: UUID, data: TrainingRunCreate):
         "run_id": run_id,
         "workspace_id": workspace_id,
         "status": "QUEUED",
+            "created_at": utc_now(),
+            "started_at": None,
+            "completed_at": None,
+            "failed_at": None,
+            "cancelled_at": None,
+            "duration_seconds": None,
     }
 
 
@@ -322,6 +329,21 @@ def delete_training(workspace_id: UUID, run_id: UUID):
                 raise HTTPException(
                     409,
                     "Training run is not finished",
+                )
+
+            cleanup = metadata.get("process_cleanup")
+            process_id = metadata.get("process_group_id")
+
+            if process_id is not None:
+                raise HTTPException(
+                    409,
+                    "Training process cleanup is not verified",
+                )
+
+            if cleanup not in {"VERIFIED", "NOT_REQUIRED"}:
+                raise HTTPException(
+                    409,
+                    "Training cleanup status is unknown",
                 )
 
             task = AsyncResult(str(run_id), app=celery_app)

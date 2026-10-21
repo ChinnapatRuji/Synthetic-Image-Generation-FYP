@@ -151,32 +151,13 @@ class Training(Base):
             raise ValueError("resolution must be a multiple of 64")
         return self
 
-class Generate(Base):
-    output_name: str
-    mode: Literal["txt2img", "img2img"] = "txt2img"
-    checkpoint: str = "final"
-    images_per_class: int = 50
-    only_classes: list[str] = []
-    lora_scale: float = 0.95
-    width: int = 512
-    height: int = 512
-    steps: int = 30
-    cfg: float = 6.5
-    strength: float = 0.25
-    sampler: str = "dpmpp_2m_karras"
-    negative_prompt: str = ""
-    seed: int = 1000
-    batch_size: int = 2
-    low_vram: bool = False
-    prompt_variations: list[str] = []
-
 class Config(Base):
     model: Model
     dataset: Dataset
     paths: Paths
     lora: Lora
     training: Training
-    generate: Generate
+    generation_defaults: dict[str, dict] = {}
 
 # --- Loader --- #
 
