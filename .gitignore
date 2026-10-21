@@ -1,4 +1,10 @@
 .venv
 __pycache__/
-*.pyc.DS_Store
+*.pyc
+.DS_Store
 logs/
+# YOLO training runs (re-created on every training run; large)
+Evaluation agent/runs/
+yolo26n-cls.pt
+# Real TE images - confidential, do not publish
+Evaluation agent/data/

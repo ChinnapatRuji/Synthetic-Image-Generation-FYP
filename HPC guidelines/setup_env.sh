@@ -14,6 +14,8 @@ source .venv/bin/activate
 pip install --upgrade pip
 # Linux x86 pip wheels of torch include CUDA support.
 pip install torch diffusers transformers peft accelerate safetensors pillow tqdm pydantic
+# Evaluation agent (YOLO classifier + results tables)
+pip install ultralytics pandas
 
 # Keep model downloads out of the small home quota. Must match HF_HOME in generate.pbs.
 export HF_HOME="${HF_HOME:-$HOME/scratch/hf_cache}"

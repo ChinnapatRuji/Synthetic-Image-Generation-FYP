@@ -1,7 +1,7 @@
 {
   "paths": {
     "dataset_dir": "prepared_dataset",
-    "output_dir": "output_model",
+    "output_dir": "output_models",
     "generated_dir": "generated",
     "kohya_dir": "kohya_ss"
   },
