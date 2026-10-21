@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Synthetic Defect Generation | Project Report</title>
-<meta name="description" content="Synthetic defect image generation for data-scarce manufacturing inspection, using a LoRA-tuned Realistic Vision 5.1 pipeline and an agentic tuning assistant. NUS × TE Connectivity FYP.">
+<meta name="description" content="Synthetic defect image generation for data-scarce manufacturing inspection: Kohya_ss-trained LoRA models, image-to-image generation, and an agentic tuning loop judged by a YOLO classifier. NUS × TE Connectivity FYP.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
+    --bad:#c0392b;
     --bg:#f7f8fa; --surface:#ffffff; --surface-2:#f0f2f5; --border:#e2e5ea;
     --text:#1a1d23; --muted:#5d6573; --faint:#8a92a0;
     --accent:#e8620c; --accent-soft:#fdeee3; --accent-2:#1f5fae; --accent-2-soft:#e6eef9;
@@ -135,10 +136,16 @@
 
   /* Chart */
   .chart{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:18px 0}
-  .bar-row{display:grid;grid-template-columns:150px 1fr 60px;align-items:center;gap:12px;margin:8px 0;font-size:13.5px}
+  .bar-row{display:grid;grid-template-columns:160px 1fr 84px;align-items:center;gap:12px;margin:8px 0;font-size:13.5px}
   .bar-track{height:14px;background:var(--surface-2);border-radius:4px;overflow:hidden}
   .bar{height:100%;background:var(--accent-2);border-radius:4px;transition:width .6s}
   .bar-row .val{font:12.5px var(--mono);text-align:right;color:var(--muted)}
+  .bar-row .val small{display:block;font-size:10.5px;color:var(--faint)}
+  .pr-group+.pr-group{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+  .pr-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:14px;margin-bottom:6px}
+  .pr-head span{font:12.5px var(--mono);color:var(--muted)}
+  .pr-track{position:relative;overflow:visible}
+  .pr-track i{position:absolute;top:-3px;bottom:-3px;border-left:1.5px dashed var(--faint)}
 
 
   ol.refs{padding-left:22px;font-size:14px} ol.refs li{margin:6px 0}
@@ -204,6 +211,48 @@
   .tm-dept{font-size:13.5px;color:var(--muted);margin-top:2px}
   .tm-year{font:12px var(--mono);color:var(--faint);margin-top:6px}
 
+  /* Objective dropdowns */
+  .obj-dd{border-top:1px solid var(--border);margin-top:10px;padding-top:8px}
+  .obj-dd summary{cursor:pointer;font-size:13.5px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .obj-dd summary::-webkit-details-marker{display:none}
+  .obj-dd summary::after{content:"+";font:500 15px var(--mono);color:var(--faint)}
+  .obj-dd[open] summary::after{content:"−"}
+  .obj-dd p,.obj-dd ul{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+  .obj-dd ul{padding-left:18px}
+  .obj-dd li{margin:3px 0}
+  .obj-dd a{display:inline-block;font-size:13px;margin-top:6px}
+  .obj-todo{font-style:italic;color:var(--faint)!important}
+
+  /* Judge results visual */
+  .judge{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:18px 0}
+  .j-summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+  .j-summary .big{font:600 30px var(--mono);letter-spacing:-.02em}
+  .j-summary .sub{font-size:13.5px;color:var(--muted)}
+  .j-row{display:grid;grid-template-columns:150px minmax(0,1fr) 110px;gap:14px;align-items:center;padding:9px 6px;border-radius:8px}
+  .j-row:hover{background:var(--surface-2)}
+  .j-name{font-size:13.5px;font-weight:600;line-height:1.3}
+  .j-name small{display:block;font-weight:400;color:var(--faint);font:11.5px var(--mono)}
+  .j-track{position:relative;height:14px;background:var(--surface-2);border-radius:4px}
+  .j-fill{position:absolute;inset:0 auto 0 0;border-radius:4px;transition:width .7s ease}
+  .j-target{position:absolute;top:-5px;bottom:-5px;left:90%;border-left:1.5px dashed var(--faint)}
+  .j-imgs{display:flex;gap:5px;margin-top:8px}
+  .j-sq{width:20px;height:20px;border-radius:4px;border:0;padding:0;cursor:pointer;position:relative;font:600 11px var(--sans);color:#fff}
+  .j-sq.ok{background:var(--ok)} .j-sq.bad{background:var(--bad)}
+  .j-sq:hover,.j-sq:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+  .j-val{text-align:right;font:600 15px var(--mono)}
+  .j-val small{display:block;font:500 11px var(--sans);margin-top:2px}
+  .j-val small.pass{color:var(--ok)} .j-val small.fail{color:var(--bad)}
+  .j-tip{position:fixed;z-index:60;pointer-events:none;background:var(--text);color:var(--bg);font-size:12.5px;line-height:1.45;padding:7px 10px;border-radius:7px;max-width:240px;opacity:0;transition:opacity .12s}
+  .j-tip.on{opacity:1}
+  .j-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin-top:12px}
+  .j-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .view-toggle{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;margin:14px 0 -6px}
+  .view-toggle button{font:500 13px var(--sans);border:0;background:none;color:var(--muted);padding:6px 14px;border-radius:7px;cursor:pointer}
+  .view-toggle button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .tbl-toggle{margin:-6px 0 18px}
+  .tbl-toggle summary{cursor:pointer;font-size:13px;color:var(--accent-2)}
+  @media (max-width:560px){.j-row{grid-template-columns:1fr 70px;}.j-row .j-mid{grid-column:1/-1;order:3}}
+
   /* Lightbox */
   .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:100;padding:30px;cursor:zoom-out}
   .lightbox.on{display:grid}
@@ -253,11 +302,12 @@
     <div class="hero">
       <div class="eyebrow">NUS EDIC Final Year Project · AY2026/27</div>
       <h1>AI Synthetic Generation of Defect Images</h1>
-      <p class="lead">Synthetic defect image generation to address data scarcity in AI-based manufacturing inspection. Uses a LoRA-tuned diffusion pipeline (Realistic Vision 5.1), with an agentic assistant that automates complex hyperparameter tuning so non-specialist users can produce high-quality defect images.</p>
+      <p class="lead">Synthetic defect image generation for AI-based manufacturing inspection when real defect images are scarce. LoRA models are trained with Kohya_ss and generate new defect images from real photos (image-to-image). An agentic loop, judged by a YOLO classifier trained on real TE images, tunes the hyperparameters so non-specialist users can produce reliable defect images.</p>
       <div class="meta">
         <span class="chip">Industry partner <b>TE Connectivity</b></span>
         <span class="chip">Supervisors <b>Dr Tang Kok Zuea</b> · <b>Keith Tan</b></span>
-        <span class="chip">Model <b>Realistic Vision 5.1 + LoRA</b></span>
+        <span class="chip">Training <b>Kohya_ss LoRA</b></span>
+        <span class="chip">Judge <b>YOLO26n</b></span>
         <span class="chip">Status <b>In progress</b></span>
         <span class="chip">Last updated <b id="updated">Oct 2026</b></span>
       </div>
@@ -294,27 +344,58 @@
     <!-- ===================== 01 ===================== -->
     <section class="sec" id="section-1" data-title="Overview">
       <div class="sec-head"><span class="sec-num">02</span><h2>Overview</h2></div>
-      <p>AI-based visual inspection systems need large, balanced datasets to perform reliably. On a production line, however, the most critical defects are often the rarest. A few examples of a failure mode are not enough to train a robust classifier, and detection accuracy suffers exactly where it matters most.</p>
-      <p>This project generates realistic synthetic defect images to fill those gaps. It builds on an existing SDXL-LoRA generation workflow and makes it both <b>better</b> (higher-fidelity, more controllable, validated outputs) and <b>easier to use</b> (an agentic assistant that handles hyperparameter tuning, so engineers on the line do not need deep generative-AI expertise).</p>
+      <p>When a new product is rolled out, there are very few defect images to train the inspection model. Missed defects mean lower yield and dissatisfied customers, and the rarest defects are often the most critical.</p>
+      <p>If realistic synthetic defect images can be generated from a small real dataset, inspection models can be trained from the start of a new product's life. This project turns the existing AITK tool into an agent-assisted workbench: industry users may not know how to tune hyperparameters, so an agent evaluates the generated images and recommends what to change. The agent recommends, the system executes, and a human approves, within budgets and with full logs.</p>
 
       <h3 id="s1-1"><span class="sub-num">2.1</span>Objectives</h3>
       <div class="grid g3">
         <div class="card"><h5>1 · Model optimisation</h5><p>Improve on the UROP SDXL-LoRA model; now using Realistic Vision 5.1 with text-to-image and image-to-image generation.</p></div>
-        <div class="card"><h5>2 · Dataset review</h5><p>Check uploads for sufficiency, duplicates and consistency; turn brief notes into visually specific captions.</p></div>
-        <div class="card"><h5>3 · Agent-assisted tuning</h5><p>Recommend training settings within a compute budget (AgentHPO: Recommender, Evaluator, Decision agents).</p></div>
-        <div class="card"><h5>4 · Improved evaluation</h5><p>A YOLO classifier trained on real TE images checks every generated image; pass rate and confidence score each run.</p></div>
-        <div class="card"><h5>5 · Downstream validation</h5><p>Does the inspection model improve? Real-only vs previous workflow vs agent-optimised, on held-out real defects.</p></div>
-        <div class="card"><h5>6 · Reporting</h5><p>Per-run experiment report with a keep/reject recommendation, integrated into the AITK web app.</p></div>
+        <div class="card"><h5>2 · Agent-assisted tuning</h5><p>Generated images are evaluated first; settings are tuned only if the images are not good enough, so users don't have to tune hyperparameters by hand.</p>
+          <details class="obj-dd">
+            <summary>2a · Evaluator agent</summary>
+            <ul>
+              <li>A YOLO26n classifier, trained only on real TE images, checks every generated image.</li>
+              <li>An image passes if it is classified as its intended class with confidence ≥ 0.8.</li>
+              <li>The share of images that pass (pass rate) scores each run.</li>
+            </ul>
+            <a href="#section-8">See Section 08 →</a>
+          </details>
+          <details class="obj-dd">
+            <summary>2b · Decision agent</summary>
+            <ul>
+              <li><b>Accept</b> (pass rate ≥ 80%): save the settings and images. No tuning needed.</li>
+              <li><b>Borderline</b> (50–80%): ask the Recommender for settings close to this run.</li>
+              <li><b>Reject</b> (&lt; 50%): ask the Recommender for different settings.</li>
+            </ul>
+          </details>
+          <details class="obj-dd">
+            <summary>2c · Recommender agent</summary>
+            <p>Proposes the next set of training hyperparameters, only when the verdict is Borderline or Reject.</p>
+            <p class="obj-todo">Details to be added by Shaun.</p>
+          </details>
+        </div>
+        <div class="card"><h5>3 · Reporting</h5><p>Per-run experiment report with a keep/reject recommendation, integrated into the AITK web app.</p></div>
       </div>
 
-      <h3 id="s1-2"><span class="sub-num">2.2</span>Key results at a glance</h3>
-      <div class="grid g4">
-        <div class="card stat"><div class="v" data-placeholder>—</div><div class="l">Best YOLO pass rate</div></div>
-        <div class="card stat"><div class="v" data-placeholder>—</div><div class="l">Rare-defect recall</div></div>
-        <div class="card stat"><div class="v" data-placeholder>—</div><div class="l">False-positive rate</div></div>
-        <div class="card stat"><div class="v" data-placeholder>—</div><div class="l">HPO trials to best config</div></div>
+      <h3 id="s1-sc"><span class="sub-num">2.2</span>Scope &amp; owners</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Workstream</th><th>Owner</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>1 · Model optimisation</td><td>Chin &amp; Roy</td><td>Optimise the generation model; test lighter models and img2img generation</td></tr>
+          <tr><td>2a · Evaluator agent</td><td>Seraphine</td><td>Scores every generated image with a YOLO judge trained on real TE images</td></tr>
+          <tr><td>2b · Decision agent</td><td>Seraphine</td><td>Accept, refine nearby, or explore new settings, based on the pass rate</td></tr>
+          <tr><td>2c · Recommender agent</td><td>Shaun</td><td>Proposes the next hyperparameter set when the images are not accepted</td></tr>
+        </tbody>
+      </table></div>
+      <p class="caption"><b>Table 1.</b> Workstreams. Output: synthetic images are kept only if they improve the inspection model.</p>
+
+      <h3 id="s1-2"><span class="sub-num">2.3</span>Key results at a glance: Evaluator agent</h3>
+      <p class="caption" style="margin:0 0 6px">All three figures come from the Evaluator agent's YOLO judge (Section 08).</p>
+      <div class="grid g3">
+        <div class="card stat"><div class="v">92.9%</div><div class="l">YOLO judge accuracy (13 of 14 real images)</div></div>
+        <div class="card stat"><div class="v">88%</div><div class="l">Img2img pass rate (Accept)</div></div>
+        <div class="card stat"><div class="v">40%</div><div class="l">Txt2img pass rate (Reject)</div></div>
       </div>
-      <div class="callout todo"><strong>To fill in</strong>Replace the dashes above once results are available. Placeholders throughout this page are marked with a striped background or "—".</div>
     </section>
 
     <!-- ===================== 02 ===================== -->
@@ -322,7 +403,26 @@
       <div class="sec-head"><span class="sec-num">03</span><h2>Background &amp; Prior Work</h2></div>
       <p>A previous UROP team (CDE4301, AY2025/26 Sem 1) compared several generative approaches on TE Connectivity solder-pin welding images and built the AITK toolkit, a guided web app for training and generation. This project starts from their conclusions.</p>
 
-      <h3 id="s2-1"><span class="sub-num">3.1</span>Model selection</h3>
+      <h3 id="s2-lr"><span class="sub-num">3.1</span>Literature review</h3>
+      <p>Diffusion models are the most widely used family for industrial defect synthesis. They learn to remove noise step by step, so generation can be steered by text, structural maps or a reference image.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Approach</th><th>How it works</th><th>Reported result</th></tr></thead>
+        <tbody>
+          <tr><td>SD + ControlNet [1]</td><td>Edge and depth maps from real PCBs guide generation, so defects follow the circuit layout</td><td>Detector accuracy 87.5% → 93.4%</td></tr>
+          <tr><td>UniPCB [2]</td><td>Fuses edge, depth and text cues at four resolution levels to keep PCB defects structurally plausible</td><td>98.0% mAP@0.5</td></tr>
+          <tr><td>DDPM for wafers [3]</td><td>Generated wafer defects, screened by FID</td><td>YOLOv8 classification accuracy 98.7%</td></tr>
+        </tbody>
+      </table></div>
+      <p class="caption"><b>Table 2.</b> Diffusion-based defect synthesis in the literature.</p>
+      <p><b>LoRA</b> (Low-Rank Adaptation) is a fine-tuning technique, not a generative architecture. It keeps the base model frozen and trains only small low-rank matrices added to its layers [Hu et al., 2022]. We don't teach the model to draw from scratch; we nudge its existing visual knowledge toward one specific solder defect. This is why a LoRA can be trained from as few as ~10 real images per class.</p>
+      <div class="grid g3">
+        <div class="card"><h5>GAN-based</h5><p>StyleGAN3 for wafers [6], DT-GAN for defect transfer [7], wafer-dicing augmentation [8]. Trained from scratch, so they need more data.</p></div>
+        <div class="card"><h5>Transformers</h5><p>DALL·E builds images token by token [4]; Qwen-Image is a 20B diffusion transformer [5]. Strong prompt-following, but too heavy for local VRAM.</p></div>
+        <div class="card" style="border-top:3px solid var(--accent)"><h5>Our choice</h5><p>Latent diffusion + LoRA: adapts from ~10 images per class, runs on one local GPU, and builds on the UROP baseline.</p></div>
+      </div>
+      <p>We compared these families against our constraints: very few real images per defect class, and a toolkit that must run locally on a single GPU.</p>
+
+      <h3 id="s2-1"><span class="sub-num">3.2</span>Model selection</h3>
       <div class="table-wrap"><table>
         <thead><tr><th>Approach</th><th>Outcome</th><th>Verdict</th></tr></thead>
         <tbody>
@@ -333,78 +433,59 @@
           <tr><td><b>SDXL Base 1.0 + LoRA</b></td><td>Highest fidelity; only model to improve downstream accuracy</td><td><b>Adopted</b></td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 1.</b> Generative models evaluated in prior work.</p>
+      <p class="caption"><b>Table 3.</b> Generative models evaluated in prior work.</p>
       <p>SDXL then went through two optimisation rounds. Natural-language prompts generated by a local Llama 7B model lowered FID but had mixed effects on accuracy. Training one LoRA per defect class ("individual") beat a single shared model on fidelity, FID and accuracy for clear-cut classes; for example, NG-No Solder accuracy rose from 73% to 93%. Individual training was adopted. The team wrapped the pipeline in the AITK web app: setup → training → generation → output.</p>
 
-      <h3 id="s2-2"><span class="sub-num">3.2</span>Gaps this project addresses</h3>
+      <h3 id="s2-2"><span class="sub-num">3.3</span>Gaps this project addresses</h3>
       <div class="table-wrap"><table>
         <thead><tr><th>Gap in prior workflow</th><th>This project</th></tr></thead>
         <tbody>
-          <tr><td>Results depend on expert judgement: defect descriptions, training duration, settings, checkpoint, which images to keep</td><td>Dataset review and captioning (Section 05); AgentHPO tuning (Section 07)</td></tr>
+          <tr><td>Results depend on expert judgement: defect descriptions, training duration, settings, checkpoint, which images to keep</td><td>AgentHPO tuning (Section 07)</td></tr>
           <tr><td>SDXL needs &gt;12 GB VRAM, and text-to-image generation can get defect geometry wrong</td><td>Lighter photorealistic model and image-to-image generation (Section 06)</td></tr>
           <tr><td>No automated batch or per-image quality scoring</td><td>YOLO-based per-image checks and batch pass rate (Section 08)</td></tr>
-          <tr><td>Realism never validated against downstream inspection performance</td><td>Three-way downstream comparison (Section 08)</td></tr>
+          <tr><td>Realism never validated against downstream inspection performance</td><td>Downstream test (M3), planned for Semester 2</td></tr>
           <tr><td>No record of why a run was kept or rejected</td><td>Per-run experiment report (Section 09)</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 2.</b> Mapping prior limitations to project deliverables.</p>
+      <p class="caption"><b>Table 4.</b> Mapping prior limitations to project deliverables.</p>
     </section>
 
     <!-- ===================== 03 ===================== -->
     <section class="sec" id="section-3" data-title="Defect Taxonomy">
       <div class="sec-head"><span class="sec-num">04</span><h2>Defect Taxonomy</h2></div>
-      <p>Defects are grouped by their physical failure mechanism, not just their visual appearance. Grounding generation in how a defect actually forms helps keep synthetic images physically plausible.</p>
+      <p>Defects are grouped by their physical failure mechanism, not just their visual appearance. Grounding generation in how a defect actually forms helps keep synthetic images physically plausible. Mechanisms are drawn from electronics-soldering literature [9–12] and will be confirmed against TE's process.</p>
 
       <div class="tabs" role="tablist" data-tabs="taxonomy">
         <button role="tab" aria-selected="true" data-tab="ok">OK</button>
         <button role="tab" aria-selected="false" data-tab="single">NG-Single</button>
         <button role="tab" aria-selected="false" data-tab="nosolder">NG-No Solder</button>
-        <button role="tab" aria-selected="false" data-tab="notenough">NG-Not Enough Solder</button>
         <button role="tab" aria-selected="false" data-tab="misaligned">NG-Misaligned</button>
       </div>
       <div class="tab-panel active" data-panel="ok">
         <div class="grid g2">
-          <figure data-fig="Real sample — OK weld"><div class="frame"><div class="ph sq">images/real_ok.png</div></div><figcaption>Accepted weld (real)</figcaption></figure>
-          <div class="card"><h5>OK: accepted weld</h5><p><b>Appearance:</b> both pins present, even solder fillet, correct alignment.<br><b>Mechanism:</b> n/a (reference class).<br><b>Real samples available:</b> —</p></div>
+          <figure data-fig="Real sample — OK weld"><div class="frame"><img src="data:image/jpeg;base64,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" alt="Real OK solder weld: two aligned electrodes joined by an even solder fillet" width="299" height="299"></div><figcaption>Accepted weld (real)</figcaption></figure>
+          <div class="card"><h5>OK: accepted weld</h5><p><b>Appearance:</b> both pins present, even solder fillet, correct alignment.<br><b>Mechanism:</b> good wetting. Molten solder reacts with the electrode metal to form a thin, continuous intermetallic (IMC) layer, which gives an even fillet and a sound bond [9, 10].<br><b>Real samples available:</b> 30</p></div>
         </div>
       </div>
       <div class="tab-panel" data-panel="single">
         <div class="grid g2">
-          <figure data-fig="Real sample — NG-Single"><div class="frame"><div class="ph sq">images/real_single.png</div></div><figcaption>Single pin present (real)</figcaption></figure>
-          <div class="card"><h5>NG-Single</h5><p><b>Appearance:</b> only one pin present in the joint.<br><b>Mechanism:</b> — (e.g. pin feed or insertion failure)<br><b>Real samples available:</b> —</p></div>
+          <figure data-fig="Real sample — NG-Single"><div class="frame"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAErASsDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzkWjelL9jYdq68aMQOVoGkE8bT+VZXFc5EWjY6UotG9K68aK3939KlGifLyvNK4XON+yt6UfY2xyK7MaGT0WlXRGJxt/SncVzivsJPammyPpXbnQzyNtMOiEHlaLhc4k2bZ6UxrRvSu2k0QryVqrLpJH8JouO5xzWpHaomtjiuvbSDtyRVKXTSucKfyp3C5yzRHNeg/DDSjf6s8ORzEx5+lcpNZlX6V2vw4mnstc3QqWkMbAKO/FKT0H3H30LqTHI8v7tyBhcjg1BNALm13oZnlXvtrrJLP7RCjXB2F2YsA+ADmpbfw5bNZTypqMYMfJAl5I9KUWiG9Th9J8PTazqUUNzNJHGTyzDpXceEPA63U04uo0ZUOEkY5P5Vdg8P6clqJhrUIZlB2iXn6VRm086QTPa+JAsrHmNZctTb13QJrqdq/w/0O6hkW5sEDkYVlY8VVsfhjodtaNE8G6TPyyZ5FZtj41kg3QT3nnkDAYdasWPxAL3LxuU8tByz8E1TlFIFZjNX0lvCWmRyRTFrVpP35CDOO1YB8c6WL55WWULj5WCYOa1NY1a58Ty+TDNFFaoMsH6Gqlh4MtrqYebcW/lYzk8ZrNxg9X+gOXY0LLxLpt7ps6WXmbx88hfua8M8fXIuvEU0g6HoK9wi8NQafNcwx3EB3JuXaa8O8bwCPXpVByR1NEElJpFLucpThQVpcVqMt2suxxzXRWhDAGuWjOCK6DSpeQpqHpqBvQkDFTyKAMjvUSptUGptwaMjHND2JI1YetWFXI61n79rVYjuDjGKQyycCkyPWq7zVH5ppiL6gHvVS5A3daRZWC1BLIWagZbth+da8aEoKxrUnIrdiH7pee1TIR1w0fMOSKINHDn7tda9nlPlHFENuFBBFJyFYwYdEjdcFelTjw9G7YC10UUIVRkDmrS23ylx+FK99hanJtoCxcbR+VSW+gJ1YcV0/k7x8wxUq26sAD0FMNTk20BHc4Az9KqXWhBOiiu7aGJFJGM1T+ziZieKV7DscJLo2VwRVY6GGJ44rtJ7bLsMVH9j2JlhgUxHEvoO7oKzL3RggPy816OloqKWbvWTf2QZyVxihNXK1seUXmm4kPy1e8H3cuma7I0EIkkEZwD9K3NagS3R3wOBXA297NFeyTW77JM/ezTeo0dh4juLe90y1a281bxi3nDdwtcYZ7+0DIHl59GPNdpZarbxaPFa3DSeY7b2dIs81n3urWPmmOV5g+flBjAogtLNf19wOTvZHO2xuZ3AAm45wGNSOkwYkxTlv8AeNWf7Rkhu2a3aQIe5UVc/tOcR7y8g/2torSz6IVyJdy2CqsbrKxySW5FaGj2dvDcpNqTssOcsA3JqrFdrM6+a0zAc8CrtvDpV3MTNczqV9R0qJWtZgr9DvNPn8INA2LyRADjDNWhe6x4TtbBY/tYfI42HmvOYfD2lXchMd45ycYq5N4e0C0iYSTTPIoweDgGp5Ihzm1p11aXs891ZuSkXXJycV5H4qiabVZZScljnNd3o8cVutzFZSEo4O41zl9p8l1K7sM4oikmxpvqefyxbTUWK3r+wMbHisloiDWqYxka1qWOUcGqUSc1q2sWamQzpbX97EDUvl7T0qLSuMKa05IeOlSn0EzJuIQDuxTEwO1X5oiYyMcis8ghiMU0IkYDHSoitTqpZc0mzmqEMXOPaopB83IrQSLctV5Ifm6UkA61+8OK6GGPMSnHasmyt8sDXTQW/wC5XjtUzYI746j8uA3BqWO8TH3smuJ/tGUDGfxqxBqLjgmo3C1jtjcrgfNzVqPUo448ZzXErqRPG4043x28PUtFI6u41ZOcHBqqmtqnV/1rkprt9x+Y81RlmlzkE4o5b6Ady2uLnl+tUpNdMbna/wCtcetxIOpNBuTuxmqUSXqdh/bjNzTZtZLLgmuWW8C4GaR7wZzmjlV9Q1On/tn9yQ5rLl1jLnBrDnvhjAaqJusEnPFCikPUPEmoebblB95uK5Wz0aTUtRht4Fy7OB8vua2ZAmo36ws2AKpQ+Jl8Na2/2K2V3iOAzDPNWr/ZGdT410S50K206GymxKkZMmPXiuB82/mu/Mmj86Qn+IVf1Xxjq2p3L3M7KzP2x0+lZL+KLxT8scX/AHzzVJaaIWp01pBqchXy7CNyeoZa37jwvqt1bQtKtvbL12t8tcPp3iO6SOW4e4k83+BF9a0Y/Eet3iebc3EnJ/iPSk+a2gra3NUabcWEsi+bbyB+PvVt6F4Bhvkkvb6+jjDDhVftWTPqGj2+kx5uZJ7xvv4HT2re8NmLVniWCeVEHDKTWd3FXKeuxWn8M6ZZzkWerIuD3k6VqW/hGwvNMaWTWN7dWw4xXUt4N0N4syB3J6tvFWoPD2kQ2rW6S7Y8cgOM1e+qZNpbanG/2Xo2j6HdNp9x9pmdcE9dtZ+m6M13p7zFOT7Vta5pOnadYzLp1yW3D5lLZrpfCWnoPD6eYoJf1qbO7Q0eIa7o7RMxK/pXFXNtsc8V734v0PazkJxXkWqWBSVuKIyuM56GL5q2bKDOBVSOHD4xW1Yx9KtsZesoikimt8w5iBxWfbxcjjpXQW8W636c1m3qDMGZMZBFYk+UlP1rqLqD5jWDfQYfIFWhECS/LxQGJNNSM9alVMGrSRLZKmQtQsTvq0o+XpUap+8xigC7YA7hXX28R8hOO1c1YxfOvFdtbQf6NH9KwmI5D7Q1ILpgc1AZhjG2onnAHStdOwFz7c4PpUg1Bx3yKxZLo56UwXbelJjsbL6hJmq8mqSg9Ko/a+M4qN7oMc4pctxotNqcuTUZ1GTOc1UabJ6VE7HHSnyjuaP9ovjOaZ/aMh7ms4y8dKYZeelHKF0aDXRY8mnJP5jBScVmC45xVq0JmnUChoDVgsvJEt0g3FFznOK4+4kWWSR/IHmOT8xaux18rp+jbSCWkwMg158HUzHBbBqobXEXYkLDY+0D1qFbQG4wibwD371o2Vql2wjjb5z6tWzHoF7AdongH1kFPmSE9CtBPJBbgrpsJ2juMk1Rj1WczyCS0QFuAPSuttvDlxdRHOpRLIOwIrltRtVsb8W4uS8rHBYVK5WO5s6Td2llCBNYxSSMermuhso01W4VYxFZL6o1UtM8JxXFoJbm9TJGR84zViPw3AWK291lunytUOSb3A6pYdOtbJrae+R5APv+YafHp+hSaSwW+33B7iQjJrjD4QEocTXjrz0Jq5YeErW0KTGWaQKc4GaTS6SEn5Gzd+GpbDSDc78o+MDdmvRNFi8nR7VMYwgrmdX1S3uNBjgjRgwwBuHSuvtV2WkS+iCrp6sopa1YreWb8DcBXiniTTfKmc7a99YblIPevNvGWmgO7BeDU1Fyyv3GeNtABJxWrYR8ikuLfZKRjvVqzTkUX0A1IowBWxZn5Dms6NflHHNXbbg1MguV70fMawr4fLmt+9ABrIukDRmr6EmUnI4qxHHuqFAAcVahIBq0JomEWEqEJ89XM/JUKJl+KSEzT05DuGa7i1Q/ZY8DtXG2YwVrtrNAbSP6VlVYRep5gZF5ORUDyAisf7Y3rTvtRre7HYuSOM03zFC1S+0Enml8/wBqLsLFvzUA5qPzowcmqjy8VAZDS1GahmjI4ppkUj2rN84oKPtRNF2BoBkJqKUgc1CkuRmkkkLAjFO4WDzFq/psgEgOec1j5INammDMgPvUsZY8YStDbxIzSOTz7CuPhvIkJ82FifY11HinWJIp40MaMAMciuUkvvNyfKUZ9BVRTshG3Zatp8KgtZvu9d1Xx4m06MZbTi59d9cpG7spyv0oVZpJAoj4zT5Q0O1t/G9tbRkx6QBnueazX8R2tzqYnezAH93ArMlsLtEUFOCOOals9MuDIJVKbh/C1FtNw07HUv4tgmtjFBbpAwHUjrUmg6xcGbi9toOesgrKh8M3l7MJXeJPYMK73QfhzpVxag3t4FmPQBhWbcUrNh6ImVEvfl/4SOyjJ69a7LS7SKPTBG2swytjCsoGKwYvhZpcbbhqB+gauk0bw3pGlgqJRKw7u3FJOKe4cr7GBqWnzwyxGS9W4RmB+QdBmvRIxiJB/siuW1+C3aS2a2Zdu/DKprql+4v0qofGwXYWub8V2nnWhfHQHmukqhq8fmWEgxninWV43KR4PqVvsnYe9JZoOM1p67AUuWOO9Z9txWEXoM1EHy5FTRNhqijI2dqlj++KbJEvIycGsuaMeW1bt0PlBxWNc8KwqlqgMJzhyKmhPPWq8hHnH61NGRnrVpksvEnZwaSHJemDpUkPDU7iNqxiJdcmu+soR9ii+lcJpufMWvQrMN9kj+lc1W47JHz0AMcUu3NRrn1qQZxXVqMTbikOB9aCxqFiaNQHlhUbGmtmkzxjNPUAJyKjB5qQAGgqKVgFV8DrxQ0gzxUROKUUASIwJyRWhp77blMDjNZyEE1paeA0lSxknis6cLhfMVxLjoOhrAik058CSGT8Kv8AiVRLdjMnzAcZrnz9pjJYDI9cVUdkFjehudHg4aCQirS61o8YxDauT33GuUYythmyM+1RhT5nJNOwWOsm17TicfZX/Oq0+t2867Y7Zhj3rCWNwc5JHapUeSNs4/SlZC5Ta05mubpAPNVM8454r1/S/DXhe4s43e+uRJjkEkYNeM2Or3kEo8vA/Cu90fXHuYV8yZFYDkYqZOSeg7Lqd5/wjHhqHDHU5/8Av4f8aJPDvhlQGbUpMH1lP+NYRIuYFlWbcp4yEqOfSHdFKSM2e23mleUupOnY6S20+0spYEs7nzoGcYJOcV3w+6K84sbZrT7EoV8bwCSK9HHQUUviZSFqK5XfbuvqDUtI4ypFazV4sDx7xNDtunHvXOxcNiuu8Wxhbl/qa45WxJXJDYpmmjYAq1D94GqEb8CrsR4FVIlF64I8rk9qxbvbsbmtOdi0fWsK8cgHmnHYDDnH7w0+AEmoZH/eHmpoXGa0Wwmi7jA61JAQGquZfU06OQZoFc6bSnG9ee9elWJH2KLntXlelSfvV+tel2Tk2cX0rnqgrnzuripPMHpVEMelPDHFdWo7FgsM1E7DpxUJLZpuGzRqFiUmomJBpPmpjbs5oAkBNGT61Dvam+YaNQLAGT1pwHPWqnmHNPEhoGXkUHvWlpijzh356VhJI3atvRUYyBj0zUtgWtfgsG1NWeQIOMg9qe9vocNsFS6STePmGORU+vaS95fYTywoA+Yms/T/AA1LPMwklgAHcuKSastQt5Gja2nhsxiK6uBgfdwKZPpnhkAvHLnHQetRnw7uuFzLAVHfeKt/2dYAHzJYV2kAqG60XX8wO/RFZLXw4YsszDB6ZqyLbwi0W8Ttuxyp9a1JfDuirEri5hfPIw9SQeG/D0Z3XEkYyOz5FLnS6k6lfT7Tw0+0pJF0xhqjnZNAvS8EEUkTjuM8Go7/AEjRYGLWsw2j/arHbUZmuFQSB0Hyrn0oWo3Y7zTtdlSyWZbSP7ID8wC11Vp4u0OWNTFArMF+ddv3a8mu9be3sPs6u20cso9ayIdfmgJMGRu4zS5L6oEe2Jr9vqd3GluiqglHGORXcjoK8U8JODaxX0mdxlAIr2tDlFPqKunuxoWkb7ppaRvumtJbMDyvxeT9pkz6muJ3fvOtdr4wBFxJj1NcQOXNcdPYpl+3I4rRQ5UcVlQkjHNasX3RVsQs8m2PFYF1JyRmt65XK1z96gUtiqjsJmNJzIas26FiKr7SXJq3b5Bq0JkskZFJEjZGamYk9RUkQ5HFArmtpKfvF+tem2MTfYouO1eeaOuZ04716hZAfY4vpWFUEfMmwCl21IU9uaAMV1DGbeaNtPUgGlJXsKQEZT8qQoCKkLD0o3LigCs0YxUDoBV1ipWoDgnpQBWINKBmpwFPal2jFAxiLg4re0NWaQIPWsdF5rofDvyXfAB+tRIYviKK9ttVaIrt3KGGfSucd5VkOSc9wDXTeMXZtXHnXeGCgfSuXaOEzD/SSwPVqqOyJG5uWy0e4r3qsbeSSQgsc+ma3BNZ2cJUN5pPcVTM9qrNJ5bMT056Vd0GpTEUkLqd5PtmrH2iNkIJYN9aSW5tmQHy2D+9Rw+U0nK8e9K4WLREZgVkmO7uM10GhWWmpdwzX837g8sKdpFlpF1ZGOVlSXPU+lS2WhW5F2skjskSkqV5qHqDZqPp3hu6u5XjvGSI/dVhUaaZ4XglJkuS+3+EDrXPW+oQROYZIgFXgNt5NW5ri2MKtGsZP+7zU8rvuxtrsdzpgtGsYls1KxNKAua9aQYjUewryTRLmKbTNNCKA3mjdgYr1xfuj6U6W4C0j/cNLTX+4fpWsvhYHlniw5nf6muJ/jNdt4rI+0SfU1xTHDGuOGxRPEeRWtGR5Y5rFhY5xmtWI/IKtiHXDYWsG8JJNblxkrxWNcrw2apCMfOHOat25GaoyHEhqzbvxWiEy8zipY3FUXfmljlO4Cjck6zRmHmpx3r1OxwbKI+1eR6LIxmX616vYSN9hi/3a5q1xrc+bjIM9KjZ/Sqvm570u+uoZOGzSZwahDUb+aAJGaomfFOJB+tROCe9O4Ceac0bqYEOaesZJpDHClzQF7U8KMc0ACE9q3tBLC6TsCawxwa3tDieSQMh6GoYDfiOJl1hGVARsGTj2rlrd7sp8sQI/wB2us8bSXBvhEzErtHb2rGsftBhO2ZgAPTpVR+FC1Eg0ma7i84Haw+8CKntdEZpsSuFA9artdXMe4LdSflUYurqVwr3MuP92mGrNaTQVUo6nzDnACiugXwvL9mDiIDH38p92maPaSRaeLiO5klZ3CgEdPet+91HVZ47lYEO/wC6cDk1Em+gl5mDLYw6enmBkcgdAtWPD+vTG4kjSOLD/LhlHIrmrS31G41BvtPmlc84rduvD8ECBoRcxzkZAK0pQ7lcxrS3+n+c4udMjcg9UAqWDVNKKBY9NRkI+7gZrkzptxE4WQ3BJ6HbTLcXEEkibZgynK4HNHIhXO/gdfNsyLf7OrTDapHb1r1hfuj6V45paXVylg87SbvMAHmelexqMIB7U6fxAhabJyh+lOpr/cP0rWfwsZ5T4tOLl+eM1w7OdxrtPF5H2mTHqa4Un5ia44bFFyFstWkkmMCsaJiD7VfifpWjQjQc5Ssm7BAatRziMVlXPIaqjsJmBMf3h+tOikxUc5/eH60I1WhMneUmnwk5BNVmfBqSKTkChiOr0Rszp9a9esAPsMP+7Xj2gsGmU5716/YEfYIf92uarew1ufLwXIp4WpFiNSCI11AVtpzTgmamMJpVhOKLgRCEscineQTmplRlow+aBkIhPpQIiDTzvyaRi9AgEQp3lZFR/PjrTS7rRdhYl8vFbmisYEeTPSueV2JrZtd39nOQcYqW7jNfXr6G7kgnkCFyoDY6VV/tC2jjKJBGARjgc1zzTMVHORnvTTM3mAnoKLBY2HuLcOyiJcH2qJbqJVYLEu71xWcZsygnpTvM28+tFhG1ba01tAm3IdTkHtU//CR3fmyy+cweQYOK5lpCe9SRuGySKOVDN7TNflt5nDncDzXTw+KUXUBLKzSsNuAfTHSuAhdBISBT3m2XKshyKlxTYHpsniy32OJLWM78lTjkVYsJrC9aKGCziku5xnMx/livNPPDoSSQQO5rQsdTe3vbeVHI2Dg0mhWR6xNol7bi1mn8oGOQBVjJIArt1+6PpXi2n+LryW7Nu9w7oZP4jmvaIzmJD6gU6XxFWHVHM22Fz6CpKq6hKIrORj6GtajtBiR5P4sk3TuT61w7P85x6103ia7Dzvz3Ncluy59K5oLQpltGq7A+WAzWahIFWYG+cc1bEbb5MIOazLj7rYq6XxCKozncp9acdhHO3DfvT9aSNs0XS4lNRo+KtbCJ2GTmnRr8wqHeT0qaJuRTEdNobYmT617BpzKdPh/3a8c0c4lSvVbC4IsYh/s1zVhrc+f9hBqVYzVP7S1PF4wHvXTcdi35ZxSFCKq/bGoF2xouKxaCkUjE1CLpjS+aW5oAlP3femlflNCy8cimtNx0pDGlDSFM07zeOlNMntRcBAgFalsSmnTHquKzA3qK0IWJ0+XH5VLGY3mCmSyDdTpLeQOfkb6Yp40u8mYFIJCPZTVAiMMTyPSnGQMPero0PUUQFrSUA9PkNRHSr7zCPs0nHX5TSugsVefWnh+ODVlNOunOBC+fTaaZJYXUbkNbyA+m00XCxHHJtapWkLyLtFNhtZ2fHlt+VdDpHgrVtVlBt4HGOckYxQBiFsqdzbcCpIZAZEJPB44rvk+EOqzhTJNGhPXLVoQ/CLyMPPqEaov3j6UW7ibSPP8ATZdurKQTgMMV9MWj77SFvVAf0ryCT4ciOf7Rp17FdRKckq4JFevWSlbGBT1CAfpTgveuF0T1h+JZ/KsCB3FblcR41vNkbIDwBU13okNHlWuzF7hue9Yqnn3q5qUu+YnPeqCHLVEdgZaUnAqxCfnGarrk1YgTLCmwNNm/djFV3wFP0qzt2oM1VnPynFNbCZgXZzKagUVPOuXNJGnFaLYQxR7VahTJ6UxU+artvFzQwNzRUzMv1r1Oyi/0OLC9q840SE+cvHevVbGI/Yov92uasxLc+XM8U4NTetOA56V0jEB5pwBzT1QE9KnSMEe9AyJUNPAbOKnWPnpTzGAOlAivtbFO2HGKnVfapAo7ikMq+U2KUREirX4cUhYDoKBFXYRxWppTRx+Z5u3gZAbpmqLtjnFNLnpSauO5vWHiqCW/jjutNtnVWxwgGa6bXfG76TIqafpliEcA4VAeK8zaFd+4cGkKluWYn6mpa13HaNj1TS/iT9qgCXkdnBIpAG+MV058TWMEIuJP7OkDjqijNeAmLnOTUymTbjzGx9aTUr6Mq0OqPd4PGHh4PzBZf7yqBTrzxf4bUSOlpBM+Ovlg5rwuOMgY3Eg10GnRmQBMGnea+0JqHY6HVteieP7Rp2lW8TA5OVByfYVy1zr3ixZWkt7iSJZOMRZAr0nw14bhvWHnx7kHJzXfw6Lp0EYRbOLA9VBpRvLzFpfQ+ebbXPHULARXl227/aJrVuLPx1qOkYkN04mPLBzk/WveEsbSM5S2iU+yCpwqgYCgD6Vqqa6oL66Hzt4Y8OeKrfWUt5Fu0iZvn+YgfjX0PDH5UKR/3VAp21QcgDP0papRSd0K7e4yaQRxM57DNeR+MdS3yuA2RmvQvEl+LWzKhsE9a8Q8Q6h5s74Peuab5pjMO6m3OaZDyaqNIWertom4jiqQzQgjyK0LaHLjimQR4UVqWEAJ3GpbEV5kIOKoXJ2xk1t3KgsTisXUSFjIAq09BMxZPmJNOjTIqIk76tRHArQQqxcir0C4I4qqsgzVqFwGobJaOq0NczJx3r1WzXFpF/u15ToUg85PrXrVk4NnEf8AZrmqscVqfKG3mnAc1HuOaA5rpuOxaQVMhwaoiQ+tOEzUhmmre1ISTVFLhqf9oakBcU+tHmDOapee1Hmt2oGWXlPNRmU1DvJNO+tACmRjRk+tIBmn4GKAGc0oGadjmgLSATacdKciZpwzViOPOOKAJra33sK7bw9pPnTIu3rXOabblnXivWPCNgo2yMBkd6znLoI6fS9PSwtgijnvV+jtRXTCPKrAFFFFUAU13CIWJwBTq53xJrCWls0asM96zqz5V5jSOQ8Z6zudwG6V5HqN0ZJGOe9bviPVmmlb5s1x0s2+Q5Nc8EMlj5bNbdgnIrFtuWFdDZDaBVsDWjTIAAratU2xZrItz8wzWqsmEHPSoYEFypzisDUjzityefqa5+9fe7GtUQZ2z5qtIhK9KhUEtV+AYXmncCt5LFuBVmGF896lPBxVqAdKHcRsaDC5lT616vZRn7HF9K800T5ZVx616hZuPskXXpXPVQ09T5OPIpDTscUmK3uXYSlFJjJpwXnmi4WHKcU+mgYFBpXHYeelAPFNzS0XFYeO1SA8VFTs9KLjsS0ZzTN1OB96VwsOFPANNQZNWETPNFwsNVeRVyGIkimxw5IrRt7fmi6FY1NJiwy5r1bwzhYsD0rzXS4SGBr0LQbjYAorOTQrHXUVEkysOozUgYHvXVGpFrcQtFIWUDJIrI1TW4bOJsMC2PWlOoogGs6xHYwsA3zYryTxLrzTb/n61J4i8TGZ3G+vPNR1Iylua50nJ3ZSK1/dGSRiTms5Wy9RSzFnPpT4OWFapWA2LJM4rdtsDArFtCABiti1G4ipYzbgwAD2qd5gFwDVZcrEAKjdmIpJXJbG3ExAxmsqZsk1auGJNUXBZqtEhEuTV+EfLVNEIHWplZ16GncC4qhjirsCdOlYomYHPNWYrpwRzRdisdro6DzF+temWYH2SL6V5Jol0xmXnvXp9pcE2keT2rCo2Csj5W3Uu6oN1G+rNyfdShuar76UNQBYDUu4moN3vTg9ICXNPGcVEhzUyjimIWjOOlKBRt5p2C4gz0qeOMtToIC5HFblnp27Hy1XKTczre1ZzwDV5bJ9o4NdLp+kKxA21vReHd6DC5qboLnCRWrAjitOC2bI4rro/CkmeE/Sr0Phh1PKUSgNSObs4HU+lbdnPJb8hiBWl/YjRD7tV5rIxjGKyaGSjV5EckOacuvzRnJkOKzJ0KxnjpWNdzOo56UlFCZ0134lYwlRJz9a4TXNfdiw8zP41Wvb5kVgCa5HUbxmJya0jARDqOpNISS3WsKa4LHrSXMxZjVQtk1qogTBsmrlucEVQU1agNNgbtq2SK6Cx+6CRXPWCFiK6O26BazauwNBGzSSkBfrTo4jjPaqs7fPjtVJENkMgLVEsfNTYzSjiqQEezAoxxUhIx1o69KQFRmw2DUkdNdMvT415GKbsI6PQwfMX616hZKfscXPavLtD4mQE969Ts0H2OLntXPVYWPlHfSb6i3Ub61sbEwanbqg3Uu8YosBMHpyvmq+6no2KLAXUNWkGapRHJq/EMgUrCuPVM1MkJY1JDHnFaNtb7mHFUiWyXTrEsQSK6qzsOAdtRaZZDaOK6zTtP3sBinJk3G6VpjSSDC12tlpqRRjcMmnafYJbxg45rQqY0+bV7DGrGqjAApdo9KWituVAMaJWHKiqNzp0bgkCtGkIyKznSTWg0zhtUtDDkYrkNS+VWx2r0PxAoG447V59qrDYwrGMWFzjNRnwGzXJX82Sea6PVnGWArk7w5Y1vFAZsrfNTAaWTrTVGTiqGTJ1rSs4C7Diq9pbGRhxXSWNntA4qGxFmytioAFbVvCV571DawdDitEgInvSWgmxWlVYsDrWe7Zanysc1F1ppCHA8Uxic1IBxSMgNMRA7GozK1TlM07yARzSsMpF2z1qeEkmnGAZ6VPBEoI4osFze0JMyrn1r1ayi/0KLntXnWgwr5qV6laRqLWMe1c1W4z40DUFqZg5owa6Sx+6jdUeDS4NFgJM1IjVADT1PNAF+A8itW3ANY9vWtbE5AoYjYt481q2iAOOKoWg+UVqWineD2zQtyGdho8G5V4rttMswCpxXK6Dg7Qa7+xVfKBFDV3YlFsDApaKK1SsWFFFFMAooooA5jxCOvPavNdYYjdXpPiEglsHivM9b4LelZ2M0ziNTOWauauhya6PUTlmrBmiLMeKZaMlkJbirFtaM7DIq/BY7jkite0sBkHFS2UR2FkBjiuitLT1FFrYgYOK1o4VjXNLREsakISMk4qpNNjip55iPlFUHUk5pXuArSbhxTkAPNMWP2qXbjimA/jHFIQPSmZIBoDc9KExNEixA05o/lpqSAVJ5gK0XHYhEfNWo4ACDVfeN2RVqKbNDYjptBwsig16Zasv2WP6V5fo75lUD1r0S1c/Zo+e1c9Qa0PkXyCe1OEB9K0Qi+lGwelb3NDO+z+1J5FaBApvligLFEwe1Ai5q8Y+OlJ5YouBFCmDWpajkVUiQZrQtV5FMTN+zj+QVsWcWWFZ9hHlBW7ZRfOtLqQzqNEiOVAFegWa7bdRXJ6Fbbip7V2SLtQCrjqyY7jqKKK0LCiiigApCcAmlpshxGT7UAzktfk5avNtablq7/W5Mu2fWvP9YGS1QYxONvF3MeKpi2yela00W5jxT7e0LHpSNUVLezzg4rWtbTHOKtQ2yxqM4qYuiDANTdINxwIQYFRyy+lRNLnvSD5hU3uAx2LfWkCk81KIc9DUqRY69aYEGKM57VYaOo2TFAFdjjnFNLenWpWTNM8rJpgMDc9KUtxS7cUhGaQXIgwBq3FIOBVMj5qmiHIpsDp9Hk/erz3r0K2kP2dPmPSvOtGUGRcetej2if6LH06Vz1BpHzGQwpBn1qWTqaZ2raxdxvNHINO6k5pO9FguBJx1oCEiipEosFx0UfNaVrHlhVSOtCz+8PrTJZ0mnx/uxW9ZRfMKytMUeT0resB84+tLqSzu/D0H7oEjoK6CsrQwPs1ataw2uKIUUUVZQUUUUAFMm/1TfSn0yb/AFL/AEoE9jgNYYmRq4rVBkmux1c/v2rjtS71PUyiYXlDeSasxukY461C3emqctWcnc1RYMxPSo2JpB1qUKPSpsMaqbqlVcd6UABacBmgB68U4daaR0pw4PFOxNwZSeabtOM0/tS9hQBB5ZPNIY8HrVkAbelIQMDimFiv5IIprQACpP4jQ3akhFMxAGp0jHFNf71SQ802h7nQaHGPNX616bawD7NH06V5rog+cV6ZZk/Y4ue1c1XQqO5//9k=" alt="Real NG-Single weld: only the top electrode is present, the opposing electrode is missing" width="299" height="299"></div><figcaption>Single pin present (real)</figcaption></figure>
+          <div class="card"><h5>NG-Single</h5><p><b>Appearance:</b> only one pin present in the joint.<br><b>Mechanism:</b> one electrode is not present at joining, likely a part-feeding or handling failure upstream. No specific literature found yet; to confirm with TE.<br><b>Real samples available:</b> 30</p></div>
         </div>
       </div>
       <div class="tab-panel" data-panel="nosolder">
         <div class="grid g2">
-          <figure data-fig="Real sample — NG-No Solder"><div class="frame"><div class="ph sq">images/real_nosolder.png</div></div><figcaption>Absence of solder (real)</figcaption></figure>
-          <div class="card"><h5>NG-No Solder</h5><p><b>Appearance:</b> bare pins, no solder deposit.<br><b>Mechanism:</b> — (e.g. dispensing failure, non-wetting)<br><b>Real samples available:</b> —</p></div>
-        </div>
-      </div>
-      <div class="tab-panel" data-panel="notenough">
-        <div class="grid g2">
-          <figure data-fig="Real sample — NG-Not Enough Solder"><div class="frame"><div class="ph sq">images/real_notenough.png</div></div><figcaption>Insufficient solder (real)</figcaption></figure>
-          <div class="card"><h5>NG-Not Enough Solder</h5><p><b>Appearance:</b> thin or incomplete fillet.<br><b>Mechanism:</b> — (e.g. low volume, poor wetting, thermal profile)<br><b>Real samples available:</b> —</p></div>
+          <figure data-fig="Real sample — NG-No Solder"><div class="frame"><img src="data:image/jpeg;base64,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" alt="Real NG-No solder weld: top and bottom electrodes with no solder between them" width="299" height="299"></div><figcaption>Absence of solder (real)</figcaption></figure>
+          <div class="card"><h5>NG-No Solder</h5><p><b>Appearance:</b> bare pins, no solder deposit.<br><b>Mechanism:</b> non-wetting: solder does not bond to oxidised or contaminated surfaces, or when the flux is not active enough or the joint is not heated enough [11]. It can also occur if no solder is supplied.<br><b>Real samples available:</b> 25</p></div>
         </div>
       </div>
       <div class="tab-panel" data-panel="misaligned">
         <div class="grid g2">
-          <figure data-fig="Real sample — NG-Misaligned"><div class="frame"><div class="ph sq">images/real_misaligned.png</div></div><figcaption>Misaligned pins (real)</figcaption></figure>
-          <div class="card"><h5>NG-Misaligned</h5><p><b>Appearance:</b> pins offset or not parallel.<br><b>Mechanism:</b> — (e.g. fixture tolerance, handling)<br><b>Real samples available:</b> —</p></div>
+          <figure data-fig="Real sample — NG-Misaligned"><div class="frame"><img src="data:image/jpeg;base64,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" alt="Real NG-Misaligned weld: top and bottom electrodes laterally offset at the solder joint" width="299" height="299"></div><figcaption>Misaligned pins (real)</figcaption></figure>
+          <div class="card"><h5>NG-Misaligned</h5><p><b>Appearance:</b> pins offset or not parallel.<br><b>Mechanism:</b> a positional offset before joining. Placement studies show part position and solder position and volume drive shift; surface tension of molten solder can pull parts back into line (self-alignment), but small parts and large offsets are not fully corrected [12].<br><b>Real samples available:</b> 24</p></div>
         </div>
       </div>
 
-      <h3 id="s3-1"><span class="sub-num">4.1</span>Dataset summary</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Class</th><th style="text-align:right">Real (train)</th><th style="text-align:right">Real (test)</th><th style="text-align:right">Synthetic generated</th></tr></thead>
-        <tbody>
-          <tr><td>OK</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td>NG-Single</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td>NG-No Solder</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td>NG-Not Enough Solder</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td>NG-Misaligned</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 3.</b> Real and synthetic image counts per defect class.</p>
     </section>
 
     <!-- ===================== 04 ===================== -->
@@ -419,11 +500,11 @@
           <tr><td>Image size</td><td>1024 × 1024</td><td>512 × 512</td></tr>
           <tr><td>VRAM</td><td>&gt;12 GB</td><td>~6 GB</td></tr>
           <tr><td>LoRA training</td><td>Hugging Face PEFT + Accelerate</td><td>Kohya_ss / sd-scripts</td></tr>
-          <tr><td>LoRA setup</td><td>One LoRA per class</td><td>One LoRA for all five classes, selected by caption</td></tr>
+          <tr><td>LoRA setup</td><td>One LoRA per class</td><td>One LoRA for all four classes, selected by caption</td></tr>
           <tr><td>Generation</td><td>Text-to-image</td><td>Text-to-image or <b>image-to-image</b></td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 4.</b> Model and pipeline changes.</p>
+      <p class="caption"><b>Table 5.</b> Model and pipeline changes.</p>
 
       <div class="callout"><strong>Why we switched</strong>When we re-ran the UROP SDXL model, the images were blurry and often did not match their class. SDXL also needs more than 12 GB of VRAM. Realistic Vision gives a stronger photographic prior at about half the memory, which allows faster training and more experiments. The same LoRA works for both text-to-image and image-to-image. We are also checking that the training datasets are clean, since label noise may have contributed to the poor UROP results.</div>
 
@@ -436,17 +517,9 @@
         <div class="node">Evaluator<small>Section 07 / 08</small></div><span class="arr">→</span>
         <div class="node store">Synthetic dataset</div>
       </div>
-      <p>Captions follow one pattern: trigger word + domain + class description (Section 5.3). One LoRA therefore covers all five classes, and the class description in the prompt picks which defect to generate.</p>
+      <p>Captions follow one pattern: trigger word + domain + class description (Section 5.2). One LoRA therefore covers all four classes, and the class description in the prompt picks which defect to generate.</p>
 
-      <h3 id="s4-1"><span class="sub-num">5.1</span>Dataset review &amp; defect description</h3>
-      <p>Before any training, uploaded images are checked automatically. These checks are deterministic Python with no LLM, so rejected images are never captioned.</p>
-      <div class="grid g3">
-        <div class="card"><h5>Sufficiency</h5><p>Per-class minimum image count.</p></div>
-        <div class="card"><h5>Duplicates</h5><p>Perceptual hashing catches near-duplicate uploads.</p></div>
-        <div class="card"><h5>Captioning</h5><p>Brief user notes become visually specific captions and prompt variants, the biggest lever on small datasets.</p></div>
-      </div>
-
-      <h3 id="s4-2"><span class="sub-num">5.2</span>Training &amp; generation settings</h3>
+      <h3 id="s4-2"><span class="sub-num">5.1</span>Training &amp; generation settings</h3>
       <p>These are the current settings from the team's <code>config.json</code> and the Kohya_ss <code>dataset.toml</code> it generates. They are the starting point the tuning agent (Section 07) will search around.</p>
       <div class="tabs" role="tablist" data-tabs="hparams">
         <button role="tab" aria-selected="true" data-tab="hp-data">Dataset</button>
@@ -472,7 +545,7 @@
             <tr><td><code>flip_aug</code></td><td>false</td><td>No horizontal flips, so electrode orientation is preserved</td></tr>
           </tbody>
         </table></div>
-        <p>Subsets (one image folder per class): <code>ok</code>, <code>ng_misalign</code>, <code>ng_single</code>, <code>ng_no_solder</code>, <code>ng_not_enough_solder</code>. All five are in one <code>[[datasets]]</code> block, so they train a single LoRA.</p>
+        <p>Subsets (one image folder per class): <code>ok</code>, <code>ng_misalign</code>, <code>ng_single</code>, <code>ng_no_solder</code>. All four are in one <code>[[datasets]]</code> block, so they train a single LoRA.</p>
       </div>
       <div class="tab-panel" data-panel="hp-lora">
         <div class="table-wrap"><table>
@@ -535,9 +608,9 @@
           </tbody>
         </table></div>
       </div>
-      <p class="caption"><b>Table 5.</b> Current training and generation settings.</p>
+      <p class="caption"><b>Table 6.</b> Current training and generation settings.</p>
 
-      <h3 id="s4-3"><span class="sub-num">5.3</span>Prompts &amp; captions</h3>
+      <h3 id="s4-3"><span class="sub-num">5.2</span>Prompts &amp; captions</h3>
       <p>Every caption and prompt follows the same pattern: <b>trigger word</b> + <b>domain</b> + <b>class description</b>. The trigger <code>sldrjnt</code> is kept first (<code>keep_tokens = 1</code>) so the LoRA ties it to this product. The domain is "close-up macro photo of a vertical metal electrode solder joint, dark blurry background".</p>
       <div class="table-wrap"><table>
         <thead><tr><th>Class</th><th>Description used in captions and prompts</th></tr></thead>
@@ -546,10 +619,9 @@
           <tr><td>NG-Misalign</td><td>misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint</td></tr>
           <tr><td>NG-Single</td><td>vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint</td></tr>
           <tr><td>NG-No solder</td><td>vertically stacked electrodes with no solder, missing solder material between top and bottom electrode</td></tr>
-          <tr><td>NG-Not enough solder</td><td>vertically stacked electrodes with insufficient solder, too little solder material at the joint between top and bottom electrode</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 6.</b> Class descriptions.</p>
+      <p class="caption"><b>Table 7.</b> Class descriptions.</p>
       <div class="grid g2">
         <div class="card"><h5>Negative prompt</h5><p>horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark</p></div>
         <div class="card"><h5>Prompt variations</h5><p>Added to vary output: metallic texture and solder shape; lighting direction and exposure; solder appearance and highlights; camera position, magnification and depth of field; oxidation and discolouration.</p></div>
@@ -574,7 +646,7 @@
           <tr><td>Trade-off</td><td>High quality, high VRAM and compute</td><td>Faster training and generation allow more experiments</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 7.</b> UROP implementation compared with the Realistic Vision exploration.</p>
+      <p class="caption"><b>Table 8.</b> UROP implementation compared with the Realistic Vision exploration.</p>
 
       <h3 id="s5-2"><span class="sub-num">6.2</span>Explorations</h3>
       <div class="table-wrap"><table>
@@ -585,7 +657,7 @@
           <tr><td>3</td><td><a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1 dev</a></td><td>Text-to-image</td><td>Newer transformer-based flow-matching model with stronger prompt adherence and spatial understanding</td><td>Deferred: needs more VRAM than available</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 8.</b> Model explorations this semester.</p>
+      <p class="caption"><b>Table 9.</b> Model explorations this semester.</p>
 
       <h3 id="s5-3"><span class="sub-num">6.3</span>Text-to-image vs image-to-image</h3>
       <p>Txt2img starts from random noise, so the model must generate everything: electrode and solder geometry, alignment, camera composition, lighting and background. That gives high variety but many chances to be physically wrong, which matters for classes like NG-Misaligned where a small lateral shift separates OK from NG. Img2img starts from a real image and adds controlled noise, keeping camera angle and defect geometry while varying lighting, reflections and solder texture. Because the production camera setup is fixed, maximum diversity may not even be desirable.</p>
@@ -605,7 +677,7 @@
           <tr><td>Main controls</td><td>Prompt + seed</td><td>Prompt + seed + strength</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 9.</b> Generation modes compared.</p>
+      <p class="caption"><b>Table 10.</b> Generation modes compared.</p>
 
       <h3 id="s5-4"><span class="sub-num">6.4</span>Results so far</h3>
       <div class="grid g2">
@@ -620,11 +692,11 @@
         <thead><tr><th>Model</th><th>Mode</th><th style="text-align:right">YOLO pass rate</th><th style="text-align:right">Time / image (s)</th><th>Qualitative notes</th></tr></thead>
         <tbody>
           <tr><td>SDXL + LoRA (UROP)</td><td>txt2img</td><td class="num">—</td><td class="num">—</td><td>Baseline</td></tr>
-          <tr><td>Realistic Vision 5.1</td><td>txt2img</td><td class="num">—</td><td class="num">—</td><td>Class consistency unreliable for NG-Misaligned</td></tr>
-          <tr><td>Realistic Vision 5.1</td><td>img2img</td><td class="num">—</td><td class="num">—</td><td>Geometry preserved; sensitive to reference quality</td></tr>
+          <tr><td>Realistic Vision 5.1</td><td>txt2img</td><td class="num">40% (Reject)</td><td class="num">—</td><td>Class consistency unreliable for NG-Misaligned</td></tr>
+          <tr><td>Realistic Vision 5.1</td><td>img2img</td><td class="num">88% (Accept)</td><td class="num">—</td><td>Geometry preserved; sensitive to reference quality</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 10.</b> Quantitative comparison (to be filled in).</p>
+      <p class="caption"><b>Table 11.</b> Quantitative comparison (to be filled in).</p>
       <div class="callout"><strong>FLUX: deferred</strong>FLUX.1 dev (~12B parameters) could model the small geometric differences between classes better, and Kohya_ss supports LoRA for it. It is not implemented yet because of hardware limits and will be revisited when suitable hardware and a compatible training setup are available.</div>
     </section>
 
@@ -635,12 +707,13 @@
 
       <h3 id="s6-1"><span class="sub-num">7.1</span>Agents</h3>
       <div class="grid g3">
-        <div class="card"><h5>Recommender</h5><p>Proposes the next LoRA training configuration with Bayesian optimisation (Optuna TPE), balancing exploration and exploitation. Uses dataset metadata, the search space, past trial results and Decision feedback. Needs no GPU and no LLM; it only picks the next experiment.</p></div>
-        <div class="card"><h5>Evaluator</h5><p>Checks every generated image with a YOLO classifier trained only on real TE images. An image passes if YOLO predicts the intended class with confidence of 0.8 or more. The batch pass rate sets the verdict: Accept, Borderline or Reject (Section 08).</p></div>
-        <div class="card"><h5>Decision</h5><p>Acts on the verdict and the experiment history: <b>Accept</b> saves the config and images, <b>Borderline</b> triggers <code>EXPLOIT</code> (search near this run), <b>Reject</b> triggers <code>EXPLORE</code> (search elsewhere). It can also <code>TERMINATE</code> when the budget is spent.</p></div>
+        <div class="card"><h5>Evaluator</h5><p>Checks every generated image with a YOLO26n classifier trained only on real TE images. An image passes if YOLO predicts the intended class with confidence of 0.8 or more. The batch pass rate sets the verdict: Accept, Borderline or Reject (Section 08).</p></div>
+        <div class="card"><h5>Decision</h5><p>Acts on the verdict and the experiment history: <b>Accept</b> saves the config and images and ends the loop with no tuning, <b>Borderline</b> asks the Recommender to <code>EXPLOIT</code> (search near this run), <b>Reject</b> asks it to <code>EXPLORE</code> (search elsewhere). It can also <code>TERMINATE</code> when the budget is spent.</p></div>
+        <div class="card"><h5>Recommender</h5><p>Called only when the verdict is Borderline or Reject. Proposes the next LoRA training configuration with Bayesian optimisation (Optuna TPE), balancing exploration and exploitation. Uses dataset metadata, the search space, past trial results and Decision feedback. Needs no GPU and no LLM; it only picks the next experiment.</p></div>
       </div>
+      <p>The loop starts by generating images with the current settings (the defaults on the first run). The Evaluator scores them and the Decision agent gives a verdict. Settings are only re-tuned if the verdict is not Accept.</p>
       <div class="callout"><strong>Configuration Validator</strong>A deterministic validator sits between the Recommender and training. It rejects out-of-range or duplicate settings and enforces the run and GPU-hour budget.</div>
-      <div class="callout"><strong>Design choice: no LLM required</strong>The closed loop runs on numbers alone: Optuna TPE proposes, YOLO judges, and fixed rules decide. An LLM could be added later to explain decisions, but nothing depends on one.</div>
+      <div class="callout"><strong>Design choice: no LLM required</strong>The closed loop runs on numbers alone: YOLO judges, fixed rules decide, and Optuna TPE proposes new settings only when needed. An LLM could be added later to explain decisions, but nothing depends on one.</div>
 
       <h3 id="s6-ss"><span class="sub-num">7.2</span>Search space</h3>
       <div class="table-wrap"><table>
@@ -653,7 +726,7 @@
           <tr><td>Gradient accumulation</td><td>1, 2, 4</td><td>Categorical</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 11.</b> Recommender search space. Ranges are illustrative and will be checked against the training code.</p>
+      <p class="caption"><b>Table 12.</b> Recommender search space. Ranges are illustrative and will be checked against the training code.</p>
       <p>The tuner will be compared against the manual defaults and against random search, using the same number of training trials. It will track best quality against trials and wall time, and log invalid or failed configurations.</p>
 
       <h3 id="s6-2"><span class="sub-num">7.3</span>Control loop</h3>
@@ -669,12 +742,13 @@
             <path class="edge" data-e="4" d="M270,230 L190,230" marker-end="url(#arr)"/>
             <path class="edge" data-e="5" d="M105,200 L105,90" marker-end="url(#arr)"/>
           </g>
-          <g class="node" data-n="0"><rect x="20" y="30" width="170" height="60" rx="10"/><text x="105" y="56" text-anchor="middle">Recommender</text><text class="s" x="105" y="74" text-anchor="middle">propose next config</text></g>
-          <g class="node" data-n="1"><rect x="270" y="30" width="170" height="60" rx="10"/><text x="355" y="56" text-anchor="middle">Config Validator</text><text class="s" x="355" y="74" text-anchor="middle">ranges + budget check</text></g>
-          <g class="node" data-n="2"><rect x="520" y="30" width="170" height="60" rx="10"/><text x="605" y="56" text-anchor="middle">Train + Generate</text><text class="s" x="605" y="74" text-anchor="middle">LoRA run (Kohya_ss)</text></g>
-          <g class="node" data-n="3"><rect x="520" y="200" width="170" height="60" rx="10"/><text x="605" y="226" text-anchor="middle">Evaluator</text><text class="s" x="605" y="244" text-anchor="middle">YOLO class + confidence</text></g>
-          <g class="node" data-n="4"><rect x="270" y="200" width="170" height="60" rx="10"/><text x="355" y="226" text-anchor="middle">Experiment history</text><text class="s" x="355" y="244" text-anchor="middle">JSONL run log</text></g>
-          <g class="node" data-n="5"><rect x="20" y="200" width="170" height="60" rx="10"/><text x="105" y="226" text-anchor="middle">Decision</text><text class="s" x="105" y="244" text-anchor="middle">explore · exploit · terminate</text></g>
+          <text x="605" y="285" text-anchor="middle" style="fill:var(--ok);font:600 12px var(--sans)">Accept → stop &amp; save</text>
+          <g class="node" data-n="0"><rect x="20" y="30" width="170" height="60" rx="10"/><text x="105" y="56" text-anchor="middle">Train + Generate</text><text class="s" x="105" y="74" text-anchor="middle">defaults on first run</text></g>
+          <g class="node" data-n="1"><rect x="270" y="30" width="170" height="60" rx="10"/><text x="355" y="56" text-anchor="middle">Evaluator</text><text class="s" x="355" y="74" text-anchor="middle">YOLO pass rate</text></g>
+          <g class="node" data-n="2"><rect x="520" y="30" width="170" height="60" rx="10"/><text x="605" y="56" text-anchor="middle">Experiment history</text><text class="s" x="605" y="74" text-anchor="middle">log run + scores</text></g>
+          <g class="node" data-n="3"><rect x="520" y="200" width="170" height="60" rx="10"/><text x="605" y="226" text-anchor="middle">Decision</text><text class="s" x="605" y="244" text-anchor="middle">accept · exploit · explore</text></g>
+          <g class="node" data-n="4"><rect x="270" y="200" width="170" height="60" rx="10"/><text x="355" y="226" text-anchor="middle">Recommender</text><text class="s" x="355" y="244" text-anchor="middle">Optuna TPE, if not Accept</text></g>
+          <g class="node" data-n="5"><rect x="20" y="200" width="170" height="60" rx="10"/><text x="105" y="226" text-anchor="middle">Config Validator</text><text class="s" x="105" y="244" text-anchor="middle">ranges + budget check</text></g>
         </svg>
         <div class="loop-ctrl">
           <button class="btn primary" id="loopNext">Next step ▸</button>
@@ -700,59 +774,83 @@
       <p>Training a LoRA for many configurations is expensive, so tuning and downstream testing are separated.</p>
       <ol>
         <li><b>Stage 1, AgentHPO:</b> about 15–20 trials search for strong image-generation configurations; the top few are retained.</li>
-        <li><b>Stage 2, downstream validation:</b> only the retained configurations go through the full inspection-model experiment (Section 08).</li>
+        <li><b>Stage 2, downstream validation:</b> only the retained configurations go through the full inspection-model experiment.</li>
       </ol>
     </section>
 
     <!-- ===================== 08 ===================== -->
     <section class="sec" id="section-8" data-title="Evaluation">
       <div class="sec-head"><span class="sec-num">08</span><h2>Evaluation</h2></div>
-      <p>Generated images are judged on two questions: <b>does each image show the intended defect?</b> (a YOLO classifier trained on real TE images) and <b>do the images help?</b> (downstream inspection performance on held-out real defects).</p>
+      <p>Generated images are judged on two questions: <b>does each image show the intended defect?</b> (a YOLO classifier trained on real TE images) and, later, <b>do the images help?</b> (a downstream inspection test, planned for Semester 2). This section covers the first question.</p>
 
       <h3 id="s8-0"><span class="sub-num">8.1</span>YOLO judge</h3>
+      <p>Ultralytics YOLO is widely used to detect and classify defective products in industry, with high reported accuracy on product images [Qi et al., 2024], including solder defects in automatic optical inspection [Dai et al., 2020].</p>
       <div class="table-wrap"><table>
         <thead><tr><th>#</th><th>Step</th><th>What</th><th>Note</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Define classes</td><td>OK, NG-Single, NG-No solder, NG-Not enough solder, NG-Misaligned</td><td>One-line rule per class, confirmed with TE</td></tr>
-          <tr><td>2</td><td>Train the judge</td><td>YOLO classifier (size n or s) on real TE images only</td><td>YOLO26 or YOLO11; never trained on synthetic images</td></tr>
-          <tr><td>3</td><td>Check the judge</td><td>Recall of at least 90% for every class on held-out real images</td><td>If not, fix labels or add real images first</td></tr>
-          <tr><td>4</td><td>Score images</td><td>Pass if predicted class = intended class and confidence ≥ 0.8</td><td>Low confidence catches broken images</td></tr>
+          <tr><td>1</td><td>Define classes</td><td>OK, NG-Single electrode, NG-No solder, NG-Misalign</td><td>One-line rule per class, confirmed with TE</td></tr>
+          <tr><td>2</td><td>Train the judge</td><td>YOLO26n classifier trained on 75 real TE images</td><td>Only real images from TE; never synthetic</td></tr>
+          <tr><td>3</td><td>Check the judge</td><td>Recall of at least 90% for every class on held-out real images</td><td>If not, fix labels or add more real images first</td></tr>
+          <tr><td>4</td><td>Score images</td><td>Pass if predicted class = intended class <b>and</b> confidence ≥ 0.8</td><td>Both conditions must be met</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 12.</b> Setting up and using the YOLO judge.</p>
-      <div class="callout"><strong>Broken images</strong>A classifier always picks a class, so garbled images are caught by the confidence threshold. If some still get through, a sixth "Invalid" class trained on bad generations can be added.</div>
+      <p class="caption"><b>Table 13.</b> Setting up and using the YOLO judge.</p>
 
-      <h3 id="s8-1"><span class="sub-num">8.2</span>Batch metrics &amp; verdict</h3>
+      <h3 id="s8-jr"><span class="sub-num">8.2</span>Judge results on real images</h3>
+      <p>YOLO26n trained for 31 epochs on 75 real images, tested on 14 held-out real images across 4 classes.</p>
+      <div class="view-toggle" role="tablist" aria-label="Judge results view">
+        <button role="tab" aria-selected="true" data-view="chart">Chart</button>
+        <button role="tab" aria-selected="false" data-view="table">Table</button>
+      </div>
+      <div class="view-pane" data-pane="chart">
+      <div class="judge" id="judgeViz" role="img" aria-label="YOLO judge recall per class on 14 real validation images. OK 100%, NG-Single electrode 100%, NG-No solder 100%, NG-Misalign 67%; target 90%."></div>
+      </div>
+      <div class="view-pane" data-pane="table" hidden>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Class</th><th style="text-align:right">Recall</th><th style="text-align:right">Correct</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>OK</td><td class="num">100%</td><td class="num">4 / 4</td><td>Confidence 1.0</td></tr>
+          <tr><td>NG-Single electrode</td><td class="num">100%</td><td class="num">4 / 4</td><td>Confidence 1.0</td></tr>
+          <tr><td>NG-No solder</td><td class="num">100%</td><td class="num">3 / 3</td><td>Confidence 1.0</td></tr>
+          <tr><td>NG-Misalign</td><td class="num">67%</td><td class="num">2 / 3</td><td>One image read as NG-No solder (confidence 0.81)</td></tr>
+        </tbody>
+      </table></div>
+      </div>
+      <p class="caption"><b>Figure <span data-figref="judge"></span>.</b> YOLO judge recall per class on the validation set. Each square is one real validation image; hover or tap a square for its prediction. The dashed line marks the 90% recall target. Switch to Table for the numbers.</p>
+      <ul>
+        <li>Clear cues (a missing electrode, no solder) are separated perfectly. Misalignment is a small sideways offset and the smallest class, so it is the weak point.</li>
+        <li>Judge check (≥ 90% recall per class): 3 of 4 classes pass; NG-Misalign does not yet.</li>
+        <li>Validation loss is lowest (≈ 0.10) around epoch 12, then rises to 0.3–0.5 while training loss stays low, so the judge starts to overfit. The best checkpoint is kept (early stopping). Accuracy peaks at 100% (epochs 11–13) and ends at 92.9%.</li>
+      </ul>
+      <div class="callout todo"><strong>Small validation set</strong>With only 3–4 validation images per class, one error moves recall by 25–33%. Next: score the 20-image test split and add more misalignment images.</div>
+
+      <h3 id="s8-1"><span class="sub-num">8.3</span>Batch metrics &amp; verdict</h3>
       <p>Scored once per run and class. The pass rate sets the verdict sent to the Decision agent; images that fail are discarded or set aside for checking.</p>
       <div class="table-wrap"><table>
         <thead><tr><th></th><th>Metric</th><th>Target</th><th>Tool</th></tr></thead>
         <tbody>
           <tr><td>M1</td><td>Pass rate</td><td>Accept ≥ 80%; borderline 50–80%; reject &lt; 50%</td><td>YOLO classifier</td></tr>
           <tr><td>M2</td><td>Mean confidence</td><td>Higher than the previous run</td><td>YOLO classifier</td></tr>
-          <tr><td>M3</td><td>Downstream gain</td><td>A separate classifier trained on real + synthetic beats real-only on held-out real images</td><td>A different classifier from the judge (Section 8.3)</td></tr>
+          <tr><td>M3</td><td>Downstream gain</td><td>A separate classifier trained on real + synthetic beats real-only on held-out real images</td><td>A different classifier from the judge</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 13.</b> Batch metrics. Thresholds are starting values, to be calibrated with TE; M3 is the final proof that the images help.</p>
+      <p class="caption"><b>Table 14.</b> Batch metrics. Thresholds are starting values, to be calibrated with TE; M3 is the final proof that the images help.</p>
       <div class="grid g3">
         <div class="card" style="border-top:3px solid var(--ok)"><h5>Accept</h5><p>Pass rate ≥ 80%. Save the config and images.</p></div>
         <div class="card" style="border-top:3px solid var(--warn)"><h5>Borderline</h5><p>Pass rate 50–80%. Exploit nearby settings.</p></div>
         <div class="card" style="border-top:3px solid #c0392b"><h5>Reject</h5><p>Pass rate &lt; 50%. Explore new settings.</p></div>
       </div>
       <div class="callout todo"><strong>Known limitation</strong>The YOLO judge does not catch copies of training images or near-identical batches. A near-duplicate check can be added later if needed.</div>
-      <div class="chart" id="fidChart"></div>
-      <p class="caption"><b>Figure <span data-figref="fid"></span>.</b> YOLO pass rate per class (%), higher is better. Placeholder values; edit <code>PASS_RATE_DATA</code> in the page script.</p>
-
-      <h3 id="s8-2"><span class="sub-num">8.3</span>Downstream validation (M3)</h3>
-      <p>A separate inspection classifier (not the YOLO judge) is trained on three datasets and tested on the same held-out real defects.</p>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Training dataset</th><th style="text-align:right">Recall</th><th style="text-align:right">Precision</th><th style="text-align:right">False-positive rate</th></tr></thead>
-        <tbody>
-          <tr><td>Real only (baseline)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td>Real + synthetic (previous workflow)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td><b>Real + synthetic (agent-optimised)</b></td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 14.</b> Downstream inspection-model performance on held-out real defects.</p>
+      <h3 id="s8-gr"><span class="sub-num">8.4</span>Results: img2img vs txt2img</h3>
+      <p>Same YOLO judge, 50 generated images per class (200 per mode). Img2img keeps the real image's structure and passes <b>88% (176 of 200) → Accept</b>. Txt2img has to invent the geometry and passes only <b>40% (80 of 200) → Reject</b>, matching our visual inspection.</p>
+      <div class="chart" id="fidChart" role="img" aria-label="YOLO pass rate per class for img2img and txt2img"></div>
+      <p class="caption"><b>Figure <span data-figref="fid"></span>.</b> YOLO pass rate per class. Each bar is labelled with its verdict: Accept ≥ 80%, Borderline 50–80%, Reject &lt; 50%. Dashed lines mark the 50% and 80% thresholds.</p>
+      <ul>
+        <li>Txt2img rarely produces a missing electrode: NG-Single electrode passes only 12%.</li>
+        <li>Img2img's weakest class is OK (70%): 15 of 50 "OK" images were read as defects.</li>
+        <li>Decision agent applied to these first runs: img2img → <b>Accept</b>; txt2img → <b>Reject</b> (explore new settings).</li>
+      </ul>
+      <div class="callout todo"><strong>Caveat</strong>A high pass rate does not prove the images are useful: img2img may stay too close to its reference images. Next: a near-duplicate check and the downstream test (M3).</div>
 
     </section>
 
@@ -928,6 +1026,20 @@
       <ol class="refs">
         <li>Podell, D. et al. (2023). <i>SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis.</i> arXiv:2307.01952.</li>
         <li>Hu, E. J. et al. (2021). <i>LoRA: Low-Rank Adaptation of Large Language Models.</i> arXiv:2106.09685.</li>
+        <li>[1] Liu et al., <i>Sensors</i> 24, 3473 (2024).</li>
+        <li>[2] Zhang et al., arXiv:2605.04635 (2026).</li>
+        <li>[3] Wu et al., <i>Mathematics</i> 12(20), 3164 (2024).</li>
+        <li>[4] Ramesh et al., ICML 2021.</li>
+        <li>[5] Wu et al., arXiv:2508.02324 (2025).</li>
+        <li>[6] Zou et al., <i>Micromachines</i> 16, 844 (2025).</li>
+        <li>[7] Wang et al., BMVC 2022.</li>
+        <li>[8] Hu et al., arXiv:2407.20268 (2024).</li>
+        <li>[9] Kumar, G., &amp; Prabhu, K. N. (2011). Wetting behavior of solders. <i>ASTM Special Technical Publication</i>, 1530, 1–26. <a href="https://idr.nitk.ac.in/handle/123456789/13578">Record</a>.</li>
+        <li>[10] Abtew, M., &amp; Selvaduray, G. (2000). Lead-free solders in microelectronics. <i>Materials Science and Engineering: R: Reports</i>, 27(5–6), 95–141. <a href="https://doi.org/10.1016/S0927-796X(00)00010-3">doi:10.1016/S0927-796X(00)00010-3</a>.</li>
+        <li>[11] Dušek, K., Bušek, D., &amp; Veselý, P. (2020). Overview of selected issues related to soldering. In <i>Welding – Modern Topics</i>. IntechOpen. <a href="https://doi.org/10.5772/intechopen.91023">doi:10.5772/intechopen.91023</a>.</li>
+        <li>[12] Cao, S., Parviziomran, I., Srihari, K., Park, S., &amp; Won, D. (2020). Statistical analysis for component shift in pick and place process of surface mount technology. arXiv:2002.07807. <a href="https://arxiv.org/abs/2002.07807">arxiv.org/abs/2002.07807</a>.</li>
+        <li>Qi, Z., Ding, L., Li, X., Hu, J., Lyu, B., &amp; Xiang, A. (2024). <i>Detecting and Classifying Defective Products in Images Using YOLO.</i> arXiv. <a href="https://doi.org/10.48550/ARXIV.2412.16935">doi:10.48550/ARXIV.2412.16935</a>.</li>
+        <li>Dai, W., Mujeeb, A., Erdt, M., &amp; Sourin, A. (2020). Soldering defect detection in automatic optical inspection. <i>Advanced Engineering Informatics</i>, 43, 101004. <a href="https://doi.org/10.1016/j.aei.2019.101004">doi:10.1016/j.aei.2019.101004</a>.</li>
         <li>Ultralytics YOLO (YOLO11 / YOLO26) image classification. <a href="https://docs.ultralytics.com/tasks/classify/">docs.ultralytics.com</a>.</li>
         <li>Akiba, T. et al. (2019). <i>Optuna: A Next-generation Hyperparameter Optimization Framework.</i> KDD.</li>
         <li>Heusel, M. et al. (2017). <i>GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium</i> (FID). NeurIPS.</li>
@@ -959,14 +1071,14 @@
 
 <script>
 /* ======== EDIT THESE ======== */
-const PASS_RATE_DATA = [      // YOLO pass rate in %, higher is better; replace with real values
-  { label: "OK",                   value: null },
-  { label: "NG-Single",            value: null },
-  { label: "NG-No Solder",         value: null },
-  { label: "NG-Not Enough Solder", value: null },
-  { label: "NG-Misaligned",        value: null },
-];
-/* ============================ */
+const PASS_RATE_DATA = [      // YOLO pass rate (%) per class, 50 images each
+  { mode: "Img2img", overall: 88, n: "176 of 200", rows: [
+    { label: "OK", value: 70, n: "35/50" }, { label: "NG-Misalign", value: 90, n: "45/50" },
+    { label: "NG-No solder", value: 96, n: "48/50" }, { label: "NG-Single electrode", value: 96, n: "48/50" } ] },
+  { mode: "Txt2img", overall: 40, n: "80 of 200", rows: [
+    { label: "OK", value: 60, n: "30/50" }, { label: "NG-Misalign", value: 50, n: "25/50" },
+    { label: "NG-No solder", value: 38, n: "19/50" }, { label: "NG-Single electrode", value: 12, n: "6/50" } ] },
+];/* ============================ */
 
 // Theme toggle (remembered per browser)
 (function(){
@@ -1044,7 +1156,7 @@ document.querySelectorAll('[data-tabs]').forEach(group => {
     } else {
       el.textContent = n;
       const host = el.closest('p'); host.id = 'fig-' + n;
-      const title = { loop: 'Agentic tuning control loop', fid: 'YOLO pass rate per defect class' }[el.dataset.figref] || 'Figure';
+      const title = { loop: 'Agentic tuning control loop', fid: 'YOLO pass rate per class: img2img vs txt2img', judge: 'YOLO judge recall per class on real validation images' }[el.dataset.figref] || 'Figure';
       items.push([n, title, host.id]);
     }
   });
@@ -1093,12 +1205,12 @@ addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('
 // Agent loop stepper
 (function(){
   const steps = [
-    ['Recommender', 'Optuna TPE proposes the next LoRA training configuration from dataset info, the search space, past runs and Decision feedback.'],
-    ['Config Validator', 'deterministically rejects out-of-range settings and stops if the run or GPU-hour budget is spent.'],
-    ['Train + Generate', 'the toolkit trains the LoRA and generates images exactly as configured.'],
-    ['Evaluator', 'a YOLO classifier trained on real images checks each image (right class, confidence ≥ 0.8); the pass rate sets Accept, Borderline or Reject.'],
-    ['Experiment history', 'the run, its settings and scores are logged as one JSONL line, so later decisions can build on it.'],
-    ['Decision', 'Accept saves the run; Borderline → EXPLOIT nearby settings; Reject → EXPLORE elsewhere; TERMINATE when the budget is spent. The best runs go to downstream validation.'],
+    ['Train + Generate', 'the LoRA is trained (default settings on the first run) and images are generated.'],
+    ['Evaluator', 'a YOLO classifier trained on real images checks each image (right class, confidence ≥ 0.8) and gives a pass rate.'],
+    ['Experiment history', 'the run, its settings and scores are logged, so later decisions can build on it.'],
+    ['Decision', 'Accept (≥ 80%) saves the run and stops: no tuning needed. Borderline → exploit nearby settings; Reject → explore elsewhere.'],
+    ['Recommender', 'only if not accepted: Optuna TPE proposes the next configuration from past runs and the Decision feedback.'],
+    ['Config Validator', 'rejects out-of-range or duplicate settings and stops if the run or GPU-hour budget is spent; then the loop retrains.'],
   ];
   const nodes = document.querySelectorAll('.loop .node');
   const edges = document.querySelectorAll('.loop .edge');
@@ -1120,14 +1232,62 @@ addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('
 })();
 
 
+// YOLO judge results visual (validation set, real images)
+const JUDGE_DATA = [
+  { label: "OK",                  imgs: [[1,1.0],[1,1.0],[1,1.0],[1,1.0]] },
+  { label: "NG-Single electrode", imgs: [[1,1.0],[1,1.0],[1,1.0],[1,1.0]] },
+  { label: "NG-No solder",        imgs: [[1,1.0],[1,1.0],[1,1.0]] },
+  { label: "NG-Misalign",         imgs: [[1,null],[1,null],[0,0.81,"NG-No solder"]] },
+];
+(function(){
+  const el = document.getElementById('judgeViz'); if (!el) return;
+  const total = JUDGE_DATA.reduce((n,d)=>n+d.imgs.length,0), right = JUDGE_DATA.reduce((n,d)=>n+d.imgs.filter(i=>i[0]).length,0);
+  const passing = JUDGE_DATA.filter(d => d.imgs.filter(i=>i[0]).length / d.imgs.length >= 0.9).length;
+  let h = `<div class="j-summary"><span class="big">${(right/total*100).toFixed(1)}%</span><span class="sub">top-1 accuracy · ${right} of ${total} real validation images correct · ${passing} of ${JUDGE_DATA.length} classes meet the 90% recall target</span></div>`;
+  JUDGE_DATA.forEach(d => {
+    const c = d.imgs.filter(i=>i[0]).length, r = Math.round(c/d.imgs.length*100), ok = r >= 90;
+    h += `<div class="j-row"><div class="j-name">${d.label}<small>${c} of ${d.imgs.length} correct</small></div>
+      <div class="j-mid"><div class="j-track"><div class="j-fill" data-w="${r}" style="width:0;background:${ok?'var(--ok)':'var(--bad)'}"></div><span class="j-target" title="90% target"></span></div>
+      <div class="j-imgs">${d.imgs.map((im,k)=>`<button class="j-sq ${im[0]?'ok':'bad'}" aria-label="${d.label} image ${k+1}: ${im[0]?'correct':'read as '+im[2]}" data-tip="<b>${d.label} · image ${k+1}</b><br>${im[0]?'Correct'+(im[1]!=null?' · confidence '+im[1].toFixed(2):''):'Wrong · read as '+im[2]+' (confidence '+im[1].toFixed(2)+')'}">${im[0]?'✓':'✕'}</button>`).join('')}</div></div>
+      <div class="j-val">${r}%<small class="${ok?'pass':'fail'}">${ok?'✓ meets 90%':'✕ below 90%'}</small></div></div>`;
+  });
+  h += `<div class="j-legend"><span><i style="background:var(--ok)"></i>Correct / meets target</span><span><i style="background:var(--bad)"></i>Wrong / below target</span><span><i style="border-left:1.5px dashed var(--faint);border-radius:0;width:0;height:12px"></i>90% recall target</span></div>`;
+  el.innerHTML = h;
+  const tip = document.createElement('div'); tip.className = 'j-tip'; document.body.appendChild(tip);
+  const show = (t, x, y) => { tip.innerHTML = t.dataset.tip; tip.classList.add('on'); tip.style.left = Math.min(x + 12, innerWidth - 250) + 'px'; tip.style.top = (y + 14) + 'px'; };
+  el.addEventListener('mousemove', e => { const t = e.target.closest('.j-sq'); t ? show(t, e.clientX, e.clientY) : tip.classList.remove('on'); });
+  el.addEventListener('mouseleave', () => tip.classList.remove('on'));
+  el.addEventListener('click', e => { const t = e.target.closest('.j-sq'); if (t) { const r = t.getBoundingClientRect(); show(t, r.left, r.bottom); } });
+  el.addEventListener('focusin', e => { const t = e.target.closest('.j-sq'); if (t) { const r = t.getBoundingClientRect(); show(t, r.left, r.bottom); } });
+  el.addEventListener('focusout', () => tip.classList.remove('on'));
+  addEventListener('scroll', () => tip.classList.remove('on'), { passive: true });
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { el.querySelectorAll('.j-fill').forEach(f => f.style.width = f.dataset.w + '%'); io.disconnect(); } }), { threshold: .3 });
+  io.observe(el);
+})();
+
+// Chart / table view toggle
+document.querySelectorAll('.view-toggle').forEach(t => {
+  const panes = t.parentElement.querySelectorAll('.view-pane');
+  t.querySelectorAll('button').forEach(b => b.onclick = () => {
+    t.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === b));
+    panes.forEach(p => p.hidden = p.dataset.pane !== b.dataset.view);
+  });
+});
+
 // YOLO pass-rate chart
 (function(){
   const el = document.getElementById('fidChart');
-  const max = 100;
-  PASS_RATE_DATA.forEach(d => {
-    const w = d.value == null ? 0 : (d.value / max * 100);
-    el.insertAdjacentHTML('beforeend',
-      `<div class="bar-row"><span>${d.label}</span><div class="bar-track"><div class="bar" style="width:${w}%"></div></div><span class="val">${d.value ?? '—'}</span></div>`);
+  const verdict = v => v >= 80 ? ['Accept', 'var(--ok)'] : v >= 50 ? ['Borderline', 'var(--warn)'] : ['Reject', 'var(--bad)'];
+  PASS_RATE_DATA.forEach(g => {
+    const [ov] = verdict(g.overall);
+    let h = `<div class="pr-group"><div class="pr-head"><b>${g.mode}</b><span>${g.overall}% overall (${g.n}) · ${ov}</span></div>`;
+    g.rows.forEach(r => {
+      const [vt, col] = verdict(r.value);
+      h += `<div class="bar-row" title="${g.mode} · ${r.label}: ${r.value}% (${r.n}) · ${vt}"><span>${r.label}</span>
+        <div class="bar-track pr-track"><div class="bar" style="width:${r.value}%;background:${col}"></div><i style="left:50%"></i><i style="left:80%"></i></div>
+        <span class="val">${r.value}% <small>${vt}</small></span></div>`;
+    });
+    el.insertAdjacentHTML('beforeend', h + '</div>');
   });
 })();
 
@@ -1145,7 +1305,7 @@ const TIMELINE = {
       { s:5, e:6.5, sem:'s2', planned:true, t:'Finalise & optimise model', pts:['Lock in the base model','Tune LoRA rank, learning rate and steps'] } ] },
     { label: 'Architecture & agent', items: [
       { s:2, e:4.5, sem:'s1', t:'Design AgentHPO architecture', pts:['Define agent roles and the control loop','Design the YOLO-based Evaluator and verdict thresholds','Propose deployment options: centralised web vs local desktop','Set end-of-project goals'] },
-      { s:5, e:7.5, sem:'s2', planned:true, t:'Build the agents', pts:['Recommender, Config Validator, Evaluator, Decision','Budget enforcement and run logging','Connect to the training pipeline'] } ] },
+      { s:5, e:7.5, sem:'s2', planned:true, t:'Build the agents', pts:['Evaluator, Decision, Recommender, Config Validator','Budget enforcement and run logging','Connect to the training pipeline'] } ] },
     { label: 'Evaluation & validation', items: [
       { s:5.5, e:7, sem:'s2', planned:true, t:'Baselines & evaluation pipeline', pts:['Real-only baseline: recall, precision, FPR','Reproduce the previous-workflow dataset','Train and check the YOLO judge on real images'] },
       { s:7, e:8.5, sem:'s2', planned:true, t:'Three-way validation', pts:['Generate the agent-optimised dataset','Compare real-only vs previous vs agent-optimised','Iterate on the agent based on results'] } ] },
