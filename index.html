@@ -186,7 +186,7 @@
   .g-ms{position:absolute;top:12px;width:14px;height:14px;transform:translateX(-50%) rotate(45deg);background:var(--text);border:0;cursor:pointer;padding:0}
   .g-ms.sel{box-shadow:0 0 0 3px var(--accent)}
   .g-today{position:absolute;top:0;bottom:0;width:2px;background:var(--ok);z-index:2;pointer-events:none}
-  .g-today::after{content:"Today";position:absolute;bottom:14px;left:5px;font:600 10.5px var(--mono);color:var(--ok)}
+  .g-today::after{content:"Today";position:absolute;top:50px;left:5px;font:600 10.5px var(--mono);color:var(--ok)}
   .g-legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--muted);padding:10px 14px 0}
   .g-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
   .g-detail{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent-2);border-radius:8px;padding:14px 18px;margin:0 0 18px;max-width:800px}
@@ -284,7 +284,7 @@
   <a class="brand" href="#top"><span class="brand-mark">SD</span>Synthetic Defect Generation</a>
   <nav>
     <a href="#top" class="active">Report</a>
-    <a href="#s9-d">App</a>
+    <a href="#section-10">Future</a>
     <a href="#section-timeline">Timeline</a>
     <a href="#section-13">Team</a>
   </nav>
@@ -444,7 +444,7 @@
           <tr><td>SDXL needs &gt;12 GB VRAM, and text-to-image generation can get defect geometry wrong</td><td>Lighter photorealistic model and image-to-image generation (Section 06)</td></tr>
           <tr><td>No automated batch or per-image quality scoring</td><td>YOLO-based per-image checks and batch pass rate (Section 08)</td></tr>
           <tr><td>Realism never validated against downstream inspection performance</td><td>Downstream test (M3), planned for Semester 2</td></tr>
-          <tr><td>No record of why a run was kept or rejected</td><td>Per-run experiment report (Section 09)</td></tr>
+          <tr><td>No record of why a run was kept or rejected</td><td>Experiment history log (Section 07)</td></tr>
         </tbody>
       </table></div>
       <p class="caption"><b>Table 4.</b> Mapping prior limitations to project deliverables.</p>
@@ -857,123 +857,14 @@
     <!-- ===================== 10 ===================== -->
     <section class="sec" id="section-10" data-title="Future Work">
       <div class="sec-head"><span class="sec-num">09</span><h2>Future Work</h2></div>
-      <ul>
-        <li>Automated preprocessing: background normalisation, illumination correction, ROI extraction.</li>
-        <li>Generate → critique → refine captioning loop for defect descriptions.</li>
-        <li>On-site testing at TE Connectivity's Dongguan facility.</li>
-        <li>Integration with real-time production inspection pipelines.</li>
-        <li><b>FLUX:</b> test FLUX.1 dev once suitable hardware and a compatible training setup are available.</li>
-        <li><b>Multi-GPU scaling:</b> add Celery workers, one per GPU, so training and generation jobs run in parallel.</li>
-        <li><b>Federated learning:</b> sites send LoRA weights instead of raw images to a central coordinator, which aggregates them into one global LoRA (e.g. with Flower).</li>
-        <li><a href="#s9-d">Application deployment</a>: centralised web or local desktop (below).</li>
-        <li><a href="#s9-0">Per-run experiment reports</a> with a keep/reject recommendation (below).</li>
-        <li><a href="#s10-1">App UI/UX improvements</a>: a more intuitive app for non-specialist users (below).</li>
-      </ul>
-
-      <p>The tool lets users create a workspace, upload images, define classes, train LoRA models (AgentHPO or manual) and generate synthetic images with txt2img or img2img. Two ways of deploying it are being considered, and each run would produce an experiment report.</p>
-
-      <h3 id="s9-d"><span class="sub-num">9.1</span>Deployment options</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th></th><th>1 · Centralised web</th><th>2 · Local desktop</th></tr></thead>
-        <tbody>
-          <tr><td>Runs on</td><td>Central GPU server, used through a browser</td><td>The manufacturing site's own PC and GPU</td></tr>
-          <tr><td>Data</td><td>Stored centrally; raw images restricted by role</td><td>Never leaves the local machine</td></tr>
-          <tr><td>Database</td><td>PostgreSQL</td><td>SQLite</td></tr>
-          <tr><td>Scaling</td><td>Job queue; add GPU workers later</td><td>One PC per site; federated learning later</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 15.</b> Deployment options at a glance.</p>
-
-      <div class="tabs" role="tablist" data-tabs="deploy">
-        <button role="tab" aria-selected="true" data-tab="web">Centralised web</button>
-        <button role="tab" aria-selected="false" data-tab="desk">Local desktop</button>
-      </div>
-      <div class="tab-panel active" data-panel="web">
-        <p>A web platform where users create workspaces, upload datasets, train LoRA models with Kohya_ss and generate images. GPU jobs go through a queue, so the system can start on one GPU and add more later.</p>
-        <div class="flow-label">Single-GPU server</div>
-        <div class="flow">
-          <div class="node">User<small>browser</small></div><span class="arr">→</span>
-          <div class="node">Next.js / React<small>frontend</small></div><span class="arr">→</span>
-          <div class="node">FastAPI<small>backend</small></div><span class="arr">→</span>
-          <div class="grp"><div class="node store">PostgreSQL<small>metadata</small></div><div class="node store">Redis<small>job queue</small></div></div><span class="arr">→</span>
-          <div class="node">Celery<small>GPU worker</small></div><span class="arr">→</span>
-          <div class="grp"><div class="node">Kohya_ss<small>LoRA training</small></div><div class="node">Diffusers<small>txt2img / img2img</small></div></div><span class="arr">→</span>
-          <div class="grp"><div class="node">NVIDIA GPU</div><div class="node store">MinIO<small>file storage</small></div></div>
-        </div>
-        <p>With one GPU, training and generation jobs cannot run at the same time, so the Redis queue runs them in turn. Adding Celery workers, one per GPU, later lets several jobs run in parallel.</p>
-        <div class="grid g2">
-          <div class="card"><h5>Workspaces</h5><p>Each project's members, datasets, training runs, LoRA models and generated datasets are kept separate.</p></div>
-          <div class="card"><h5>Role-based access</h5><p><b>Admin:</b> users, permissions, data, models. <b>Engineer:</b> datasets, training, generation. <b>Operator:</b> approved models and generation only. Raw training images can be limited to authorised users.</p></div>
-        </div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead>
-          <tbody>
-            <tr><td>Frontend</td><td>Next.js + React + TypeScript</td><td>Workspace, dataset, training and generation UI</td></tr>
-            <tr><td>Backend</td><td>FastAPI + Python</td><td>API and application logic</td></tr>
-            <tr><td>Database</td><td>PostgreSQL</td><td>Users, workspaces, experiments, job metadata</td></tr>
-            <tr><td>Job queue</td><td>Redis + Celery</td><td>Queue and schedule GPU work</td></tr>
-            <tr><td>Training</td><td>Kohya_ss / sd-scripts</td><td>LoRA training</td></tr>
-            <tr><td>Generation</td><td>Hugging Face Diffusers</td><td>Txt2img and img2img</td></tr>
-            <tr><td>ML runtime</td><td>PyTorch + CUDA</td><td>GPU computation</td></tr>
-            <tr><td>File storage</td><td>MinIO / S3</td><td>Datasets, LoRA weights, checkpoints, generated images</td></tr>
-            <tr><td>Containers</td><td>Docker + NVIDIA Container Toolkit</td><td>Isolated services with GPU access</td></tr>
-            <tr><td>Reverse proxy</td><td>Nginx</td><td>Routing and HTTPS</td></tr>
-          </tbody>
-        </table></div>
-        <p class="caption"><b>Table 16.</b> Proposed stack, centralised web deployment.</p>
-      </div>
-      <div class="tab-panel" data-panel="desk">
-        <p>A desktop version that lets each site train and generate on its own PC. Training images, models and generated datasets stay on the machine; nothing is stored on a central server. Users get a normal Windows app instead of Python scripts or command-line tools.</p>
-        <div class="flow-label">Local manufacturing PC</div>
-        <div class="flow">
-          <div class="node">User</div><span class="arr">→</span>
-          <div class="node">PySide6 / Qt<small>desktop app</small></div><span class="arr">→</span>
-          <div class="node">Python<small>app logic</small></div><span class="arr">→</span>
-          <div class="grp"><div class="node store">SQLite</div><div class="node">Local job manager</div></div><span class="arr">→</span>
-          <div class="grp"><div class="node">Kohya_ss<small>training</small></div><div class="node">Diffusers<small>generation</small></div></div><span class="arr">→</span>
-          <div class="grp"><div class="node">Local NVIDIA GPU</div><div class="node store">Local storage</div></div>
-        </div>
-        <div class="flow-label">Packaging</div>
-        <div class="flow">
-          <div class="node">Python + PySide6</div><span class="arr">→</span><div class="node">PyInstaller</div><span class="arr">→</span><div class="node">Inno Setup</div><span class="arr">→</span><div class="node">Setup.exe</div><span class="arr">→</span><div class="node">Manufacturing PC</div>
-        </div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead>
-          <tbody>
-            <tr><td>Desktop UI</td><td>PySide6 / Qt</td><td>Native application interface</td></tr>
-            <tr><td>Application</td><td>Python</td><td>Application and workspace logic</td></tr>
-            <tr><td>Database</td><td>SQLite</td><td>Local projects, configurations, history</td></tr>
-            <tr><td>Training</td><td>Kohya_ss / sd-scripts</td><td>Local LoRA training</td></tr>
-            <tr><td>Generation</td><td>Hugging Face Diffusers</td><td>Txt2img / img2img</td></tr>
-            <tr><td>ML runtime</td><td>PyTorch + CUDA</td><td>Local GPU processing</td></tr>
-            <tr><td>Storage</td><td>Local filesystem</td><td>Images, LoRAs, generated datasets</td></tr>
-            <tr><td>Packaging &amp; install</td><td>PyInstaller, Inno Setup, auto-updater</td><td>Windows installer and updates</td></tr>
-            <tr><td>Future</td><td>Flower</td><td>Federated learning between sites</td></tr>
-          </tbody>
-        </table></div>
-        <p class="caption"><b>Table 17.</b> Proposed stack, local desktop deployment.</p>
-      </div>
-
-      <h3 id="s9-0"><span class="sub-num">9.2</span>Per-run experiment report</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Field</th><th>Contents</th></tr></thead>
-        <tbody>
-          <tr><td>Data</td><td>Classes, image counts, dataset-review results</td></tr>
-          <tr><td>Settings</td><td>Final configuration and the trials that led to it</td></tr>
-          <tr><td>Quality</td><td>YOLO pass rate and mean confidence per class; verdict</td></tr>
-          <tr><td>Validation</td><td>Downstream recall, precision, false-positive rate</td></tr>
-          <tr><td>Recommendation</td><td>Keep or reject, with the agents' rationale, for human approval</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 18.</b> Report schema (draft).</p>
-
-      <h3 id="s10-1"><span class="sub-num">9.3</span>App UI/UX improvements</h3>
-      <p>The application (web or desktop) is the main way engineers will use the system, so it needs to be usable without generative-AI expertise.</p>
+      <p>Planned work for Semester 2 (January to May 2027). See the Project Timeline (Section 10) for when each item happens.</p>
       <div class="grid g2">
-        <div class="card"><h5>Guided, step-by-step workflow</h5><p>Clear instructions and explanations at every step, from uploading images to approving results, so first-time users know what to do next.</p></div>
-        <div class="card"><h5>Agent assistant in the app</h5><p>Surface the agent's recommendations and rationale in plain language, so users can see why a setting was chosen before approving it.</p></div>
-        <div class="card"><h5>Clearer results and reports</h5><p>Side-by-side real vs generated previews, quality scores at a glance, and one-click keep or reject.</p></div>
-        <div class="card"><h5>Usability testing</h5><p>Test the app with intended users, such as TE engineers, and refine layout, wording and flow based on their feedback.</p></div>
+        <div class="card"><h5>1 · UI/UX application</h5><p>Build the application that users work in: a guided, step-by-step flow from uploading images to approving generated results, usable without generative-AI expertise.</p></div>
+        <div class="card"><h5>2 · Complete the optimised generation model</h5><p>Finalise the generation model and its settings, building on the img2img results from Semester 1.</p></div>
+        <div class="card"><h5>3 · Evaluate uploaded datasets</h5><p>Extend the Evaluator agent to check the datasets users upload. A classifier will label unlabelled images so they can be used for training. For now, we use labelled datasets.</p></div>
+        <div class="card"><h5>4 · Class-based parameter tuning</h5><p>Tune parameters per class, so classes that fail or score lower get settings of their own. For example, OK scored 70% with img2img while the other classes scored 90% or more.</p></div>
+        <div class="card"><h5>5 · Recommender agent</h5><p>Build the Recommender and decide which details from the evaluation it needs to choose which parameter to change (e.g. per-class pass rate, confidence, and which classes are confused).</p></div>
+        <div class="card"><h5>6 · Agentic chatbot in the app <span style="font:500 11px var(--mono);color:var(--faint)">EXPLORATORY</span></h5><p>Explore an in-app assistant that guides users through the workflow and explains the agents' decisions.</p></div>
       </div>
     </section>
 
@@ -996,14 +887,15 @@
           </ul>
         </div>
         <div class="sem-card s2">
-          <h5>Semester 2: Build, validate &amp; deliver</h5>
+          <h5>Semester 2: Build &amp; deliver</h5>
           <div class="when">Jan – May 2027</div>
           <ul>
-            <li>Lock in the base model and optimise its training settings</li>
-            <li>Build the Recommender, Validator, Evaluator and Decision agents</li>
-            <li>Run the real-only and previous-workflow baselines</li>
-            <li>Generate the agent-optimised dataset and run the three-way validation</li>
-            <li>Integrate the agent and per-run reports into the AITK web app</li>
+            <li>Create the UI/UX application</li>
+            <li>Complete the optimised generation model</li>
+            <li>Evaluator agent for uploaded datasets: classify unlabelled images for training</li>
+            <li>Class-based parameter tuning for classes that fail or can improve</li>
+            <li>Build the Recommender agent: define which evaluation details drive each parameter change</li>
+            <li>Explore an agentic chatbot in the app</li>
             <li>Final report, poster, demo and presentation</li>
           </ul>
         </div>
@@ -1302,15 +1194,19 @@ const TIMELINE = {
       { s:0.5, e:3.5, sem:'s1', t:'Literature review', pts:['Generative models used in industry (diffusion, LoRA, GANs)','Agent-driven hyperparameter optimisation','Anomaly detection and image-quality evaluation'] } ] },
     { label: 'Model exploration', items: [
       { s:1, e:4, sem:'s1', t:'Explore alternative models', pts:['Migrate LoRA training to Kohya_ss','Realistic Vision 5.1: txt2img vs img2img','FLUX deferred (hardware limits)'] },
-      { s:5, e:6.5, sem:'s2', planned:true, t:'Finalise & optimise model', pts:['Lock in the base model','Tune LoRA rank, learning rate and steps'] } ] },
+      { s:5, e:6.5, sem:'s2', planned:true, t:'Complete optimised model', pts:['Finalise the generation model and its settings','Build on the Semester 1 img2img results'] } ] },
     { label: 'Architecture & agent', items: [
-      { s:2, e:4.5, sem:'s1', t:'Design AgentHPO architecture', pts:['Define agent roles and the control loop','Design the YOLO-based Evaluator and verdict thresholds','Propose deployment options: centralised web vs local desktop','Set end-of-project goals'] },
-      { s:5, e:7.5, sem:'s2', planned:true, t:'Build the agents', pts:['Evaluator, Decision, Recommender, Config Validator','Budget enforcement and run logging','Connect to the training pipeline'] } ] },
-    { label: 'Evaluation & validation', items: [
-      { s:5.5, e:7, sem:'s2', planned:true, t:'Baselines & evaluation pipeline', pts:['Real-only baseline: recall, precision, FPR','Reproduce the previous-workflow dataset','Train and check the YOLO judge on real images'] },
-      { s:7, e:8.5, sem:'s2', planned:true, t:'Three-way validation', pts:['Generate the agent-optimised dataset','Compare real-only vs previous vs agent-optimised','Iterate on the agent based on results'] } ] },
-    { label: 'App & reporting', items: [
-      { s:6.5, e:8.5, sem:'s2', planned:true, t:'App integration & reports', pts:['AgentHPO option in the AITK web app','Per-run experiment report with keep/reject recommendation','Human approval step'] } ] },
+      { s:2, e:4.5, sem:'s1', t:'Design AgentHPO architecture', pts:['Define agent roles and the control loop','Design the YOLO-based Evaluator and verdict thresholds','Propose deployment options: centralised web vs local desktop','Set end-of-project goals'] } ] },
+    { label: 'Dataset evaluation', items: [
+      { s:5, e:7, sem:'s2', planned:true, t:'Evaluate uploaded datasets', pts:['Extend the Evaluator to user-uploaded datasets','Classify unlabelled images so they can be used for training','Currently using labelled datasets'] } ] },
+    { label: 'Recommender agent', items: [
+      { s:5, e:7.5, sem:'s2', planned:true, t:'Build the Recommender', pts:['Decide which evaluation details it needs','Map evaluation results to parameter changes','Connect to the Evaluator and Decision agents'] } ] },
+    { label: 'Class-based tuning', items: [
+      { s:6.5, e:8.5, sem:'s2', planned:true, t:'Per-class parameter tuning', pts:['Tune settings separately for each class','Target classes that fail or score lower'] } ] },
+    { label: 'UI/UX application', items: [
+      { s:5.5, e:8.5, sem:'s2', planned:true, t:'Create the application', pts:['Guided step-by-step workflow','From upload to approving generated images'] } ] },
+    { label: 'Agentic chatbot', items: [
+      { s:7.5, e:8.8, sem:'s2', planned:true, t:'Chatbot (exploratory)', pts:['In-app assistant that guides users','Explains the agents\' decisions'] } ] },
     { label: 'Write-up & delivery', items: [
       { s:3.5, e:4.5, sem:'s1', t:'Interim report & presentation', pts:['Baseline, pain points and what we aim to improve','Planned architecture and timeline','No working prototype required'] },
       { s:8.5, e:9.8, sem:'s2', planned:true, t:'Final report, poster & demo', pts:['Final report and poster','Live demo of agent-assisted generation','Final presentation'] } ] },
