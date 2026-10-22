@@ -11,3 +11,7 @@ tqdm
 bitsandbytes
 prodigyopt
 opencv-python-headless>=4.8,<5
+
+# Evaluation agent (YOLO classifier + charts)
+ultralytics
+matplotlib
