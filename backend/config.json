@@ -15,34 +15,7 @@
         "domain": "close-up macro photo of a vertical metal electrode solder joint, dark blurry background",
         "max_size": 1024,
         "min_size": 256,
-        "max_repeats": 10,
-        "classes": [
-            {
-                "name": "OK",
-                "path": "raw/OK",
-                "description": "aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint"
-            },
-            {
-                "name": "NG-Misalign",
-                "path": "raw/NG-Misalign",
-                "description": "misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint"
-            },
-            {
-                "name": "NG-Single",
-                "path": "raw/NG-Single",
-                "description": "vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint"
-            },
-            {
-                "name": "NG-No solder",
-                "path": "raw/NG-No solder",
-                "description": "vertically stacked electrodes with no solder, missing solder material between top and bottom electrode"
-            },
-            {
-                "name": "NG-Not enough solder",
-                "path": "raw/NG-Not enough solder",
-                "description": "vertically stacked electrodes with insufficient solder, too little solder material at the joint between top and bottom electrode"
-            }
-        ]
+        "max_repeats": 10
     },
     "lora": {
         "network_dim": 32,
@@ -54,12 +27,12 @@
     },
     "training": {
         "output_name": "sd15_lora",
-        "epochs": 60,
+        "epochs": 50,
         "max_train_steps": 0,
         "batch_size": 1,
         "grad_accum": 2,
         "resolution": 512,
-        "save_every_n_epochs": 5,
+        "save_every_n_epochs": 10,
         "seed": 42,
         "flip_aug": false,
         "shuffle_caption": false,
@@ -67,7 +40,7 @@
         "optimizer": {
             "name": "AdamW8bit",
             "unet_lr": 5e-05,
-            "text_encoder_lr": 5e-06,
+            "text_encoder_lr": 1e-05,
             "lr_scheduler": "cosine",
             "lr_warmup_ratio": 0.05,
             "lr_cycles": 1,
@@ -106,10 +79,10 @@
             "mode": "txt2img",
             "images_per_class": 5,
             "only_classes": [],
-            "lora_scale": 0.85,
+            "lora_scale": 0.95,
             "width": 512,
             "height": 512,
-            "steps": 35,
+            "steps": 30,
             "cfg": 6.5,
             "sampler": "dpmpp_2m_karras",
             "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",

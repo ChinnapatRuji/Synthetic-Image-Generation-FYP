@@ -7,7 +7,7 @@ import typing
 from pathlib import Path
 from typing import Annotated, Literal, Optional
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, ValidationError, model_validator
+from pydantic import AfterValidator, BaseModel, ConfigDict, ValidationError, model_validator, Field
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 DOCS_PATH = PROJECT_ROOT / "config.docs.json"
@@ -52,7 +52,7 @@ class ClassSpec(Base):
         return re.sub(r"[^a-z0-9_]", "", re.sub(r"[\s\-]+", "_", self.name.strip().lower()))
 
 class Dataset(Base):
-    classes: list[ClassSpec]
+    classes: list[ClassSpec] = Field(default_factory=list)
     trigger: str
     domain: str
     max_size: int
@@ -62,8 +62,6 @@ class Dataset(Base):
     @model_validator(mode="after")
     def _check_class_names(self):
         folders = [c.folder for c in self.classes]
-        if not folders:
-            raise ValueError("No classes defined in config")
         if len(folders) != len(set(folders)):
             raise ValueError(f"Duplicate class folder names: {folders}")
         return self
