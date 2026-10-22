@@ -139,7 +139,7 @@ def generate_for(pipe, checkpoint, trigger, domain, classes, device):
     root = cfg.paths.generated_dir / gen.output_name
 
     if checkpoint:
-        pipe.load_lora_weights(str(checkpoint))
+        pipe.load_lora_weights(str(checkpoint.parent), weight_name=checkpoint.name)
         pipe.fuse_lora(lora_scale=gen.lora_scale)
 
     manifest = []
