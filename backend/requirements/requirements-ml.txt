@@ -1,0 +1,13 @@
+# Additional ML dependencies
+torchvision
+diffusers
+transformers
+accelerate
+huggingface_hub
+safetensors
+Pillow
+numpy
+tqdm
+bitsandbytes
+prodigyopt
+opencv-python-headless>=4.8,<5

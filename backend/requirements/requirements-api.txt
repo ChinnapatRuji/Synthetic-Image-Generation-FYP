@@ -1,0 +1,20 @@
+# FastAPI
+fastapi
+uvicorn[standard]
+
+# Configuration
+pydantic>=2,<3
+pydantic-settings>=2,<3
+
+# File uploads (later)
+python-multipart
+
+# Background task processing
+celery[redis]>=5.5,<6
+
+filelock
+psutil
+peft
+diffusers==0.31.0
+transformers==4.46.3
+huggingface-hub==0.36.2
