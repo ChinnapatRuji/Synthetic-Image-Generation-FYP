@@ -43,7 +43,6 @@ storage/
 backend/kohya_ss/sd-scripts/
 backend/kohya_ss/tokenizer_cache/
 backend/models/
-outputs/
 
 # TE Connectivity images are partner data; keep them out of any shared repo.
 dataset/

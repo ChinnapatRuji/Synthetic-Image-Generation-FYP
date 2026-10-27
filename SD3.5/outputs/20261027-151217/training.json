@@ -1,0 +1,85 @@
+{
+  "run": {
+    "run_id": "e813f9fd-63c9-45b4-b5dc-1b7f9cc3777b",
+    "workspace_id": "94736bf7-3c31-49b8-a95e-d6ee45fb6375",
+    "status": "COMPLETED",
+    "started_at": "2026-10-27T07:12:19.823110+00:00",
+    "process_cleanup": "VERIFIED",
+    "process_group_id": null,
+    "completed_at": "2026-10-27T07:58:08.582551+00:00",
+    "duration_seconds": 2748.76,
+    "checkpoint_dir": "/nfs/home/svu/e1524433/chinn-ver/storage/workspaces/94736bf7-3c31-49b8-a95e-d6ee45fb6375/training/e813f9fd-63c9-45b4-b5dc-1b7f9cc3777b/checkpoints"
+  },
+  "config": {
+    "model": {
+      "architecture": "sd3",
+      "base": "/scratch/e1524433/sd3.5-medium",
+      "vae": "",
+      "clip_skip": 1
+    },
+    "dataset": {
+      "trigger": "sldrjnt",
+      "domain": "close-up macro photo of a vertical metal electrode solder joint, dark blurry background",
+      "min_size": 256,
+      "max_size": 1024,
+      "max_repeats": 10
+    },
+    "lora": {
+      "network_dim": 32,
+      "network_alpha": 16,
+      "train_text_encoder": false,
+      "train_conv_layers": false,
+      "conv_dim": 16,
+      "conv_alpha": 8
+    },
+    "training": {
+      "output_name": "sd35m_lora",
+      "epochs": 50,
+      "max_train_steps": 0,
+      "batch_size": 1,
+      "grad_accum": 2,
+      "resolution": 512,
+      "save_every_n_epochs": 10,
+      "seed": 42,
+      "flip_aug": false,
+      "shuffle_caption": false,
+      "keep_tokens": 1,
+      "optimizer": {
+        "name": "AdamW8bit",
+        "unet_lr": 5e-05,
+        "text_encoder_lr": 1e-05,
+        "lr_scheduler": "cosine",
+        "lr_warmup_ratio": 0.05,
+        "lr_cycles": 1,
+        "min_snr_gamma": 0.0,
+        "noise_offset": 0.0,
+        "max_grad_norm": 1.0,
+        "prodigy": {
+          "weight_decay": 0.01,
+          "decouple": true,
+          "d_coef": 2.0,
+          "use_bias_correction": true,
+          "safeguard_warmup": true,
+          "betas": [
+            0.9,
+            0.99
+          ]
+        }
+      },
+      "bucketing": {
+        "enabled": false,
+        "min_size": 256,
+        "max_size": 512,
+        "step": 64
+      },
+      "memory": {
+        "mixed_precision": "bf16",
+        "attention": "sdpa",
+        "gradient_checkpointing": true,
+        "cache_latents": true,
+        "cache_to_disk": true,
+        "full_fp16": false
+      }
+    }
+  }
+}

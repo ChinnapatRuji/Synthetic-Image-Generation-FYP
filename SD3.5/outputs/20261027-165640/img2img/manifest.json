@@ -1,0 +1,231 @@
+{
+  "checkpoint": "sd35m_lora.safetensors",
+  "base_model": "/scratch/e1524433/sd3.5-medium",
+  "mode": "img2img",
+  "conditioning": null,
+  "generated_count": 20,
+  "classes": [
+    {
+      "id": "f2d89628-0563-45f0-a926-612b8a1998d1",
+      "name": "NG-Misalign",
+      "image_count": 5
+    },
+    {
+      "id": "33a1b7d6-de64-4e29-8e19-90a800e93c1f",
+      "name": "NG-No_solder",
+      "image_count": 5
+    },
+    {
+      "id": "1a70567d-f945-4836-96b8-1dc62e7f38c7",
+      "name": "NG-Single_electrode",
+      "image_count": 5
+    },
+    {
+      "id": "d6919c5d-8a7a-4466-a947-ec40472bdbd1",
+      "name": "OK",
+      "image_count": 5
+    }
+  ],
+  "images": [
+    {
+      "file": "images/f2d89628-0563-45f0-a926-612b8a1998d1/00000.png",
+      "class_id": "f2d89628-0563-45f0-a926-612b8a1998d1",
+      "class_name": "NG-Misalign",
+      "prompt": "sldrjnt, NG-Misalign, misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera exposure",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1000,
+      "source_image_id": "0414e1e8-de23-45d2-b350-c0478c6be1b0",
+      "conditioning": null
+    },
+    {
+      "file": "images/f2d89628-0563-45f0-a926-612b8a1998d1/00001.png",
+      "class_id": "f2d89628-0563-45f0-a926-612b8a1998d1",
+      "class_name": "NG-Misalign",
+      "prompt": "sldrjnt, NG-Misalign, misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, subtle surface appearance variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1001,
+      "source_image_id": "0c936478-93dc-4eb9-ae9a-b6e1236abf1a",
+      "conditioning": null
+    },
+    {
+      "file": "images/f2d89628-0563-45f0-a926-612b8a1998d1/00002.png",
+      "class_id": "f2d89628-0563-45f0-a926-612b8a1998d1",
+      "class_name": "NG-Misalign",
+      "prompt": "sldrjnt, NG-Misalign, misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1002,
+      "source_image_id": "16b50022-2c7d-429d-bde9-c847d73149e4",
+      "conditioning": null
+    },
+    {
+      "file": "images/f2d89628-0563-45f0-a926-612b8a1998d1/00003.png",
+      "class_id": "f2d89628-0563-45f0-a926-612b8a1998d1",
+      "class_name": "NG-Misalign",
+      "prompt": "sldrjnt, NG-Misalign, misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, subtle surface appearance variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1003,
+      "source_image_id": "33492002-f856-4b32-b875-2c04336bd5d9",
+      "conditioning": null
+    },
+    {
+      "file": "images/f2d89628-0563-45f0-a926-612b8a1998d1/00004.png",
+      "class_id": "f2d89628-0563-45f0-a926-612b8a1998d1",
+      "class_name": "NG-Misalign",
+      "prompt": "sldrjnt, NG-Misalign, misaligned vertically stacked electrodes, top and bottom electrode on different vertical center axes, visible lateral offset at solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1004,
+      "source_image_id": "33c82a9e-83ee-40e3-84d3-b8d8950988ab",
+      "conditioning": null
+    },
+    {
+      "file": "images/33a1b7d6-de64-4e29-8e19-90a800e93c1f/00000.png",
+      "class_id": "33a1b7d6-de64-4e29-8e19-90a800e93c1f",
+      "class_name": "NG-No_solder",
+      "prompt": "sldrjnt, NG-No solder, vertically stacked electrodes with no solder, missing solder material between top and bottom electrode, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1000,
+      "source_image_id": "01e4877f-5965-4b57-b40a-bfe7d5c4ba31",
+      "conditioning": null
+    },
+    {
+      "file": "images/33a1b7d6-de64-4e29-8e19-90a800e93c1f/00001.png",
+      "class_id": "33a1b7d6-de64-4e29-8e19-90a800e93c1f",
+      "class_name": "NG-No_solder",
+      "prompt": "sldrjnt, NG-No solder, vertically stacked electrodes with no solder, missing solder material between top and bottom electrode, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, subtle variation in lighting",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1001,
+      "source_image_id": "0647409e-d1f2-4b89-9c1c-029eda3a0fdd",
+      "conditioning": null
+    },
+    {
+      "file": "images/33a1b7d6-de64-4e29-8e19-90a800e93c1f/00002.png",
+      "class_id": "33a1b7d6-de64-4e29-8e19-90a800e93c1f",
+      "class_name": "NG-No_solder",
+      "prompt": "sldrjnt, NG-No solder, vertically stacked electrodes with no solder, missing solder material between top and bottom electrode, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera exposure",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1002,
+      "source_image_id": "07e33b03-cb15-45df-83f7-a4625dda46e5",
+      "conditioning": null
+    },
+    {
+      "file": "images/33a1b7d6-de64-4e29-8e19-90a800e93c1f/00003.png",
+      "class_id": "33a1b7d6-de64-4e29-8e19-90a800e93c1f",
+      "class_name": "NG-No_solder",
+      "prompt": "sldrjnt, NG-No solder, vertically stacked electrodes with no solder, missing solder material between top and bottom electrode, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1003,
+      "source_image_id": "10a6d98c-8c79-4479-9ef5-c060d2a214a6",
+      "conditioning": null
+    },
+    {
+      "file": "images/33a1b7d6-de64-4e29-8e19-90a800e93c1f/00004.png",
+      "class_id": "33a1b7d6-de64-4e29-8e19-90a800e93c1f",
+      "class_name": "NG-No_solder",
+      "prompt": "sldrjnt, NG-No solder, vertically stacked electrodes with no solder, missing solder material between top and bottom electrode, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, subtle surface appearance variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1004,
+      "source_image_id": "1510dc2a-f1ba-4913-9e5a-f78ce9dfa199",
+      "conditioning": null
+    },
+    {
+      "file": "images/1a70567d-f945-4836-96b8-1dc62e7f38c7/00000.png",
+      "class_id": "1a70567d-f945-4836-96b8-1dc62e7f38c7",
+      "class_name": "NG-Single_electrode",
+      "prompt": "sldrjnt, NG-Single electrode, vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera exposure",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1000,
+      "source_image_id": "0754199e-b585-416a-93eb-a2a0d0e42e1f",
+      "conditioning": null
+    },
+    {
+      "file": "images/1a70567d-f945-4836-96b8-1dc62e7f38c7/00001.png",
+      "class_id": "1a70567d-f945-4836-96b8-1dc62e7f38c7",
+      "class_name": "NG-Single_electrode",
+      "prompt": "sldrjnt, NG-Single electrode, vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1001,
+      "source_image_id": "0fe77796-a7be-4c76-b18e-364be5a08c01",
+      "conditioning": null
+    },
+    {
+      "file": "images/1a70567d-f945-4836-96b8-1dc62e7f38c7/00002.png",
+      "class_id": "1a70567d-f945-4836-96b8-1dc62e7f38c7",
+      "class_name": "NG-Single_electrode",
+      "prompt": "sldrjnt, NG-Single electrode, vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera exposure",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1002,
+      "source_image_id": "11543d2b-b12a-4bc2-8a6d-707b78a3f9ba",
+      "conditioning": null
+    },
+    {
+      "file": "images/1a70567d-f945-4836-96b8-1dc62e7f38c7/00003.png",
+      "class_id": "1a70567d-f945-4836-96b8-1dc62e7f38c7",
+      "class_name": "NG-Single_electrode",
+      "prompt": "sldrjnt, NG-Single electrode, vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera exposure",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1003,
+      "source_image_id": "190e4964-7588-434e-83a8-efa6bc33284d",
+      "conditioning": null
+    },
+    {
+      "file": "images/1a70567d-f945-4836-96b8-1dc62e7f38c7/00004.png",
+      "class_id": "1a70567d-f945-4836-96b8-1dc62e7f38c7",
+      "class_name": "NG-Single_electrode",
+      "prompt": "sldrjnt, NG-Single electrode, vertically stacked electrodes but only one electrode present, missing opposing electrode at the solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, subtle surface appearance variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1004,
+      "source_image_id": "363020e0-e9fb-4859-af3f-34f214092261",
+      "conditioning": null
+    },
+    {
+      "file": "images/d6919c5d-8a7a-4466-a947-ec40472bdbd1/00000.png",
+      "class_id": "d6919c5d-8a7a-4466-a947-ec40472bdbd1",
+      "class_name": "OK",
+      "prompt": "sldrjnt, OK, aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1000,
+      "source_image_id": "02fde005-393f-4759-845d-a02553572488",
+      "conditioning": null
+    },
+    {
+      "file": "images/d6919c5d-8a7a-4466-a947-ec40472bdbd1/00001.png",
+      "class_id": "d6919c5d-8a7a-4466-a947-ec40472bdbd1",
+      "class_name": "OK",
+      "prompt": "sldrjnt, OK, aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1001,
+      "source_image_id": "05ff98ae-e120-430d-9c18-5eb3b358b73e",
+      "conditioning": null
+    },
+    {
+      "file": "images/d6919c5d-8a7a-4466-a947-ec40472bdbd1/00002.png",
+      "class_id": "d6919c5d-8a7a-4466-a947-ec40472bdbd1",
+      "class_name": "OK",
+      "prompt": "sldrjnt, OK, aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1002,
+      "source_image_id": "07fa9621-25f8-46b8-a608-14e80b2f51e6",
+      "conditioning": null
+    },
+    {
+      "file": "images/d6919c5d-8a7a-4466-a947-ec40472bdbd1/00003.png",
+      "class_id": "d6919c5d-8a7a-4466-a947-ec40472bdbd1",
+      "class_name": "OK",
+      "prompt": "sldrjnt, OK, aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, slightly different camera exposure",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1003,
+      "source_image_id": "0e33f6da-7a5b-499b-a573-442b24c85b8d",
+      "conditioning": null
+    },
+    {
+      "file": "images/d6919c5d-8a7a-4466-a947-ec40472bdbd1/00004.png",
+      "class_id": "d6919c5d-8a7a-4466-a947-ec40472bdbd1",
+      "class_name": "OK",
+      "prompt": "sldrjnt, OK, aligned vertically stacked electrodes, top and bottom electrode on the same vertical center axis, centered solder joint, close-up macro photo of a vertical metal electrode solder joint, dark blurry background, minor background illumination variation",
+      "negative_prompt": "text, watermark, cartoon, illustration, painting, severe image artifacts",
+      "seed": 1004,
+      "source_image_id": "0ead81b8-ccc2-40e2-a560-feae8da1e295",
+      "conditioning": null
+    }
+  ]
+}
