@@ -13,8 +13,9 @@ from diffusers import(
 from tqdm.auto import tqdm
 
 from config import load_config
+import os
 
-cfg = load_config()
+cfg = load_config(os.environ.get("FYP_CONFIG"))
 gen = cfg.generate
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tiff"}

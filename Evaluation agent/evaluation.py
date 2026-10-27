@@ -92,7 +92,15 @@ results = model.val(data=str(dst.resolve()), imgsz=224, project=str(OUT_DIR / "r
 #Testing the model on a generated dataset
 # Folder in "data" to test, e.g. python "Evaluation agent/evaluation.py" "txt2img generated"
 import sys
-GEN_DIR = DATA_DIR / (sys.argv[1] if len(sys.argv) > 1 else "img2img generated")  # must contain <class>/*.png
+#GEN_DIR = DATA_DIR / (sys.argv[1] if len(sys.argv) > 1 else "img2img generated")  # must contain <class>/*.png
+
+generated_arg = sys.argv[1] if len(sys.argv) > 1 else "img2img generated"
+candidate = Path(generated_arg)
+
+GEN_DIR = (
+    candidate if candidate.is_absolute()
+    else DATA_DIR / candidate
+)
 if not GEN_DIR.is_dir():
     raise SystemExit(f"{GEN_DIR} not found")
 RUN_NAME = GEN_DIR.name.replace(" generated", "").replace(" ", "_")

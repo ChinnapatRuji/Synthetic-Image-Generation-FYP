@@ -8,3 +8,6 @@ Evaluation agent/runs/
 yolo26n-cls.pt
 # Real TE images - confidential, do not publish
 Evaluation agent/data/
+fyp/
+# Recommender experiment outputs
+Recommender agent/results/

@@ -8,19 +8,34 @@ import sys
 from pathlib import Path
 
 from config import load_config
+import os
 
-cfg = load_config()
+cfg = load_config(os.environ.get("FYP_CONFIG"))
 
 
+
+# def find_train_script():
+#     base = cfg.paths.kohya_dir
+#     for probe in (base, base / "sd-scripts"):
+#         if (probe / "train_network.py").is_file():
+#             return probe.resolve()
+#     raise RuntimeError(
+#         f"train_network.py not found in {base} or {base / 'sd-scripts'}.\n"
+#     )
 def find_train_script():
     base = cfg.paths.kohya_dir
+
+    if os.environ.get("FYP_PREVIEW") == "1":
+        return (base / "sd-scripts").resolve()
+
     for probe in (base, base / "sd-scripts"):
         if (probe / "train_network.py").is_file():
             return probe.resolve()
-    raise RuntimeError(
-        f"train_network.py not found in {base} or {base / 'sd-scripts'}.\n"
-    )
 
+    raise RuntimeError(
+        f"train_network.py not found in {base} "
+        f"or {base / 'sd-scripts'}"
+    )
 
 def load_dataset():
     meta_path = cfg.paths.dataset_dir / "meta.json"
@@ -219,7 +234,15 @@ def main():
     print("=" * 50)
 
     # Run from the sd-scripts dir so `networks.lora` imports resolve.
-    subprocess.run(cmd, check=True, cwd=script_dir)
+    # subprocess.run(cmd, check=True, cwd=script_dir)
+    import os
+
+    if os.environ.get("FYP_PREVIEW") == "1":
+        print("\nTRAINING COMMAND PREVIEW")
+        print(subprocess.list2cmdline(cmd))
+        print("\nPreview only — training was not started.")
+    else:
+        subprocess.run(cmd, check=True, cwd=script_dir)
 
 
 if __name__ == "__main__":
