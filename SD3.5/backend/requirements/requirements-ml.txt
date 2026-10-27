@@ -1,0 +1,16 @@
+# Additional ML dependencies
+torchvision
+diffusers
+transformers
+accelerate
+huggingface_hub
+safetensors
+Pillow
+numpy
+tqdm
+bitsandbytes
+prodigyopt
+opencv-python-headless>=4.8,<5
+# Needed by transformers to load SD3's T5 tokenizer
+sentencepiece
+protobuf

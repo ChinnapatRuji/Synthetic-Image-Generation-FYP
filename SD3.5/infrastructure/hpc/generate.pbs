@@ -1,0 +1,18 @@
+#!/bin/bash
+# Train an SD3.5 LoRA on a dataset and generate images, unattended.
+# Uses the class folders in dataset/; from the project folder run:
+#
+#   qsub -P personal-$USER infrastructure/hpc/generate.pbs
+#
+# On NUS Vanda, don't pass -q: GPU queues only accept jobs routed to them.
+# To use another dataset folder, add: -v DATASET=/path/to/folder
+# To only generate with a model trained earlier, add: -v WORKSPACE=<id from that job's log>
+#
+# Images land in outputs/<date-time>/; the job log is sd35-generate.o<job id>.
+#PBS -N sd35-generate
+#PBS -l select=1:ncpus=8:mem=64gb:ngpus=1
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+cd "$PBS_O_WORKDIR"
+bash infrastructure/hpc/start.sh backend/venv/bin/python infrastructure/hpc/run_pipeline.py "${DATASET:-dataset}" ${WORKSPACE:+--workspace "$WORKSPACE"}
