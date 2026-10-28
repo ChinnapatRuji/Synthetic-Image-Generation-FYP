@@ -1,4 +1,5 @@
 from uuid import UUID
+import re
 from pydantic import BaseModel, Field, field_validator
 
 class ClassGeneration(BaseModel):
@@ -6,6 +7,7 @@ class ClassGeneration(BaseModel):
     negative_prompt: str = Field(default='', max_length=2000)
 
 class ClassCreate(BaseModel):
+    training_token: str | None = Field(default=None, min_length=1, max_length=100, pattern=r"^[A-Za-z][A-Za-z0-9_]*$")
     name: str = Field(min_length=1, max_length=100)
     description: str = Field(default='', max_length=2000)
     generation: ClassGeneration = Field(default_factory=ClassGeneration)
@@ -19,6 +21,7 @@ class ClassCreate(BaseModel):
         return value
 
 class ClassUpdate(BaseModel):
+    training_token: str | None = Field(default=None, min_length=1, max_length=100, pattern=r"^[A-Za-z][A-Za-z0-9_]*$")
     name: str | None = Field(default=None, min_length=1, max_length=100)
     description: str | None = Field(default=None, max_length=2000)
     generation: ClassGeneration | None = None
@@ -33,6 +36,7 @@ class ClassUpdate(BaseModel):
         return value
 
 class ClassResponse(BaseModel):
+    training_token: str = ""
     id: UUID
     name: str
     image_count: int = 0

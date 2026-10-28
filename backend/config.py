@@ -98,10 +98,12 @@ class Optimizer(Base):
     min_snr_gamma: float
     noise_offset: float
     max_grad_norm: float
-    prodigy: Prodigy
+    prodigy: Prodigy | None = None
 
     @model_validator(mode="after")
     def _check_warmup(self):
+        if self.name == "Prodigy" and self.prodigy is None:
+            raise ValueError("prodigy settings are required for Prodigy optimizer")
         if not 0.0 <= self.lr_warmup_ratio < 1.0:
             raise ValueError("lr_warmup_ratio must be in [0,1)")
         return self
@@ -152,22 +154,32 @@ class Training(Base):
 class Config(Base):
     model: Model
     dataset: Dataset
-    paths: Paths
+    paths: Paths | None = None
     lora: Lora
     training: Training
-    generation_defaults: dict[str, dict] = {}
+    generation_defaults: dict[str, dict] = Field(default_factory=dict)
 
-# --- Loader --- #
+# Only request-relevant ML fields appear in Swagger.
+class DatasetRequest(Base):
+    trigger: str
+    domain: str
+    min_size: int = Field(gt=0)
+    max_size: int = Field(gt=0)
+    max_repeats: int = Field(ge=1)
 
-def load_config(path=None) -> Config:
-    config_path = Path(path or PROJECT_ROOT / "config.json")
-    if not config_path.is_file():
-        raise ConfigError(f"Config file not found: {config_path}")
-    try:
-        return Config.model_validate_json(config_path.read_text(encoding="utf-8"))
-    except ValidationError as exc:
-        problems = "\n".join(
-            f"  config{''.join(f'.{p}' for p in error['loc'])}: {error['msg']}"
-            for error in exc.errors()
-        )
-        raise ConfigError(f"{config_path.name} is invalid\n{problems}")
+    @model_validator(mode="after")
+    def check_sizes(self):
+        if self.min_size > self.max_size:
+            raise ValueError("min_size must be <= max_size")
+        return self
+
+class TrainingRequestConfig(Base):
+    model: Model
+    dataset: DatasetRequest
+    lora: Lora
+    training: Training
+
+    def to_run_config(self) -> Config:
+        values = self.model_dump(mode="python")
+        values["dataset"]["classes"] = []
+        return Config.model_validate(values)

@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 from uuid import UUID, uuid4
 
@@ -58,53 +59,59 @@ def class_path(workspace_id: UUID, class_id: UUID):
     return dataset_path(workspace_id) / "classes" / str(class_id)
 
 
+def _default_token(class_name: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", class_name.strip().lower()).strip("_")
+    if not slug:
+        raise ValueError("Class name cannot produce a valid training token")
+    return f"class_{slug}"
+
+
+def _check_unique_token(classes, token, exclude_id=None):
+    if any(c.get("training_token", "").casefold() == token.casefold()
+           and c["id"] != exclude_id for c in classes):
+        raise HTTPException(409, "Training token already exists")
+
+
 def create_class(workspace_id: UUID, data: ClassCreate):
     metadata = get_dataset(workspace_id)
-
-    if any(
-        c["name"].casefold() == data.name.casefold()
-        for c in metadata["classes"]
-    ):
+    if any(c["name"].casefold() == data.name.casefold() for c in metadata["classes"]):
         raise HTTPException(409, "Class already exists")
-
     class_id = uuid4()
-    item = {
-        "id": str(class_id),
-        "name": data.name,
-        "image_count": 0,
-    }
-
+    token = data.training_token or _default_token(data.name)
+    _check_unique_token(metadata["classes"], token)
+    item = {"id": str(class_id), "name": data.name, "image_count": 0,
+            "training_token": token, "description": data.description,
+            "generation": data.generation.model_dump()}
     directory = dataset_path(workspace_id) / "classes" / str(class_id)
     directory.mkdir(parents=True, exist_ok=False)
-
     metadata["classes"].append(item)
     save_dataset(workspace_id, metadata)
     return item
 
 
-def update_class(
-    workspace_id: UUID,
-    class_id: UUID,
-    data: ClassUpdate,
-):
+def update_class(workspace_id: UUID, class_id: UUID, data: ClassUpdate):
     metadata = get_dataset(workspace_id)
-
-    for item in metadata["classes"]:
-        if (
-            item["id"] != str(class_id)
-            and item["name"].casefold() == data.name.casefold()
-        ):
+    item = next((c for c in metadata["classes"] if c["id"] == str(class_id)), None)
+    if item is None:
+        raise HTTPException(404, "Class not found")
+    updates = data.model_dump(exclude_unset=True)
+    if "name" in updates:
+        if updates["name"] is None:
+            raise HTTPException(422, "name cannot be null")
+        if any(c["id"] != str(class_id) and c["name"].casefold() == updates["name"].casefold()
+               for c in metadata["classes"]):
             raise HTTPException(409, "Class already exists")
-
-    selected = get_class(workspace_id, class_id)
-
-    for item in metadata["classes"]:
-        if item["id"] == selected["id"]:
-            item["name"] = data.name
-            save_dataset(workspace_id, metadata)
-            return item
-
-    raise HTTPException(404, "Class not found")
+    if "training_token" in updates:
+        if updates["training_token"] is None:
+            raise HTTPException(422, "training_token cannot be null")
+        _check_unique_token(metadata["classes"], updates["training_token"], str(class_id))
+    if "description" in updates and updates["description"] is None:
+        raise HTTPException(422, "description cannot be null")
+    if "generation" in updates and updates["generation"] is None:
+        raise HTTPException(422, "generation cannot be null")
+    item.update(updates)
+    save_dataset(workspace_id, metadata)
+    return item
 
 
 def ensure_no_training_runs(workspace_id: UUID):

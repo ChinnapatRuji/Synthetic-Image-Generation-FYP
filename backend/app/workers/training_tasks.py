@@ -6,6 +6,7 @@ from config import Config
 
 from app.core.settings import settings
 from app.infrastructure.storage.paths import StoragePaths
+from app.infrastructure.storage.training_runs import training_run_dir
 from app.ml.preprocessing.prepare_dataset import prepare_dataset
 from app.ml.training.train_sd_lora_kohya import train
 from app.modules.workspaces.service import get_workspace
@@ -32,10 +33,7 @@ def train_lora_task(self, workspace_id: str, run_id: str):
 
     dataset_dir = workspace_dir / "dataset"
 
-    run_dir = (
-        settings.STORAGE_ROOT
-        / StoragePaths.training(workspace_id, run_id)
-    )
+    run_dir = training_run_dir(workspace_id, run_id)
 
     # Reject jobs whose run directory was removed.
     if not (run_dir / "run.json").is_file():
@@ -83,43 +81,67 @@ def execute_training(self, workspace_id, run_id, run_dir):
 
         check_cancellation(run_dir)
 
-        prepare_dataset(
-            dataset_dir=dataset_dir,
-            output_dir=prepared_dir,
-            trigger=cfg.dataset.trigger,
-            domain=cfg.dataset.domain,
-            min_size=cfg.dataset.min_size,
-            max_size=cfg.dataset.max_size,
-            max_repeats=cfg.dataset.max_repeats,
-        )
+        classes_file = run_dir / "classes.json"
+        if not classes_file.is_file():
+            raise RuntimeError("Training class snapshot missing")
+        classes = json.loads(classes_file.read_text(encoding="utf-8"))["classes"]
+        manifest = {"version": 4, "strategy": "single", "classes": {}}
+        manifest_path = checkpoint_dir / "manifest.json"
 
-        check_cancellation(run_dir)
+        def save_manifest():
+            temporary = manifest_path.with_suffix(".json.tmp")
+            temporary.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+            temporary.replace(manifest_path)
 
-        update_run(run_dir, "TRAINING")
-
-        self.update_state(
-            state="TRAINING",
-            meta={"stage": "Training LoRA with Kohya SS"},
-        )
-
-        update_run(run_dir, process_cleanup="PENDING")
-
-        train(
-            cfg=cfg,
-            dataset_dir=prepared_dir,
-            output_dir=checkpoint_dir,
-            config_dir=config_dir,
-            cancel_check=lambda: check_cancellation(run_dir),
-            process_callback=lambda pid: update_run(
-                run_dir,
-                process_group_id=pid,
-            ),
-            cleanup_callback=lambda: update_run(
-                run_dir,
-                process_cleanup="VERIFIED",
-                process_group_id=None,
-            ),
-        )
+        for entry in classes:
+            cid = entry["id"]
+            manifest["classes"][cid] = {
+                "id": cid, "name": entry["name"],
+                "training_token": entry["training_token"],
+                "status": "QUEUED",
+                "checkpoint": f"{cfg.training.output_name}.safetensors",
+            }
+        save_manifest()
+        units = [classes]
+        for unit in units:
+            check_cancellation(run_dir)
+            class_id = "run"
+            class_name = "All selected classes"
+            class_prepared = prepared_dir / class_id
+            class_config = config_dir / class_id
+            class_output = checkpoint_dir
+            update_run(run_dir, "PREPARING", current_class_id=class_id, current_class_name=class_name)
+            self.update_state(state="PREPARING", meta={"stage": f"Preparing {class_name}"})
+            prepare_dataset(
+                dataset_dir=dataset_dir, output_dir=class_prepared,
+                trigger=cfg.dataset.trigger, domain=cfg.dataset.domain,
+                min_size=cfg.dataset.min_size, max_size=cfg.dataset.max_size,
+                max_repeats=cfg.dataset.max_repeats,
+                class_ids={entry["id"] for entry in unit},
+                classes_snapshot=classes,
+            )
+            check_cancellation(run_dir)
+            update_run(run_dir, "TRAINING", current_class_id=class_id,
+                       current_class_name=class_name, process_cleanup="PENDING")
+            self.update_state(state="TRAINING", meta={"stage": f"Training {class_name}"})
+            for entry in unit:
+                manifest["classes"][entry["id"]]["status"] = "TRAINING"
+            save_manifest()
+            train(
+                cfg=cfg, dataset_dir=class_prepared, output_dir=class_output,
+                config_dir=class_config,
+                cancel_check=lambda: check_cancellation(run_dir),
+                process_callback=lambda pid: update_run(run_dir, process_group_id=pid),
+                cleanup_callback=lambda: update_run(run_dir, process_cleanup="VERIFIED", process_group_id=None),
+            )
+            check_cancellation(run_dir)
+            final_path = class_output / f"{cfg.training.output_name}.safetensors"
+            if not final_path.is_file():
+                raise RuntimeError(f"Final checkpoint missing for {class_name}: {final_path}")
+            for entry in unit:
+                manifest["classes"][entry["id"]]["status"] = "COMPLETED"
+            save_manifest()
+            update_run(run_dir, process_cleanup="VERIFIED", process_group_id=None)
 
         update_run(
             run_dir,

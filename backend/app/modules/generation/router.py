@@ -8,7 +8,6 @@ from app.modules.generation.schemas import (
     GenerationRunResponse,
 )
 from app.modules.generation.service import (
-    default_generation_config,
     start_generation,
     list_generation_runs,
     get_generation_run,
@@ -21,11 +20,6 @@ router = APIRouter(
     prefix="/workspaces/{workspace_id}/generation",
     tags=["Generation"],
 )
-
-
-@router.get("/config/default")
-def default_config_endpoint(workspace_id: UUID):
-    return default_generation_config(workspace_id)
 
 
 @router.post(

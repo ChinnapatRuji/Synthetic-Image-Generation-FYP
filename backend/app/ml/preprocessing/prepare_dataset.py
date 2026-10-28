@@ -72,6 +72,8 @@ def prepare_dataset(
     min_size: int = 256,
     max_size: int = 1024,
     max_repeats: int = 10,
+    class_ids: set[str] | None = None,
+    classes_snapshot: list[dict] | None = None,
 ):
     """
     Prepare uploaded workspace images for Kohya SS.
@@ -101,7 +103,11 @@ def prepare_dataset(
         metadata_path.read_text(encoding="utf-8")
     )
 
-    classes = metadata.get("classes", [])
+    classes = classes_snapshot if classes_snapshot is not None else metadata.get("classes", [])
+    if class_ids is not None:
+        classes = [c for c in classes if c["id"] in class_ids]
+        if {c["id"] for c in classes} != set(class_ids):
+            raise ValueError("Unknown class ID in training selection")
 
     if not classes:
         raise ValueError("Dataset contains no classes")
@@ -146,8 +152,10 @@ def prepare_dataset(
 
             description = entry.get("description", "")
 
+            # A stable, class-specific phrase followed by the actual visual description.
+            # This is not a newly registered tokenizer token.
             caption = build_caption(
-                class_name,
+                entry.get("training_token") or f"{trigger}_{class_id[:8]}",
                 trigger=trigger,
                 domain=domain,
                 description=description,
@@ -213,6 +221,7 @@ def prepare_dataset(
                 "num_repeats": entry.get("num_repeats"),
                 "description": description,
                 "caption": caption,
+                "training_token": entry.get("training_token") or f"{trigger}_{class_id[:8]}",
                 "image_dir": class_dir.relative_to(
                     output_dir
                 ).as_posix(),
