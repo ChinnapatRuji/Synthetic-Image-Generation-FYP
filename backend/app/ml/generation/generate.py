@@ -28,7 +28,7 @@ def load_classes(dataset_dir, only_classes=None):
 
 def build_prompt(trigger, name, description, domain, extra, variations, rng):
     variation = rng.choice(variations) if variations else ''
-    parts = [trigger, name.replace('_', ' '), description, extra, domain, variation]
+    parts = [trigger, name, description, extra, domain, variation]
     unique = []
     for part in parts:
         part = str(part or '').strip()
@@ -112,12 +112,12 @@ def place_pipeline(pipe, cfg, device):
         raise ValueError(f'Unsupported memory strategy: {strategy}')
 
 
-def write_manifest(output_dir, checkpoint_path, model_config, cfg, classes, manifest):
+def write_manifest(output_dir, checkpoint_paths, model_config, cfg, classes, manifest):
     counts = {c['id']: 0 for c in classes}
     for item in manifest:
         counts[item['class_id']] += 1
     result = {
-        'checkpoint': checkpoint_path.name, 'base_model': model_config.base,
+        'checkpoints': {k: str(v) for k, v in checkpoint_paths.items()}, 'base_model': model_config.base,
         'mode': cfg.mode, 'conditioning': cfg.conditioning.model_dump(mode='json') if cfg.conditioning else None,
         'generated_count': len(manifest),
         'classes': [{'id': c['id'], 'name': c['name'], 'image_count': counts[c['id']]} for c in classes],
@@ -129,21 +129,29 @@ def write_manifest(output_dir, checkpoint_path, model_config, cfg, classes, mani
     tmp.replace(target)
 
 
-def generate(*, model_config, generation_config, dataset_config, dataset_dir, checkpoint_path, output_dir):
+def generate(*, model_config, generation_config, dataset_config, dataset_dir, checkpoint_paths, output_dir, classes_snapshot=None):
     cfg = generation_config
-    dataset_dir, output_dir, checkpoint_path = map(Path, (dataset_dir, output_dir, checkpoint_path))
-    if not checkpoint_path.is_file():
-        raise FileNotFoundError(checkpoint_path)
-    classes = load_classes(dataset_dir, cfg.only_classes)
+    dataset_dir, output_dir = map(Path, (dataset_dir, output_dir))
+    checkpoint_paths = {str(k): Path(v) for k, v in checkpoint_paths.items()}
+    if classes_snapshot is None:
+        classes = load_classes(dataset_dir, cfg.class_ids)
+    else:
+        requested = set(cfg.class_ids)
+        classes = [c for c in classes_snapshot if not requested or c["id"] in requested]
+        if requested - {c["id"] for c in classes}:
+            raise ValueError("Unknown class IDs in generation snapshot")
     (output_dir / 'images').mkdir(parents=True, exist_ok=True)
     manifest = []
-    write_manifest(output_dir, checkpoint_path, model_config, cfg, classes, manifest)
+    write_manifest(output_dir, checkpoint_paths, model_config, cfg, classes, manifest)
     pipe, device = build_pipeline(model_config, cfg)
     try:
-        pipe.load_lora_weights(str(checkpoint_path))
-        pipe.fuse_lora(lora_scale=cfg.lora_scale)
         place_pipeline(pipe, cfg, device)
         for entry in classes:
+            checkpoint_path = checkpoint_paths.get(entry['id'])
+            if checkpoint_path is None or not checkpoint_path.is_file():
+                raise FileNotFoundError(f"Missing class LoRA for {entry['name']}: {checkpoint_path}")
+            pipe.load_lora_weights(str(checkpoint_path))
+            pipe.fuse_lora(lora_scale=cfg.lora_scale)
             class_id, class_name = entry['id'], entry['name']
             class_dir = output_dir / 'images' / class_id
             class_dir.mkdir(parents=True, exist_ok=True)
@@ -159,7 +167,7 @@ def generate(*, model_config, generation_config, dataset_config, dataset_dir, ch
                     raise ValueError(f'No source images for class {class_name}')
             for start in range(0, cfg.images_per_class, cfg.batch_size):
                 count = min(cfg.batch_size, cfg.images_per_class - start)
-                prompts = [build_prompt(dataset_config.trigger, class_name, entry.get('description', ''), dataset_config.domain, extra.get('prompt', ''), cfg.prompt_variations, rng) for _ in range(count)]
+                prompts = [build_prompt(dataset_config.trigger, entry.get('training_token') or f"{dataset_config.trigger}_{class_id[:8]}", entry.get('description', ''), dataset_config.domain, extra.get('prompt', ''), cfg.prompt_variations, rng) for _ in range(count)]
                 seeds = [cfg.seed + start + i for i in range(count)]
                 generators = [torch.Generator(device=device).manual_seed(s) for s in seeds]
                 selected = []
@@ -191,11 +199,13 @@ def generate(*, model_config, generation_config, dataset_config, dataset_dir, ch
                     im.save(class_dir / filename)
                     manifest.append({
                         'file': f'images/{class_id}/{filename}', 'class_id': class_id,
-                        'class_name': class_name, 'prompt': prompt, 'negative_prompt': negative,
+                        'class_name': class_name, 'checkpoint': str(checkpoint_path), 'prompt': prompt, 'negative_prompt': negative,
                         'seed': seed, 'source_image_id': src.stem if src else None,
                         'conditioning': cfg.conditioning.model_dump(mode='json') if cfg.conditioning else None,
                     })
-                write_manifest(output_dir, checkpoint_path, model_config, cfg, classes, manifest)
+                write_manifest(output_dir, checkpoint_paths, model_config, cfg, classes, manifest)
+            pipe.unfuse_lora()
+            pipe.unload_lora_weights()
     finally:
         del pipe
         if torch.cuda.is_available():

@@ -11,11 +11,11 @@ import time
 import sys
 from pathlib import Path
 
-from config import load_config
+from app.core.settings import settings
 
 
 def find_train_script(cfg):
-    base = cfg.paths.kohya_dir
+    base = Path(__file__).resolve().parents[3] / "kohya_ss"
 
     for probe in (base, base / "sd-scripts"):
         if (probe / "train_network.py").is_file():
@@ -101,10 +101,9 @@ def build_command(
     opt = t.optimizer
     mem = t.memory
 
-    out_dir = Path(
-        output_dir if output_dir is not None
-        else cfg.paths.output_dir
-    ).resolve()
+    if output_dir is None:
+        raise ValueError("output_dir is required")
+    out_dir = Path(output_dir).resolve()
 
     is_prodigy = opt.name.lower() == "prodigy"
 
@@ -170,7 +169,7 @@ def build_command(
         mem.mixed_precision,
 
         "--save_precision",
-        mem.mixed_precision,
+        "float" if mem.mixed_precision == "no" else mem.mixed_precision,
     ]
 
     if cfg.model.vae:
@@ -271,11 +270,11 @@ def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=
 
         output_dir:
             Optional checkpoint output directory.
-            Defaults to cfg.paths.output_dir.
+            Required workspace training-run output directory.
 
         config_dir:
             Optional directory for the generated dataset.toml.
-            Defaults to cfg.paths.dataset_dir / "config".
+            Defaults to the supplied dataset_dir / "config".
 
     Returns:
         Path to the checkpoint output directory.
@@ -289,14 +288,13 @@ def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=
     # --------------------------------------------------
 
     script_dir = find_train_script(cfg)
-    dataset_dir = Path(dataset_dir if dataset_dir is not None else cfg.paths.dataset_dir).resolve()
+    if dataset_dir is None or output_dir is None:
+        raise ValueError("dataset_dir and output_dir are required")
+    dataset_dir = Path(dataset_dir).resolve()
     classes = load_dataset(cfg, dataset_dir)
 
 
-    output_dir = Path(
-        output_dir if output_dir is not None
-        else cfg.paths.output_dir
-    ).resolve()
+    output_dir = Path(output_dir).resolve()
 
     config_dir = Path(
         config_dir if config_dir is not None
@@ -547,15 +545,5 @@ def train(cfg, dataset_dir=None, output_dir=None, config_dir=None, cancel_check=
     return output_dir
 
 
-def main():
-    """
-    Standalone execution using config.json.
-    """
-
-    cfg = load_config()
-
-    train(cfg)
-
-
 if __name__ == "__main__":
-    main()
+    raise SystemExit("Standalone training is disabled. Submit a complete API training request.")

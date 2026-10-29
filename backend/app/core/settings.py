@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     API_PREFIX: str = "/api/v1"
 
+    KOHYA_DIR: Path = Path(__file__).resolve().parents[3] / "kohya_ss"
+
     STORAGE_ROOT: Path = (
         Path(__file__).resolve().parents[3] / "storage"
     )

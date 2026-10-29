@@ -30,7 +30,7 @@ class Canny(Strict):
 
 class Common(Strict):
     images_per_class: int = Field(5, ge=1)
-    only_classes: list[str] = Field(default_factory=list)
+    class_ids: list[str] = Field(default_factory=list)
     lora_scale: float = Field(0.85, ge=0, le=2)
     width: int = Field(512, ge=64, multiple_of=8)
     height: int = Field(512, ge=64, multiple_of=8)

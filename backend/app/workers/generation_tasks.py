@@ -1,5 +1,6 @@
 from app.core.timestamps import utc_now, elapsed_seconds
 import json
+from pathlib import Path
 from uuid import UUID
 
 from config import Config
@@ -8,6 +9,7 @@ from app.modules.generation.config_models import GenerationConfig
 
 from app.ml.generation.generate import generate
 from app.modules.workspaces.service import get_workspace_path
+from app.infrastructure.storage.training_runs import training_run_dir
 from app.workers.celery_app import celery_app
 
 
@@ -39,23 +41,17 @@ def generate_images_task(self, workspace_id: str, run_id: str):
             (run_dir / "config.json").read_text(encoding="utf-8")
         )
 
-        training_dir = (
-            workspace_dir
-            / "training"
-            / snapshot["training_run_id"]
-        )
-
-        training_data = json.loads(
+        resolved = snapshot["resolved"]
+        first = next(iter(resolved.values()))
+        training_dir = training_run_dir(workspace_id, UUID(first["training_run_id"]))
+        training_config = Config.model_validate_json(
             (training_dir / "config.json").read_text(encoding="utf-8")
         )
-        training_config = Config.model_validate_json(json.dumps(training_data))
         generation_config = TypeAdapter(GenerationConfig).validate_python(snapshot["generation"])
-
-        checkpoint_path = (
-            training_dir
-            / "checkpoints"
-            / snapshot["checkpoint"]
-        )
+        checkpoint_paths = {cid: Path(item["checkpoint_path"]) for cid, item in resolved.items()}
+        for checkpoint in checkpoint_paths.values():
+            if not checkpoint.is_file():
+                raise RuntimeError(f"Missing checkpoint: {checkpoint}")
 
         update_status(
             run_dir,
@@ -73,7 +69,8 @@ def generate_images_task(self, workspace_id: str, run_id: str):
             generation_config=generation_config,
             dataset_config=training_config.dataset,
             dataset_dir=workspace_dir / "dataset",
-            checkpoint_path=checkpoint_path,
+            checkpoint_paths=checkpoint_paths,
+            classes_snapshot=json.loads((run_dir / "classes.json").read_text(encoding="utf-8"))["classes"],
             output_dir=run_dir,
         )
 

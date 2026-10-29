@@ -5,12 +5,13 @@ from fastapi.responses import FileResponse
 
 from app.modules.training.schemas import (
     TrainingRunCreate,
+    TrainingBatchCreate,
     TrainingRunResponse,
 )
 
 from app.modules.training.service import (
-    default_config,
     start_training,
+    start_batch, get_batch, list_batches,
     get_training_status,
     list_training_runs,
     get_run_config,
@@ -25,13 +26,6 @@ router = APIRouter(
     prefix="/workspaces/{workspace_id}/training",
     tags=["Training"],
 )
-
-
-@router.get("/config/default")
-def default_config_endpoint(workspace_id: UUID):
-    from app.modules.workspaces.service import get_workspace
-    get_workspace(workspace_id)
-    return default_config()
 
 
 @router.post(
@@ -49,6 +43,21 @@ def start_training_endpoint(
 @router.get("/runs")
 def list_runs_endpoint(workspace_id: UUID):
     return list_training_runs(workspace_id)
+
+
+@router.post("/batches", status_code=status.HTTP_202_ACCEPTED)
+def create_batch_endpoint(workspace_id: UUID, data: TrainingBatchCreate):
+    return start_batch(workspace_id, data)
+
+
+@router.get("/batches")
+def list_batches_endpoint(workspace_id: UUID):
+    return list_batches(workspace_id)
+
+
+@router.get("/batches/{batch_id}")
+def get_batch_endpoint(workspace_id: UUID, batch_id: UUID):
+    return get_batch(workspace_id, batch_id)
 
 
 @router.get("/runs/{run_id}")
