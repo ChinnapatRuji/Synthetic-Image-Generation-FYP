@@ -10,9 +10,14 @@ from pathlib import Path
 import optuna
 import pandas as pd
 
+# from app.agents.recommendation.recommender import (
+#     suggest_hyperparameters,
+#     create_study,
+# )
 from app.agents.recommendation.recommender import (
     suggest_hyperparameters,
     create_study,
+    validate_config,
 )
 
 from app.agents.recommendation.evaluator_adapter import (
@@ -64,6 +69,12 @@ def load_historical_summary(csv_path):
 
 def objective(trial):
     params = suggest_hyperparameters(trial)
+
+    params = validate_config(params)
+
+    trial.set_user_attr("config_valid", True)
+
+    print("Pydantic validation: PASSED")
 
     # Historical datasets are selected independently
     # of the suggested hyperparameters.

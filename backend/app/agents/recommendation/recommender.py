@@ -1,6 +1,7 @@
 import optuna
 from pathlib import Path
 import json
+from pydantic import BaseModel, Field, ConfigDict, model_validator
 
 def suggest_hyperparameters(trial):
     """
@@ -71,4 +72,38 @@ def save_config(config, trial_number):
         json.dump(config, f, indent=4)
 
     return config_path
-    
+class RecommendedConfig(BaseModel):
+    """
+    Validates Optuna's recommended hyperparameters.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    learning_rate: float = Field(
+        gt=0,
+        le=5e-4
+    )
+
+    network_dim: int = Field(
+        ge=4,
+        le=32
+    )
+
+    max_train_epochs: int = Field(
+        ge=10,
+        le=50
+    )
+
+    @model_validator(mode="after")
+    def check_rank(self):
+        if self.network_dim not in [4, 8, 16, 32]:
+            raise ValueError("Invalid LoRA rank")
+        return self
+
+
+def validate_config(config):
+    """
+    Validate recommended hyperparameters.
+    """
+    validated = RecommendedConfig.model_validate(config)
+    return validated.model_dump()

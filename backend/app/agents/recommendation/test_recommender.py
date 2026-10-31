@@ -5,10 +5,9 @@ import json
 from recommender import (
     suggest_hyperparameters,
     create_study,
-    save_config
+    save_config,
+    validate_config
 )
-
-
 # def mock_evaluator(config):
 #     """
 #     Artificial score for testing the optimization loop.
@@ -43,25 +42,54 @@ def mock_evaluator(config):
         - 10 * epoch_penalty
     )
 
+# def objective(trial):
+
+#     config = suggest_hyperparameters(trial)
+
+#     config_path = save_config(
+#         config,
+#         trial.number
+#     )
+
+#     score = mock_evaluator(config)
+
+#     print(f"\nTrial {trial.number}")
+#     print("Configuration:", config)
+#     print("Saved to:", config_path)
+#     print("Score:", round(score, 2))
+
+#     return score
+
 def objective(trial):
 
+    # 1. Recommend hyperparameters
     config = suggest_hyperparameters(trial)
 
+    # 2. Validate recommended configuration
+    validated_config = validate_config(config)
+
+    print("Configuration validation: PASSED")
+
+    # 3. Save validated configuration
     config_path = save_config(
-        config,
+        validated_config,
         trial.number
     )
 
-    score = mock_evaluator(config)
+    # 4. Evaluate using simulated objective
+    score = mock_evaluator(validated_config)
+
+    # 5. Record validation status
+    trial.set_user_attr("config_valid", True)
+    trial.set_user_attr("config_path", str(config_path))
 
     print(f"\nTrial {trial.number}")
-    print("Configuration:", config)
+    print("Configuration:", validated_config)
     print("Saved to:", config_path)
     print("Score:", round(score, 2))
 
+    # 6. Return feedback to Optuna
     return score
-
-
 
 DATABASE_PATH = (
     Path(__file__).resolve().parent
