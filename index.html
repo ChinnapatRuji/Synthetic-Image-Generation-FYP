@@ -202,14 +202,25 @@
   @media (max-width:560px){.sem-cols{grid-template-columns:1fr}}
 
   /* Team members */
-  .team-member-wrapper{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:18px 0}
+  .team-member-wrapper{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin:14px 0}
   team-member{display:block}
-  .tm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;height:100%}
-  .tm-avatar{width:88px;height:88px;border-radius:50%;margin:0 auto 12px;overflow:hidden;background:var(--accent-2-soft);color:var(--accent-2);display:grid;place-items:center;font:600 26px var(--sans)}
-  .tm-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-  .tm-name{font-weight:600;font-size:15.5px}
-  .tm-dept{font-size:13.5px;color:var(--muted);margin-top:2px}
-  .tm-year{font:12px var(--mono);color:var(--faint);margin-top:6px}
+  .tm-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;height:100%;border-left:3px solid var(--accent-2)}
+  .tm-name{font-weight:600;font-size:14.5px}
+  .tm-meta{font-size:12.5px;color:var(--faint);margin-top:1px}
+  .tm-role{font-size:13px;color:var(--text);margin-top:8px;line-height:1.4}
+  .tm-role span{display:block;font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+
+  .metric{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent-2);border-radius:10px;padding:14px 18px;margin:12px 0 18px;max-width:800px}
+  .metric-name{font-weight:700;font-size:15px}
+  .metric-formula{font:14px var(--mono);margin-top:4px}
+  .metric-note{font-size:13px;color:var(--muted);margin-top:4px}
+  .agent-cards{align-items:start}
+  /* Teammate templates */
+  .tpl{border:2px dashed var(--warn);background:color-mix(in srgb,var(--warn) 5%,transparent);border-radius:12px;padding:16px 20px 6px;margin:18px 0;position:relative}
+  .tpl-badge{display:inline-block;font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:3px 10px;margin-bottom:4px}
+  .tpl-ph{color:var(--faint);font-style:italic}
+  .tpl h3{margin-top:22px}
+  .tpl-done{display:contents}
 
   /* Objective dropdowns */
   .obj-dd{border-top:1px solid var(--border);margin-top:10px;padding-top:8px}
@@ -222,6 +233,109 @@
   .obj-dd li{margin:3px 0}
   .obj-dd a{display:inline-block;font-size:13px;margin-top:6px}
   .obj-todo{font-style:italic;color:var(--faint)!important}
+
+  /* Solution: transformation, compare, goals, how-it-works */
+  .xform{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+  .xf-box{flex:1 1 160px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;justify-content:center}
+  .xf-num{font:600 28px var(--mono);letter-spacing:-.03em}
+  .xf-lbl{font-size:13px;color:var(--muted)}
+  .xf-app{background:linear-gradient(135deg,var(--accent-2),color-mix(in srgb,var(--accent-2) 70%,#000));border:0;color:#fff}
+  .xf-app .xf-lbl{color:rgba(255,255,255,.85)}
+  .xf-tag{font-weight:700;font-size:16px}
+  .xf-arrow{display:grid;place-items:center;color:var(--faint);flex:0 0 34px}
+  .xf-arrow svg{width:34px;height:14px}
+  .compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+  .cmp-col{border-radius:12px;padding:18px 20px;border:1px solid var(--border);background:var(--surface)}
+  .cmp-head{font-weight:700;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .cmp-head::before{content:"";width:18px;height:18px;border-radius:50%;display:inline-grid;place-items:center;font:700 12px var(--sans);color:#fff}
+  .cmp-without .cmp-head::before{content:"✕";background:var(--bad)}
+  .cmp-with .cmp-head::before{content:"✓";background:var(--ok)}
+  .cmp-with{border-color:color-mix(in srgb,var(--ok) 45%,var(--border));background:color-mix(in srgb,var(--ok) 6%,var(--surface))}
+  .cmp-col ul{margin:0;padding-left:18px;font-size:14px;color:var(--muted)} .cmp-col li{margin:6px 0}
+  .goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+  .goal{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+  .goal svg{width:36px;height:36px;flex:0 0 36px;padding:8px;border-radius:10px;background:var(--accent-2-soft);color:var(--accent-2)}
+  .goal b{display:block;font-size:14.5px} .goal span{font-size:13px;color:var(--muted)}
+  .how{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin:18px 0}
+  .how-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-weight:700;font-size:15px;margin-bottom:14px}
+  .how-legend{font:500 12.5px var(--sans);color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .how-legend>span{white-space:nowrap;margin-left:10px}
+  .how-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px}
+  .how-legend i.p1{background:var(--accent-2)} .how-legend i.p2{background:var(--accent)}
+  .how-steps{display:flex;align-items:center;gap:4px;position:relative}
+  .how-steps button{flex:1 1 0;min-width:0}
+  .how-arrow{flex:0 0 22px;display:grid;place-items:center;color:var(--faint)}
+  .how-arrow svg{width:20px;height:20px}
+  .how-hint{display:inline-flex;align-items:center;gap:5px;margin-left:10px;font:500 12.5px var(--sans);color:var(--accent-2);animation:hintPulse 2.4s ease-in-out infinite}
+  .how-hint svg{width:16px;height:16px}
+  @keyframes hintPulse{0%,100%{opacity:1}50%{opacity:.45}}
+  .how-detail .hd-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .how-detail .hd-next{font:500 13px var(--sans);border:1px solid var(--border);background:var(--surface);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer}
+  .how-detail .hd-next:hover{border-color:var(--text)}
+  .how-steps button{font:500 13.5px var(--sans);display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:10px;border:1px solid var(--border);background:var(--surface-2);color:var(--muted);cursor:pointer;transition:all .15s}
+  .how-steps button b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mono);background:var(--surface);border:2px solid var(--border);color:var(--text)}
+  .how-steps button.p1 b{border-color:var(--accent-2)} .how-steps button.p2 b{border-color:var(--accent)} .how-steps button.p0 b{border-color:var(--ok)}
+  .how-steps button:hover{color:var(--text);transform:translateY(-1px)}
+  .how-steps button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:0 0 0 2px var(--text)}
+  .how-steps button.p1[aria-selected="true"] b{background:var(--accent-2);color:#fff}
+  .how-steps button.p2[aria-selected="true"] b{background:var(--accent);color:#fff}
+  .how-steps button.p0[aria-selected="true"] b{background:var(--ok);color:#fff}
+  .how-detail{margin-top:14px;padding:16px 18px;border-radius:10px;background:var(--surface-2);min-height:96px}
+  .how-detail .hd-part{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+  .how-detail h5{margin:4px 0 6px;font-size:16px}
+  .how-detail p{margin:0;font-size:14px;color:var(--muted)}
+  .how-detail a{font-size:13px}
+  @media (max-width:760px){.compare,.goals{grid-template-columns:1fr}.how-steps button{flex-direction:row;justify-content:flex-start;padding:10px 12px}.how-loop .how-arrow{transform:rotate(90deg);height:18px}.how-loop .hl-accept{transform:none}.how-loop .hl-accept svg{transform:rotate(90deg)}.how-hint{display:flex;margin:6px 0 0}.xf-arrow{transform:rotate(90deg);flex-basis:100%;height:20px}}
+
+  /* How-it-works loop layout */
+  .how-loop{display:grid !important;position:relative;grid-template-columns:1fr 26px 1fr 26px 1fr 26px 1fr 54px 1fr;
+    grid-template-areas:"s0 a0 s1 a1 s2 a2 s3 a3 s5" ". . . . s4 . . . .";row-gap:58px;align-items:center;padding:10px 6px 4px}
+  .how-loop button{position:relative;z-index:1}
+  .hl-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+  .hl-svg .lp{fill:none;stroke:var(--accent);stroke-width:1.8}
+  .hl-svg .box{fill:color-mix(in srgb,var(--accent) 5%,transparent);stroke:color-mix(in srgb,var(--accent) 55%,transparent);stroke-width:1.2;stroke-dasharray:5 4}
+  .hl-svg text{font:600 11px var(--sans);fill:var(--accent)}
+  .hl-svg text.box-lbl{font:600 10.5px var(--mono);letter-spacing:.08em;fill:color-mix(in srgb,var(--accent) 80%,var(--text))}
+  .hl-retune span{display:flex;flex-direction:column;align-items:center;line-height:1.25}
+  .hl-retune small{font-size:10.5px;color:var(--faint);display:none}
+  .hl-accept{display:flex;flex-direction:column;align-items:center;gap:0;color:var(--ok)}
+  .hl-accept em{font:600 10.5px var(--sans);font-style:normal;margin-bottom:-2px}
+  .hl-branch{display:none}
+  .hl-accept em .m{display:none}
+  @media (max-width:760px){
+    .how-loop{grid-template-columns:1fr;grid-template-areas:"s0" "a0" "s1" "a1" "s2" "a2" "s3" "b4" "s4" "a3" "s5";row-gap:4px}
+    .hl-branch{display:block;text-align:center;font:600 11px var(--sans);color:var(--accent);padding:4px 0}
+    .hl-accept em .m{display:inline}
+    .hl-svg{display:none}
+    .hl-retune small{display:block}
+    .hl-retune span{align-items:flex-start}
+    .hl-accept{flex-direction:row;gap:6px;justify-content:center}
+  }
+
+  /* Pitch panel */
+  .pitch{position:relative;background:linear-gradient(135deg,color-mix(in srgb,var(--accent-2) 10%,var(--surface)),var(--surface) 60%);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin:18px 0;overflow:hidden}
+  .pitch::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:linear-gradient(var(--accent-2),var(--accent))}
+  .pitch-eyebrow{font:600 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .pitch-title{font-size:clamp(21px,2.6vw,27px);line-height:1.2;letter-spacing:-.02em;margin:8px 0 10px;max-width:720px}
+  .pitch-lead{color:var(--muted);font-size:15.5px;max-width:760px;margin:0 0 22px}
+  .pitch-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .pitch-stats>div{background:var(--surface);padding:16px 18px}
+  .pitch-num{display:block;font:600 28px var(--mono);letter-spacing:-.03em;color:var(--text)}
+  .pitch-lbl{display:block;font-size:13px;color:var(--muted);margin-top:2px;line-height:1.4}
+  .pitch-foot{font-size:14px;color:var(--muted);margin:16px 0 0;max-width:760px}
+  @media (max-width:560px){.pitch{padding:22px 18px}.pitch-stats{grid-template-columns:1fr}}
+
+  /* Class balance chart */
+  .bal-row{display:grid;grid-template-columns:150px minmax(0,1fr) 130px;gap:12px;align-items:center;margin:10px 0;font-size:13.5px}
+  .bal-track{position:relative;height:18px;background:var(--surface-2);border-radius:4px;display:flex;overflow:visible}
+  .bal-real{background:var(--accent-2);border-radius:4px 0 0 4px;height:100%}
+  .bal-syn{height:100%;border-radius:0 4px 4px 0;margin-left:2px;background:repeating-linear-gradient(45deg,var(--accent),var(--accent) 4px,color-mix(in srgb,var(--accent) 55%,var(--surface)) 4px,color-mix(in srgb,var(--accent) 55%,var(--surface)) 8px)}
+  .bal-real.full{border-radius:4px}
+  .bal-target{position:absolute;top:-4px;bottom:-4px;border-left:1.5px dashed var(--faint)}
+  .bal-val{font:12.5px var(--mono);color:var(--muted);text-align:right}
+  .bal-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin-top:12px}
+  .bal-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  @media (max-width:560px){.bal-row{grid-template-columns:1fr 92px}.bal-row .bal-track{grid-column:1/-1;order:3}}
 
   /* Judge results visual */
   .judge{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:18px 0}
@@ -309,7 +423,7 @@
         <span class="chip">Training <b>Kohya_ss LoRA</b></span>
         <span class="chip">Judge <b>YOLO26n</b></span>
         <span class="chip">Status <b>In progress</b></span>
-        <span class="chip">Last updated <b id="updated">Oct 2026</b></span>
+        <span class="chip">Last updated <b id="updated">Nov 2026</b></span>
       </div>
     </div>
 
@@ -318,24 +432,24 @@
       <div class="sec-head"><span class="sec-num">01</span><h2>Team</h2></div>
       <div class="team-member-wrapper">
         <team-member
-            avatar="assets/seraphine.png"
             name="Seraphine"
             department="Materials Science and Engineering"
-            year="Year 4">
+            year="Year 4"
+            contribution="Tuning agent: Evaluator and Decision agents">
         </team-member>
 
         <team-member
-            avatar="assets/shaun.png"
             name="Shaun Teo"
             department="TBC"
-            year="Year 4">
+            year="Year 4"
+            contribution="Tuning agent: Recommender agent">
         </team-member>
 
         <team-member
-            avatar="assets/chinnapat.png"
             name="Chinnapat"
             department="TBC"
-            year="Year 4">
+            year="Year 4"
+            contribution="Image generator: model optimisation">
         </team-member>
       </div>
       <p style="color:var(--muted);font-size:14px">Supervised by Dr Tang Kok Zuea (NUS College of Design and Engineering) and Keith Tan. In collaboration with TE Connectivity.</p>
@@ -344,10 +458,80 @@
     <!-- ===================== 01 ===================== -->
     <section class="sec" id="section-1" data-title="Overview">
       <div class="sec-head"><span class="sec-num">02</span><h2>Overview</h2></div>
-      <p>When a new product is rolled out, there are very few defect images to train the inspection model. Missed defects mean lower yield and dissatisfied customers, and the rarest defects are often the most critical.</p>
-      <p>If realistic synthetic defect images can be generated from a small real dataset, inspection models can be trained from the start of a new product's life. This project turns the existing AITK tool into an agent-assisted workbench: industry users may not know how to tune hyperparameters, so an agent evaluates the generated images and recommends what to change. The agent recommends, the system executes, and a human approves, within budgets and with full logs.</p>
+      <h3 id="s1-ps"><span class="sub-num">2.1</span>Problem statement</h3>
+      <div class="pitch">
+        <div class="pitch-eyebrow">The problem</div>
+        <h4 class="pitch-title">New defect classes. Not enough images to learn them.</h4>
+        <p class="pitch-lead">When a new connector line goes live, the AI inspection model has to catch defects that have barely happened yet. With only a handful of examples, it can't learn them reliably, and every defect it misses is wasted product. TE Connectivity faces this today: new defect classes have been added to its inspection model's scope, with very few real images to train on.</p>
+        <div class="pitch-stats">
+          <div><span class="pitch-num">10–30</span><span class="pitch-lbl">real images per defect class</span></div>
+          <div><span class="pitch-num">~100</span><span class="pitch-lbl">images per class needed for reliable training</span></div>
+          <div><span class="pitch-num">99%+</span><span class="pitch-lbl">of production images are defect-free (OK)</span></div>
+        </div>
+        <p class="pitch-foot">More OK images are easy to collect. More defect images are not, and waiting for them to occur on the line delays the launch.</p>
+      </div>
+      <div class="chart" id="balanceChart" role="img" aria-label="Real and synthetic images per class. OK: 200 real. NG-Single electrode: 30 real plus 70 synthetic. NG-No solder: 25 real plus 75 synthetic. NG-Misalign: 24 real plus 76 synthetic. Target about 100 per class."></div>
+      <p class="caption"><b>Figure <span data-figref="balance"></span>.</b> Today's dataset: real images per class, and the synthetic images needed to reach ~100 per defect class. The dashed line marks 100. Hover a bar for numbers.</p>
 
-      <h3 id="s1-1"><span class="sub-num">2.1</span>Objectives</h3>
+      <h3 id="s1-sol"><span class="sub-num">2.2</span>Our solution</h3>
+      <div class="pitch">
+        <div class="pitch-eyebrow">Our solution</div>
+        <h4 class="pitch-title">From a few defect images to a training-ready dataset.</h4>
+        <p class="pitch-lead">Our application learns from a small set of real defect images and generates realistic synthetic ones, then checks and tunes its own output. TE engineers get a balanced, validated dataset in about a week, in time to verify their inspection model before the new line goes live.</p>
+        <div class="xform">
+          <div class="xf-box"><span class="xf-num">~25</span><span class="xf-lbl">real images per defect class</span></div>
+          <div class="xf-arrow" aria-hidden="true"><svg viewBox="0 0 40 16"><path d="M0 8h34M28 2l7 6-7 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+          <div class="xf-box xf-app"><span class="xf-tag">Our application</span><span class="xf-lbl">Generate · Evaluate · Re-tune</span></div>
+          <div class="xf-arrow" aria-hidden="true"><svg viewBox="0 0 40 16"><path d="M0 8h34M28 2l7 6-7 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+          <div class="xf-box"><span class="xf-num">&gt;100</span><span class="xf-lbl">validated images per class</span></div>
+        </div>
+      </div>
+
+      <div class="compare">
+        <div class="cmp-col cmp-without">
+          <div class="cmp-head">Without a tuning agent</div>
+          <ul>
+            <li>Engineers must understand the generation model and how each parameter changes the images.</li>
+            <li>Wrong settings produce wrong images: two images meant to be NG-Misalign, one came out aligned.</li>
+            <li>Every retry means retraining and regenerating.</li>
+          </ul>
+        </div>
+        <div class="cmp-col cmp-with">
+          <div class="cmp-head">With our application</div>
+          <ul>
+            <li>The app evaluates its own images and tunes the settings automatically.</li>
+            <li>Only images that pass the evaluator are kept.</li>
+            <li>Engineers receive a validated dataset, with no generative-AI expertise needed.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="goals">
+        <div class="goal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Easy to use</b><span>A guided application, not scripts</span></div></div>
+        <div class="goal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><div><b>Efficient</b><span>Fewer wasted retrain cycles</span></div></div>
+        <div class="goal"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div><b>No GenAI expertise</b><span>Built for inspection engineers</span></div></div>
+      </div>
+
+      <div class="how">
+        <div class="how-head"><span>How it works <small class="how-hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v10.5l-2.2-2.2a1.5 1.5 0 0 0-2.1 2.1L9.5 18c1 1 2.2 1.5 3.6 1.5H15a5 5 0 0 0 5-5V10a1.5 1.5 0 0 0-3 0V9a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V3a1.5 1.5 0 0 0-3 0z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Click a step to find out more</small></span><span class="how-legend"><span><i class="p1"></i>Part 1 · Image generator</span><span><i class="p2"></i>Part 2 · Tuning agent</span></span></div>
+        <div class="how-steps how-loop" id="howLoop" role="tablist" aria-label="How the application works">
+          <svg class="hl-svg" aria-hidden="true"></svg>
+          <button role="tab" aria-selected="true" class="p1" data-step="0" style="grid-area:s0"><b>1</b>Upload</button>
+          <span class="how-arrow" style="grid-area:a0"><svg viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <button role="tab" aria-selected="false" class="p1" data-step="1" style="grid-area:s1"><b>2</b>Generate</button>
+          <span class="how-arrow" style="grid-area:a1"><svg viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <button role="tab" aria-selected="false" class="p2" data-step="2" style="grid-area:s2"><b>3</b>Evaluate</button>
+          <span class="how-arrow" style="grid-area:a2"><svg viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <button role="tab" aria-selected="false" class="p2" data-step="3" style="grid-area:s3"><b>4</b>Decide</button>
+          <span class="hl-branch" style="grid-area:b4" aria-hidden="true">If Borderline / Reject ↓</span>
+          <button role="tab" aria-selected="false" class="p2 hl-retune" data-step="4" style="grid-area:s4"><b>5</b><span>Re-tune<small>↺ loops back to Generate</small></span></button>
+          <span class="how-arrow hl-accept" style="grid-area:a3"><em><span class="m">If </span>Accept<span class="m">ed at step 4</span></em><svg viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <button role="tab" aria-selected="false" class="p0" data-step="5" style="grid-area:s5"><b>6</b>Deliver</button>
+        </div>
+        <div class="how-detail" id="howDetail" aria-live="polite"></div>
+      </div>
+
+      <h3 id="s1-1"><span class="sub-num">2.3</span>Objectives</h3>
       <div class="grid g3">
         <div class="card"><h5>1 · Model optimisation</h5><p>Improve on the UROP SDXL-LoRA model; now using Realistic Vision 5.1 with text-to-image and image-to-image generation.</p></div>
         <div class="card"><h5>2 · Agent-assisted tuning</h5><p>Generated images are evaluated first; settings are tuned only if the images are not good enough, so users don't have to tune hyperparameters by hand.</p>
@@ -355,47 +539,28 @@
             <summary>2a · Evaluator agent</summary>
             <ul>
               <li>A YOLO26n classifier, trained only on real TE images, checks every generated image.</li>
-              <li>An image passes if it is classified as its intended class with confidence ≥ 0.8.</li>
+              <li>An image passes if its predicted class matches its intended class.</li>
               <li>The share of images that pass (pass rate) scores each run.</li>
             </ul>
-            <a href="#section-8">See Section 08 →</a>
+            <a href="#s8-0">See Section 7.2 →</a>
           </details>
           <details class="obj-dd">
             <summary>2b · Decision agent</summary>
             <ul>
-              <li><b>Accept</b> (pass rate ≥ 80%): save the settings and images. No tuning needed.</li>
+              <li><b>Accept</b> (pass rate ≥ 80%): keep the passing images and save the settings. No tuning needed. (80% is set lower for now while data is limited.)</li>
               <li><b>Borderline</b> (50–80%): ask the Recommender for settings close to this run.</li>
               <li><b>Reject</b> (&lt; 50%): ask the Recommender for different settings.</li>
             </ul>
           </details>
           <details class="obj-dd">
             <summary>2c · Recommender agent</summary>
-            <p>Proposes the next set of training hyperparameters, only when the verdict is Borderline or Reject.</p>
-            <p class="obj-todo">Details to be added by Shaun.</p>
+            <p>Proposes new training settings when the images are not accepted.</p>
+            <p class="obj-todo">[Shaun: add details here.]</p>
           </details>
         </div>
         <div class="card"><h5>3 · Reporting</h5><p>Per-run experiment report with a keep/reject recommendation, integrated into the AITK web app.</p></div>
       </div>
 
-      <h3 id="s1-sc"><span class="sub-num">2.2</span>Scope &amp; owners</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Workstream</th><th>Owner</th><th>What it does</th></tr></thead>
-        <tbody>
-          <tr><td>1 · Model optimisation</td><td>Chin &amp; Roy</td><td>Optimise the generation model; test lighter models and img2img generation</td></tr>
-          <tr><td>2a · Evaluator agent</td><td>Seraphine</td><td>Scores every generated image with a YOLO judge trained on real TE images</td></tr>
-          <tr><td>2b · Decision agent</td><td>Seraphine</td><td>Accept, refine nearby, or explore new settings, based on the pass rate</td></tr>
-          <tr><td>2c · Recommender agent</td><td>Shaun</td><td>Proposes the next hyperparameter set when the images are not accepted</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 1.</b> Workstreams. Output: synthetic images are kept only if they improve the inspection model.</p>
-
-      <h3 id="s1-2"><span class="sub-num">2.3</span>Key results at a glance: Evaluator agent</h3>
-      <p class="caption" style="margin:0 0 6px">All three figures come from the Evaluator agent's YOLO judge (Section 08).</p>
-      <div class="grid g3">
-        <div class="card stat"><div class="v">92.9%</div><div class="l">YOLO judge accuracy (13 of 14 real images)</div></div>
-        <div class="card stat"><div class="v">88%</div><div class="l">Img2img pass rate (Accept)</div></div>
-        <div class="card stat"><div class="v">40%</div><div class="l">Txt2img pass rate (Reject)</div></div>
-      </div>
     </section>
 
     <!-- ===================== 02 ===================== -->
@@ -413,7 +578,7 @@
           <tr><td>DDPM for wafers [3]</td><td>Generated wafer defects, screened by FID</td><td>YOLOv8 classification accuracy 98.7%</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 2.</b> Diffusion-based defect synthesis in the literature.</p>
+      <p class="caption"><b>Table 1.</b> Diffusion-based defect synthesis in the literature.</p>
       <p><b>LoRA</b> (Low-Rank Adaptation) is a fine-tuning technique, not a generative architecture. It keeps the base model frozen and trains only small low-rank matrices added to its layers [Hu et al., 2022]. We don't teach the model to draw from scratch; we nudge its existing visual knowledge toward one specific solder defect. This is why a LoRA can be trained from as few as ~10 real images per class.</p>
       <div class="grid g3">
         <div class="card"><h5>GAN-based</h5><p>StyleGAN3 for wafers [6], DT-GAN for defect transfer [7], wafer-dicing augmentation [8]. Trained from scratch, so they need more data.</p></div>
@@ -433,21 +598,21 @@
           <tr><td><b>SDXL Base 1.0 + LoRA</b></td><td>Highest fidelity; only model to improve downstream accuracy</td><td><b>Adopted</b></td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 3.</b> Generative models evaluated in prior work.</p>
+      <p class="caption"><b>Table 2.</b> Generative models evaluated in prior work.</p>
       <p>SDXL then went through two optimisation rounds. Natural-language prompts generated by a local Llama 7B model lowered FID but had mixed effects on accuracy. Training one LoRA per defect class ("individual") beat a single shared model on fidelity, FID and accuracy for clear-cut classes; for example, NG-No Solder accuracy rose from 73% to 93%. Individual training was adopted. The team wrapped the pipeline in the AITK web app: setup → training → generation → output.</p>
 
       <h3 id="s2-2"><span class="sub-num">3.3</span>Gaps this project addresses</h3>
       <div class="table-wrap"><table>
         <thead><tr><th>Gap in prior workflow</th><th>This project</th></tr></thead>
         <tbody>
-          <tr><td>Results depend on expert judgement: defect descriptions, training duration, settings, checkpoint, which images to keep</td><td>AgentHPO tuning (Section 07)</td></tr>
+          <tr><td>Results depend on expert judgement: defect descriptions, training duration, settings, checkpoint, which images to keep</td><td>Tuning agent (Section 07)</td></tr>
           <tr><td>SDXL needs &gt;12 GB VRAM, and text-to-image generation can get defect geometry wrong</td><td>Lighter photorealistic model and image-to-image generation (Section 06)</td></tr>
-          <tr><td>No automated batch or per-image quality scoring</td><td>YOLO-based per-image checks and batch pass rate (Section 08)</td></tr>
-          <tr><td>Realism never validated against downstream inspection performance</td><td>Downstream test (M3), planned for Semester 2</td></tr>
-          <tr><td>No record of why a run was kept or rejected</td><td>Experiment history log (Section 07)</td></tr>
+          <tr><td>No automated batch or per-image quality scoring</td><td>YOLO-based per-image checks and pass rate (Section 07)</td></tr>
+          <tr><td>Realism never validated against downstream inspection performance</td><td>Downstream test, planned for Semester 2</td></tr>
+          <tr><td>No record of why a run was kept or rejected</td><td>Decision agent verdict per run (Section 7.4)</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 4.</b> Mapping prior limitations to project deliverables.</p>
+      <p class="caption"><b>Table 3.</b> Mapping prior limitations to project deliverables.</p>
     </section>
 
     <!-- ===================== 03 ===================== -->
@@ -464,7 +629,7 @@
       <div class="tab-panel active" data-panel="ok">
         <div class="grid g2">
           <figure data-fig="Real sample — OK weld"><div class="frame"><img src="data:image/jpeg;base64,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" alt="Real OK solder weld: two aligned electrodes joined by an even solder fillet" width="299" height="299"></div><figcaption>Accepted weld (real)</figcaption></figure>
-          <div class="card"><h5>OK: accepted weld</h5><p><b>Appearance:</b> both pins present, even solder fillet, correct alignment.<br><b>Mechanism:</b> good wetting. Molten solder reacts with the electrode metal to form a thin, continuous intermetallic (IMC) layer, which gives an even fillet and a sound bond [9, 10].<br><b>Real samples available:</b> 30</p></div>
+          <div class="card"><h5>OK: accepted weld</h5><p><b>Appearance:</b> both pins present, even solder fillet, correct alignment.<br><b>Mechanism:</b> good wetting. Molten solder reacts with the electrode metal to form a thin, continuous intermetallic (IMC) layer, which gives an even fillet and a sound bond [9, 10].<br><b>Real samples available:</b> 200</p></div>
         </div>
       </div>
       <div class="tab-panel" data-panel="single">
@@ -504,7 +669,7 @@
           <tr><td>Generation</td><td>Text-to-image</td><td>Text-to-image or <b>image-to-image</b></td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 5.</b> Model and pipeline changes.</p>
+      <p class="caption"><b>Table 4.</b> Model and pipeline changes.</p>
 
       <div class="callout"><strong>Why we switched</strong>When we re-ran the UROP SDXL model, the images were blurry and often did not match their class. SDXL also needs more than 12 GB of VRAM. Realistic Vision gives a stronger photographic prior at about half the memory, which allows faster training and more experiments. The same LoRA works for both text-to-image and image-to-image. We are also checking that the training datasets are clean, since label noise may have contributed to the poor UROP results.</div>
 
@@ -514,7 +679,7 @@
         <div class="node">Dataset prep<small>checks + captions</small></div><span class="arr">→</span>
         <div class="node">Kohya_ss LoRA training<small>Realistic Vision 5.1 · 512 px</small></div><span class="arr">→</span>
         <div class="grp"><div class="node">Txt2img<small>prompt + seed</small></div><div class="node">Img2img<small>reference + strength</small></div></div><span class="arr">→</span>
-        <div class="node">Evaluator<small>Section 07 / 08</small></div><span class="arr">→</span>
+        <div class="node">Evaluator<small>Section 07</small></div><span class="arr">→</span>
         <div class="node store">Synthetic dataset</div>
       </div>
       <p>Captions follow one pattern: trigger word + domain + class description (Section 5.2). One LoRA therefore covers all four classes, and the class description in the prompt picks which defect to generate.</p>
@@ -608,7 +773,7 @@
           </tbody>
         </table></div>
       </div>
-      <p class="caption"><b>Table 6.</b> Current training and generation settings.</p>
+      <p class="caption"><b>Table 5.</b> Current training and generation settings.</p>
 
       <h3 id="s4-3"><span class="sub-num">5.2</span>Prompts &amp; captions</h3>
       <p>Every caption and prompt follows the same pattern: <b>trigger word</b> + <b>domain</b> + <b>class description</b>. The trigger <code>sldrjnt</code> is kept first (<code>keep_tokens = 1</code>) so the LoRA ties it to this product. The domain is "close-up macro photo of a vertical metal electrode solder joint, dark blurry background".</p>
@@ -621,7 +786,7 @@
           <tr><td>NG-No solder</td><td>vertically stacked electrodes with no solder, missing solder material between top and bottom electrode</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 7.</b> Class descriptions.</p>
+      <p class="caption"><b>Table 6.</b> Class descriptions.</p>
       <div class="grid g2">
         <div class="card"><h5>Negative prompt</h5><p>horizontal alignment, side-by-side composition, two parallel lines, left and right objects, separate objects, duplicate, deformed, blurry background blobs, text, watermark</p></div>
         <div class="card"><h5>Prompt variations</h5><p>Added to vary output: metallic texture and solder shape; lighting direction and exposure; solder appearance and highlights; camera position, magnification and depth of field; oxidation and discolouration.</p></div>
@@ -631,172 +796,91 @@
     <!-- ===================== 05 ===================== -->
     <section class="sec" id="section-5" data-title="Model Optimisation">
       <div class="sec-head"><span class="sec-num">06</span><h2>Model Optimisation</h2></div>
-      <p>The UROP baseline uses SDXL + LoRA with text-to-image generation. This semester we tested whether a lighter photorealistic model and a different generation mode suit solder-joint defects better. So far, image-to-image with Realistic Vision 5.1 keeps defect geometry far more reliably than text-to-image.</p>
+      <div class="tpl">
+        <div class="tpl-badge">Template · to be completed by Chinnapat</div>
+        <!-- Chinnapat: replace every [bracketed placeholder] below, then delete this template box's dashed border by changing class="tpl" to class="tpl-done". -->
+        <p class="tpl-ph">[One-paragraph summary: what you optimised in the generation model, why, and the headline result.]</p>
 
-      <h3 id="s5-1"><span class="sub-num">6.1</span>Baseline vs Realistic Vision</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th></th><th>UROP baseline</th><th>Realistic Vision 5.1</th></tr></thead>
-        <tbody>
-          <tr><td>Base model</td><td>Stable Diffusion XL</td><td>SD1.5-derived, tuned for photorealism</td></tr>
-          <tr><td>Parameters</td><td>~3.5B total, ~2.6B U-Net</td><td>Much smaller (SD1.5 architecture)</td></tr>
-          <tr><td>Resolution</td><td>1024 × 1024</td><td>512 × 512, enough for current inspection images</td></tr>
-          <tr><td>VRAM</td><td>&gt;12 GB</td><td>~6 GB, trainable on consumer GPUs</td></tr>
-          <tr><td>LoRA training</td><td>Hugging Face PEFT + Accelerate</td><td>Kohya_ss / sd-scripts</td></tr>
-          <tr><td>Generation</td><td>Text-to-image</td><td>Text-to-image and image-to-image with the same LoRA</td></tr>
-          <tr><td>Trade-off</td><td>High quality, high VRAM and compute</td><td>Faster training and generation allow more experiments</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 8.</b> UROP implementation compared with the Realistic Vision exploration.</p>
+        <h3 id="s5-1"><span class="sub-num">6.1</span>Approach</h3>
+        <p class="tpl-ph">[Describe the starting point (UROP baseline) and what you changed: base model, training tool, generation mode, settings.]</p>
 
-      <h3 id="s5-2"><span class="sub-num">6.2</span>Explorations</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>#</th><th>Model</th><th>Generation</th><th>Why explore</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td><a href="https://huggingface.co/SG161222/Realistic_Vision_V5.1_noVAE">Realistic Vision 5.1</a> (SD1.5)</td><td>Image-to-image</td><td>Photorealistic prior that keeps the structure of real manufacturing images</td><td>Tested</td></tr>
-          <tr><td>2</td><td>Realistic Vision 5.1 (SD1.5)</td><td>Text-to-image</td><td>Direct comparison with img2img using the same trained LoRA</td><td>Tested</td></tr>
-          <tr><td>3</td><td><a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1 dev</a></td><td>Text-to-image</td><td>Newer transformer-based flow-matching model with stronger prompt adherence and spatial understanding</td><td>Deferred: needs more VRAM than available</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 9.</b> Model explorations this semester.</p>
+        <h3 id="s5-2"><span class="sub-num">6.2</span>Models and settings compared</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Model</th><th>Generation mode</th><th>Why we tried it</th><th>Outcome</th></tr></thead>
+          <tbody>
+            <tr><td class="tpl-ph">[Model 1]</td><td class="tpl-ph">[txt2img / img2img]</td><td class="tpl-ph">[Reason]</td><td class="tpl-ph">[Result]</td></tr>
+            <tr><td class="tpl-ph">[Model 2]</td><td class="tpl-ph">[txt2img / img2img]</td><td class="tpl-ph">[Reason]</td><td class="tpl-ph">[Result]</td></tr>
+            <tr><td class="tpl-ph">[Model 3]</td><td class="tpl-ph">[txt2img / img2img]</td><td class="tpl-ph">[Reason]</td><td class="tpl-ph">[Result]</td></tr>
+          </tbody>
+        </table></div>
+        <p class="caption"><b>Table 7.</b> <span class="tpl-ph">[Caption: models and settings compared.]</span></p>
 
-      <h3 id="s5-3"><span class="sub-num">6.3</span>Text-to-image vs image-to-image</h3>
-      <p>Txt2img starts from random noise, so the model must generate everything: electrode and solder geometry, alignment, camera composition, lighting and background. That gives high variety but many chances to be physically wrong, which matters for classes like NG-Misaligned where a small lateral shift separates OK from NG. Img2img starts from a real image and adds controlled noise, keeping camera angle and defect geometry while varying lighting, reflections and solder texture. Because the production camera setup is fixed, maximum diversity may not even be desirable.</p>
-      <div class="table-wrap"><table>
-        <thead><tr><th></th><th>Txt2Img</th><th>Img2Img</th></tr></thead>
-        <tbody>
-          <tr><td>Starting point</td><td>Random noise</td><td>Real manufacturing image</td></tr>
-          <tr><td>Structural preservation</td><td>Low</td><td><b>High</b></td></tr>
-          <tr><td>Image diversity</td><td><b>High</b></td><td>Moderate</td></tr>
-          <tr><td>Camera consistency</td><td>Must be learned</td><td><b>Inherited from reference</b></td></tr>
-          <tr><td>Defect geometry</td><td>Must be generated</td><td><b>Can be preserved</b></td></tr>
-          <tr><td>Lighting variation</td><td>High</td><td>Controllable</td></tr>
-          <tr><td>Risk of unrealistic images</td><td>Higher</td><td>Lower at moderate strength</td></tr>
-          <tr><td>Needs a reference image</td><td>No</td><td>Yes</td></tr>
-          <tr><td>Depends on raw image quality</td><td>No</td><td><b>Yes</b></td></tr>
-          <tr><td>Rare-defect augmentation</td><td>Potentially suitable</td><td><b>Particularly promising</b></td></tr>
-          <tr><td>Main controls</td><td>Prompt + seed</td><td>Prompt + seed + strength</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 10.</b> Generation modes compared.</p>
+        <h3 id="s5-3"><span class="sub-num">6.3</span>Results</h3>
+        <div class="grid g2">
+          <figure data-fig="[Figure title, e.g. Generated images, model A]"><div class="frame"><div class="ph">images/[your_image_1].png</div></div><figcaption class="tpl-ph">[Caption for image 1]</figcaption></figure>
+          <figure data-fig="[Figure title, e.g. Generated images, model B]"><div class="frame"><div class="ph">images/[your_image_2].png</div></div><figcaption class="tpl-ph">[Caption for image 2]</figcaption></figure>
+        </div>
+        <p class="tpl-ph">[Describe what the images show and how the models compare.]</p>
 
-      <h3 id="s5-4"><span class="sub-num">6.4</span>Results so far</h3>
-      <div class="grid g2">
-        <div class="card"><h5>Txt2img: inconsistent</h5><p>Two images generated for NG-Misaligned came out one aligned, one misaligned. The model has not reliably learned the class-defining spatial relationship between the top and bottom electrodes, which may mean insufficient training or difficulty with precise geometry.</p></div>
-        <div class="card"><h5>Img2img: structurally consistent</h5><p>Good reference images gave realistic variations that kept electrode alignment, camera position and defect geometry. But quality depends on the reference: blur, artifacts or existing defects in a poor raw image are preserved or amplified.</p></div>
+        <h3 id="s5-4"><span class="sub-num">6.4</span>Key findings</h3>
+        <ul>
+          <li class="tpl-ph">[Finding 1]</li>
+          <li class="tpl-ph">[Finding 2]</li>
+          <li class="tpl-ph">[Next step]</li>
+        </ul>
       </div>
-      <div class="grid g2">
-        <figure data-fig="Txt2img outputs for the NG-Misaligned class (Realistic Vision 5.1)"><div class="frame"><div class="ph">images/rv51_txt2img_misaligned.png</div></div><figcaption>Txt2img, NG-Misaligned: one output appears aligned.</figcaption></figure>
-        <figure data-fig="Img2img reference and generated pairs (Realistic Vision 5.1)"><div class="frame"><div class="ph">images/rv51_img2img_pairs.png</div></div><figcaption>Img2img: reference image (left) and generated image (right).</figcaption></figure>
-      </div>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Model</th><th>Mode</th><th style="text-align:right">YOLO pass rate</th><th style="text-align:right">Time / image (s)</th><th>Qualitative notes</th></tr></thead>
-        <tbody>
-          <tr><td>SDXL + LoRA (UROP)</td><td>txt2img</td><td class="num">—</td><td class="num">—</td><td>Baseline</td></tr>
-          <tr><td>Realistic Vision 5.1</td><td>txt2img</td><td class="num">40% (Reject)</td><td class="num">—</td><td>Class consistency unreliable for NG-Misaligned</td></tr>
-          <tr><td>Realistic Vision 5.1</td><td>img2img</td><td class="num">88% (Accept)</td><td class="num">—</td><td>Geometry preserved; sensitive to reference quality</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 11.</b> Quantitative comparison (to be filled in).</p>
-      <div class="callout"><strong>FLUX: deferred</strong>FLUX.1 dev (~12B parameters) could model the small geometric differences between classes better, and Kohya_ss supports LoRA for it. It is not implemented yet because of hardware limits and will be revisited when suitable hardware and a compatible training setup are available.</div>
     </section>
 
     <!-- ===================== 06 ===================== -->
-    <section class="sec" id="section-6" data-title="Agentic Tuning Assistant">
-      <div class="sec-head"><span class="sec-num">07</span><h2>Agentic Tuning Assistant</h2></div>
-      <p>The AITK toolkit lets users set training hyperparameters by hand or accept defaults, but good settings differ by defect class and are hard to judge without generative-AI experience. Industry search methods are also static: someone has to define the search space and iterations. AgentHPO (Agent-Driven Hyperparameter Optimisation) replaces this with three cooperating agents. Each new configuration is conditioned on the results of earlier runs.</p>
+    <section class="sec" id="section-6" data-title="Tuning Agent">
+      <div class="sec-head"><span class="sec-num">07</span><h2>Tuning Agent</h2></div>
+      <p>The tuning agent is Part 2 of our application. Good generation settings differ by dataset and defect class, and are hard to choose without generative-AI experience. The tuning agent evaluates the generated images first and only re-tunes the settings when the images are not good enough, repeating until they pass.</p>
 
       <h3 id="s6-1"><span class="sub-num">7.1</span>Agents</h3>
-      <div class="grid g3">
-        <div class="card"><h5>Evaluator</h5><p>Checks every generated image with a YOLO26n classifier trained only on real TE images. An image passes if YOLO predicts the intended class with confidence of 0.8 or more. The batch pass rate sets the verdict: Accept, Borderline or Reject (Section 08).</p></div>
-        <div class="card"><h5>Decision</h5><p>Acts on the verdict and the experiment history: <b>Accept</b> saves the config and images and ends the loop with no tuning, <b>Borderline</b> asks the Recommender to <code>EXPLOIT</code> (search near this run), <b>Reject</b> asks it to <code>EXPLORE</code> (search elsewhere). It can also <code>TERMINATE</code> when the budget is spent.</p></div>
-        <div class="card"><h5>Recommender</h5><p>Called only when the verdict is Borderline or Reject. Proposes the next LoRA training configuration with Bayesian optimisation (Optuna TPE), balancing exploration and exploitation. Uses dataset metadata, the search space, past trial results and Decision feedback. Needs no GPU and no LLM; it only picks the next experiment.</p></div>
+      <div class="grid g3 agent-cards">
+        <div class="card"><h5>1 · Evaluator</h5><p>Verifies that each generated image actually shows the defect it was meant to show, and reports how many pass.</p>
+          <details class="obj-dd"><summary>More details</summary>
+            <ul>
+              <li>A YOLO26n classifier trained only on real TE images.</li>
+              <li>An image passes if its predicted class matches its intended class.</li>
+              <li>The batch pass rate sets the verdict: Accept, Borderline or Reject.</li>
+            </ul>
+            <a href="#s8-0">See Section 7.2 →</a>
+          </details></div>
+        <div class="card"><h5>2 · Decision</h5><p>Turns the pass rate into an action: stop and save, or re-tune.</p>
+          <details class="obj-dd"><summary>More details</summary>
+            <ul>
+              <li><b>Accept</b> (≥ 80%): keep the passing images, save the settings and end the loop. No tuning needed.</li>
+              <li><b>Borderline</b> (50–80%): ask the Recommender to search near this run.</li>
+              <li><b>Reject</b> (&lt; 50%): ask the Recommender to explore different settings.</li>
+              <li>Also stops the loop when the run budget is spent.</li>
+            </ul>
+          </details></div>
+        <div class="card"><h5>3 · Recommender</h5><p>Proposes new training settings, only when the images are not accepted.</p>
+          <details class="obj-dd"><summary>More details</summary>
+            <p class="obj-todo">[Shaun: short breakdown of the Recommender, e.g. inputs, method, outputs.]</p>
+            <a href="#s6-rec">See Section 7.6 →</a>
+          </details></div>
       </div>
-      <p>The loop starts by generating images with the current settings (the defaults on the first run). The Evaluator scores them and the Decision agent gives a verdict. Settings are only re-tuned if the verdict is not Accept.</p>
-      <div class="callout"><strong>Configuration Validator</strong>A deterministic validator sits between the Recommender and training. It rejects out-of-range or duplicate settings and enforces the run and GPU-hour budget.</div>
-      <div class="callout"><strong>Design choice: no LLM required</strong>The closed loop runs on numbers alone: YOLO judges, fixed rules decide, and Optuna TPE proposes new settings only when needed. An LLM could be added later to explain decisions, but nothing depends on one.</div>
+      <p>The loop starts by generating images with the current settings (the defaults on the first run). The Evaluator scores them, the Decision agent gives a verdict, and settings are only re-tuned if the verdict is not Accept.</p>
 
-      <h3 id="s6-ss"><span class="sub-num">7.2</span>Search space</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Parameter</th><th>Proposed range</th><th>Type</th></tr></thead>
-        <tbody>
-          <tr><td>Learning rate</td><td>1e-6 to 5e-4</td><td>Log-scale continuous</td></tr>
-          <tr><td>LoRA rank</td><td>4, 8, 16, 32</td><td>Categorical</td></tr>
-          <tr><td>Training epochs</td><td>10 to 50</td><td>Integer</td></tr>
-          <tr><td>LR scheduler</td><td>Constant, linear, cosine</td><td>Categorical</td></tr>
-          <tr><td>Gradient accumulation</td><td>1, 2, 4</td><td>Categorical</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 12.</b> Recommender search space. Ranges are illustrative and will be checked against the training code.</p>
-      <p>The tuner will be compared against the manual defaults and against random search, using the same number of training trials. It will track best quality against trials and wall time, and log invalid or failed configurations.</p>
 
-      <h3 id="s6-2"><span class="sub-num">7.3</span>Control loop</h3>
-      <p>Step through one iteration of the loop:</p>
-      <div class="loop">
-        <svg viewBox="0 0 760 300" role="img" aria-label="Agent control loop diagram">
-          <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
-          <g style="color:var(--faint)">
-            <path class="edge" data-e="0" d="M190,60 L270,60" marker-end="url(#arr)"/>
-            <path class="edge" data-e="1" d="M440,60 L520,60" marker-end="url(#arr)"/>
-            <path class="edge" data-e="2" d="M605,90 L605,200" marker-end="url(#arr)"/>
-            <path class="edge" data-e="3" d="M520,230 L440,230" marker-end="url(#arr)"/>
-            <path class="edge" data-e="4" d="M270,230 L190,230" marker-end="url(#arr)"/>
-            <path class="edge" data-e="5" d="M105,200 L105,90" marker-end="url(#arr)"/>
-          </g>
-          <text x="605" y="285" text-anchor="middle" style="fill:var(--ok);font:600 12px var(--sans)">Accept → stop &amp; save</text>
-          <g class="node" data-n="0"><rect x="20" y="30" width="170" height="60" rx="10"/><text x="105" y="56" text-anchor="middle">Train + Generate</text><text class="s" x="105" y="74" text-anchor="middle">defaults on first run</text></g>
-          <g class="node" data-n="1"><rect x="270" y="30" width="170" height="60" rx="10"/><text x="355" y="56" text-anchor="middle">Evaluator</text><text class="s" x="355" y="74" text-anchor="middle">YOLO pass rate</text></g>
-          <g class="node" data-n="2"><rect x="520" y="30" width="170" height="60" rx="10"/><text x="605" y="56" text-anchor="middle">Experiment history</text><text class="s" x="605" y="74" text-anchor="middle">log run + scores</text></g>
-          <g class="node" data-n="3"><rect x="520" y="200" width="170" height="60" rx="10"/><text x="605" y="226" text-anchor="middle">Decision</text><text class="s" x="605" y="244" text-anchor="middle">accept · exploit · explore</text></g>
-          <g class="node" data-n="4"><rect x="270" y="200" width="170" height="60" rx="10"/><text x="355" y="226" text-anchor="middle">Recommender</text><text class="s" x="355" y="244" text-anchor="middle">Optuna TPE, if not Accept</text></g>
-          <g class="node" data-n="5"><rect x="20" y="200" width="170" height="60" rx="10"/><text x="105" y="226" text-anchor="middle">Config Validator</text><text class="s" x="105" y="244" text-anchor="middle">ranges + budget check</text></g>
-        </svg>
-        <div class="loop-ctrl">
-          <button class="btn primary" id="loopNext">Next step ▸</button>
-          <button class="btn" id="loopPlay">Auto-play</button>
-          <div class="loop-desc" id="loopDesc">Press <b>Next step</b> to walk through one tuning iteration.</div>
-        </div>
-      </div>
-      <p class="caption"><b>Figure <span data-figref="loop"></span>.</b> One iteration of the agentic tuning loop. Training runs exactly as configured; the loop repeats until the budget is spent or the Decision agent terminates.</p>
 
-      <h3 id="s6-3"><span class="sub-num">7.4</span>Example decision log</h3>
-<pre style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow-x:auto;font:12.5px/1.6 var(--mono);margin:18px 0">{
-  "run": 7,
-  "class": "NG-Misaligned",
-  "verdict": "Borderline",
-  "pass_rate": "—",
-  "mean_confidence": "—",
-  "action": "EXPLOIT",
-  "config": { "network_dim": 32, "unet_lr": "—", "epochs": "—" },
-  "rationale": "— (placeholder: agent's reasoning for this decision)"
-}</pre>
-
-      <h3 id="s6-4"><span class="sub-num">7.5</span>Two-stage evaluation</h3>
-      <p>Training a LoRA for many configurations is expensive, so tuning and downstream testing are separated.</p>
-      <ol>
-        <li><b>Stage 1, AgentHPO:</b> about 15–20 trials search for strong image-generation configurations; the top few are retained.</li>
-        <li><b>Stage 2, downstream validation:</b> only the retained configurations go through the full inspection-model experiment.</li>
-      </ol>
-    </section>
-
-    <!-- ===================== 08 ===================== -->
-    <section class="sec" id="section-8" data-title="Evaluation">
-      <div class="sec-head"><span class="sec-num">08</span><h2>Evaluation</h2></div>
-      <p>Generated images are judged on two questions: <b>does each image show the intended defect?</b> (a YOLO classifier trained on real TE images) and, later, <b>do the images help?</b> (a downstream inspection test, planned for Semester 2). This section covers the first question.</p>
-
-      <h3 id="s8-0"><span class="sub-num">8.1</span>YOLO judge</h3>
+      <h3 id="s8-0"><span class="sub-num">7.2</span>Evaluator: YOLO judge</h3>
+      <p>The Evaluator checks whether each generated image shows its intended defect. A second question, whether the images actually help the inspection model, will be answered by a downstream test planned for Semester 2.</p>
       <p>Ultralytics YOLO is widely used to detect and classify defective products in industry, with high reported accuracy on product images [Qi et al., 2024], including solder defects in automatic optical inspection [Dai et al., 2020].</p>
       <div class="table-wrap"><table>
         <thead><tr><th>#</th><th>Step</th><th>What</th><th>Note</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Define classes</td><td>OK, NG-Single electrode, NG-No solder, NG-Misalign</td><td>One-line rule per class, confirmed with TE</td></tr>
-          <tr><td>2</td><td>Train the judge</td><td>YOLO26n classifier trained on 75 real TE images</td><td>Only real images from TE; never synthetic</td></tr>
-          <tr><td>3</td><td>Check the judge</td><td>Recall of at least 90% for every class on held-out real images</td><td>If not, fix labels or add more real images first</td></tr>
-          <tr><td>4</td><td>Score images</td><td>Pass if predicted class = intended class <b>and</b> confidence ≥ 0.8</td><td>Both conditions must be met</td></tr>
+          <tr><td>1</td><td>Split dataset</td><td>Labelled TE solder images split into training, testing and validation sets; 4 classes: OK, NG-Single electrode, NG-No solder, NG-Misalign</td><td>Real images only</td></tr>
+          <tr><td>2</td><td>Train</td><td>YOLO26n classifier trained on 75 real TE images</td><td>Never trained on synthetic images</td></tr>
+          <tr><td>3</td><td>Score</td><td>Pass if predicted class = intended class</td><td>Pass rule applied to every generated image</td></tr>
+          <tr><td>4</td><td>Check</td><td>Recall of at least 90% for every class on held-out real images</td><td>Needed before the judge is trusted</td></tr>
         </tbody>
       </table></div>
-      <p class="caption"><b>Table 13.</b> Setting up and using the YOLO judge.</p>
+      <p class="caption"><b>Table 8.</b> Setting up and using the YOLO judge.</p>
 
-      <h3 id="s8-jr"><span class="sub-num">8.2</span>Judge results on real images</h3>
+      <h3 id="s8-jr"><span class="sub-num">7.3</span>Judge results on real images</h3>
       <p>YOLO26n trained for 31 epochs on 75 real images, tested on 14 held-out real images across 4 classes.</p>
       <div class="view-toggle" role="tablist" aria-label="Judge results view">
         <button role="tab" aria-selected="true" data-view="chart">Chart</button>
@@ -824,24 +908,22 @@
       </ul>
       <div class="callout todo"><strong>Small validation set</strong>With only 3–4 validation images per class, one error moves recall by 25–33%. Next: score the 20-image test split and add more misalignment images.</div>
 
-      <h3 id="s8-1"><span class="sub-num">8.3</span>Batch metrics &amp; verdict</h3>
-      <p>Scored once per run and class. The pass rate sets the verdict sent to the Decision agent; images that fail are discarded or set aside for checking.</p>
-      <div class="table-wrap"><table>
-        <thead><tr><th></th><th>Metric</th><th>Target</th><th>Tool</th></tr></thead>
-        <tbody>
-          <tr><td>M1</td><td>Pass rate</td><td>Accept ≥ 80%; borderline 50–80%; reject &lt; 50%</td><td>YOLO classifier</td></tr>
-          <tr><td>M2</td><td>Mean confidence</td><td>Higher than the previous run</td><td>YOLO classifier</td></tr>
-          <tr><td>M3</td><td>Downstream gain</td><td>A separate classifier trained on real + synthetic beats real-only on held-out real images</td><td>A different classifier from the judge</td></tr>
-        </tbody>
-      </table></div>
-      <p class="caption"><b>Table 14.</b> Batch metrics. Thresholds are starting values, to be calibrated with TE; M3 is the final proof that the images help.</p>
-      <div class="grid g3">
-        <div class="card" style="border-top:3px solid var(--ok)"><h5>Accept</h5><p>Pass rate ≥ 80%. Save the config and images.</p></div>
-        <div class="card" style="border-top:3px solid var(--warn)"><h5>Borderline</h5><p>Pass rate 50–80%. Exploit nearby settings.</p></div>
-        <div class="card" style="border-top:3px solid #c0392b"><h5>Reject</h5><p>Pass rate &lt; 50%. Explore new settings.</p></div>
+      <h3 id="s8-1"><span class="sub-num">7.4</span>Pass rate &amp; Decision agent</h3>
+      <p>For now the Evaluator uses <b>one metric</b>, scored once per run and per class:</p>
+      <div class="metric">
+        <div class="metric-name">Pass rate</div>
+        <div class="metric-formula">share of generated images where <b>predicted class = intended class</b></div>
+        <div class="metric-note">Images that fail are discarded or set aside for checking.</div>
       </div>
+      <p>The pass rate is then passed to the <b>Decision agent</b>, which decides whether the images are good enough or whether the settings need re-tuning. For now, the Decision agent is <b>hard-coded</b> with these pass-rate rules:</p>
+      <div class="grid g3">
+        <div class="card" style="border-top:3px solid var(--ok)"><h5>Accept</h5><p>Pass rate ≥ 80%. Keep the passing images and save the settings.</p></div>
+        <div class="card" style="border-top:3px solid var(--warn)"><h5>Borderline</h5><p>Pass rate 50–80%. The Recommender makes small changes to the settings.</p></div>
+        <div class="card" style="border-top:3px solid var(--bad)"><h5>Reject</h5><p>Pass rate &lt; 50%. The Recommender explores new settings.</p></div>
+      </div>
+      <div class="callout"><strong>Why 80%?</strong>The acceptance threshold is set lower for now because data is still limited and we want the loop to keep running. Once there is enough data and testing, the threshold will be raised.</div>
       <div class="callout todo"><strong>Known limitation</strong>The YOLO judge does not catch copies of training images or near-identical batches. A near-duplicate check can be added later if needed.</div>
-      <h3 id="s8-gr"><span class="sub-num">8.4</span>Results: img2img vs txt2img</h3>
+      <h3 id="s8-gr"><span class="sub-num">7.5</span>Results: img2img vs txt2img</h3>
       <p>Same YOLO judge, 50 generated images per class (200 per mode). Img2img keeps the real image's structure and passes <b>88% (176 of 200) → Accept</b>. Txt2img has to invent the geometry and passes only <b>40% (80 of 200) → Reject</b>, matching our visual inspection.</p>
       <div class="chart" id="fidChart" role="img" aria-label="YOLO pass rate per class for img2img and txt2img"></div>
       <p class="caption"><b>Figure <span data-figref="fid"></span>.</b> YOLO pass rate per class. Each bar is labelled with its verdict: Accept ≥ 80%, Borderline 50–80%, Reject &lt; 50%. Dashed lines mark the 50% and 80% thresholds.</p>
@@ -850,14 +932,35 @@
         <li>Img2img's weakest class is OK (70%): 15 of 50 "OK" images were read as defects.</li>
         <li>Decision agent applied to these first runs: img2img → <b>Accept</b>; txt2img → <b>Reject</b> (explore new settings).</li>
       </ul>
-      <div class="callout todo"><strong>Caveat</strong>A high pass rate does not prove the images are useful: img2img may stay too close to its reference images. Next: a near-duplicate check and the downstream test (M3).</div>
-
+      <div class="callout todo"><strong>Caveat</strong>A high pass rate does not prove the images are useful: img2img may stay too close to its reference images. Next: a near-duplicate check and a downstream test.</div>
+      <div class="tpl">
+        <div class="tpl-badge">Template · to be completed by Shaun</div>
+        <!-- Shaun: replace every [bracketed placeholder] below, then delete this template box's dashed border by changing class="tpl" to class="tpl-done". -->
+        <h3 id="s6-rec"><span class="sub-num">7.6</span>Recommender agent</h3>
+        <p class="tpl-ph">[One-paragraph summary: what the Recommender does and when it is called (Borderline or Reject verdicts).]</p>
+        <div class="grid g3">
+          <div class="card"><h5>Inputs</h5><p class="tpl-ph">[What information from the Evaluator and Decision agents does it use?]</p></div>
+          <div class="card"><h5>Method</h5><p class="tpl-ph">[How does it choose the next settings?]</p></div>
+          <div class="card"><h5>Outputs</h5><p class="tpl-ph">[Which parameters does it change?]</p></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Parameter</th><th>Range</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td class="tpl-ph">[Parameter 1]</td><td class="tpl-ph">[Range]</td><td class="tpl-ph">[Effect on the images]</td></tr>
+            <tr><td class="tpl-ph">[Parameter 2]</td><td class="tpl-ph">[Range]</td><td class="tpl-ph">[Effect on the images]</td></tr>
+            <tr><td class="tpl-ph">[Parameter 3]</td><td class="tpl-ph">[Range]</td><td class="tpl-ph">[Effect on the images]</td></tr>
+          </tbody>
+        </table></div>
+        <p class="caption"><b>Table 9.</b> <span class="tpl-ph">[Caption: parameters the Recommender can tune.]</span></p>
+        <h5 style="margin:18px 0 6px">Results / progress</h5>
+        <p class="tpl-ph">[Results so far, or what will be tested next semester.]</p>
+      </div>
     </section>
 
     <!-- ===================== 10 ===================== -->
     <section class="sec" id="section-10" data-title="Future Work">
-      <div class="sec-head"><span class="sec-num">09</span><h2>Future Work</h2></div>
-      <p>Planned work for Semester 2 (January to May 2027). See the Project Timeline (Section 10) for when each item happens.</p>
+      <div class="sec-head"><span class="sec-num">08</span><h2>Future Work</h2></div>
+      <p>Planned work for Semester 2 (January to May 2027). See the Project Timeline (Section 09) for when each item happens.</p>
       <div class="grid g2">
         <div class="card"><h5>1 · UI/UX application</h5><p>Build the application that users work in: a guided, step-by-step flow from uploading images to approving generated results, usable without generative-AI expertise.</p></div>
         <div class="card"><h5>2 · Complete the optimised generation model</h5><p>Finalise the generation model and its settings, building on the img2img results from Semester 1.</p></div>
@@ -870,7 +973,7 @@
 
     <!-- ===================== TIMELINE ===================== -->
     <section class="sec" id="section-timeline" data-title="Project Timeline">
-      <div class="sec-head"><span class="sec-num">10</span><h2>Project Timeline</h2></div>
+      <div class="sec-head"><span class="sec-num">09</span><h2>Project Timeline</h2></div>
       <p>The project runs from August 2026 to May 2027 across two semesters. Semester 1 is for understanding the existing system, reading the literature, exploring models and designing the architecture. Semester 2 is for building, validating and delivering it.</p>
 
       <div class="sem-cols">
@@ -901,7 +1004,7 @@
         </div>
       </div>
 
-      <h3 id="st-1"><span class="sub-num">10.1</span>Gantt chart</h3>
+      <h3 id="st-1"><span class="sub-num">9.1</span>Gantt chart</h3>
       <div class="sem-tabs tabs" id="semFilter">
         <button aria-selected="true" data-sem="all">Full project</button>
         <button aria-selected="false" data-sem="s1">Semester 1</button>
@@ -914,7 +1017,7 @@
 
     <!-- ===================== 11 ===================== -->
     <section class="sec" id="section-11" data-title="References">
-      <div class="sec-head"><span class="sec-num">11</span><h2>References</h2></div>
+      <div class="sec-head"><span class="sec-num">10</span><h2>References</h2></div>
       <ol class="refs">
         <li>Liu et al., <i>Sensors</i> 24, 3473 (2024).</li>
         <li>Zhang et al., arXiv:2605.04635 (2026).</li>
@@ -929,27 +1032,21 @@
         <li>Dušek, K., Bušek, D., &amp; Veselý, P. (2020). Overview of selected issues related to soldering. In <i>Welding – Modern Topics</i>. IntechOpen. <a href="https://doi.org/10.5772/intechopen.91023">doi:10.5772/intechopen.91023</a>.</li>
         <li>Cao, S., Parviziomran, I., Srihari, K., Park, S., &amp; Won, D. (2020). Statistical analysis for component shift in pick and place process of surface mount technology. arXiv:2002.07807. <a href="https://arxiv.org/abs/2002.07807">arxiv.org/abs/2002.07807</a>.</li>
         <li>Podell, D. et al. (2023). <i>SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis.</i> arXiv:2307.01952.</li>
-        <li>Hu, E. J. et al. (2021). <i>LoRA: Low-Rank Adaptation of Large Language Models.</i> arXiv:2106.09685.</li>
+        <li>Hu, E. J. et al. (2022). <i>LoRA: Low-Rank Adaptation of Large Language Models.</i> ICLR 2022. arXiv:2106.09685.</li>
         <li>Qi, Z., Ding, L., Li, X., Hu, J., Lyu, B., &amp; Xiang, A. (2024). <i>Detecting and Classifying Defective Products in Images Using YOLO.</i> arXiv. <a href="https://doi.org/10.48550/ARXIV.2412.16935">doi:10.48550/ARXIV.2412.16935</a>.</li>
         <li>Dai, W., Mujeeb, A., Erdt, M., &amp; Sourin, A. (2020). Soldering defect detection in automatic optical inspection. <i>Advanced Engineering Informatics</i>, 43, 101004. <a href="https://doi.org/10.1016/j.aei.2019.101004">doi:10.1016/j.aei.2019.101004</a>.</li>
         <li>Ultralytics YOLO (YOLO11 / YOLO26) image classification. <a href="https://docs.ultralytics.com/tasks/classify/">docs.ultralytics.com</a>.</li>
-        <li>Akiba, T. et al. (2019). <i>Optuna: A Next-generation Hyperparameter Optimization Framework.</i> KDD.</li>
         <li>Heusel, M. et al. (2017). <i>GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium</i> (FID). NeurIPS.</li>
-        <li>Bergmann, P. et al. (2019). <i>MVTec AD: A Comprehensive Real-World Dataset for Unsupervised Anomaly Detection.</i> CVPR.</li>
         <li>Realistic Vision V5.1. <a href="https://huggingface.co/SG161222/Realistic_Vision_V5.1_noVAE">Hugging Face</a>.</li>
         <li>FLUX.1 [dev], Black Forest Labs. <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Hugging Face</a>.</li>
         <li>Kohya_ss. <a href="https://github.com/bmaltais/kohya_ss">GitHub</a>; sd-scripts, <a href="https://github.com/kohya-ss/sd-scripts">GitHub</a>.</li>
-        <li>Flower: a friendly federated learning framework. <a href="https://flower.ai">flower.ai</a>.</li>
-        <li>IndusAgent. <a href="https://arxiv.org/abs/2605.20682">arXiv:2605.20682</a>.</li>
-        <li>Agent-driven hyperparameter optimisation. <a href="https://arxiv.org/abs/2505.19205">arXiv:2505.19205</a>; <a href="https://medium.com/@chaithanyavijaya/agent-driven-hyperparameter-optimization-framework-dbf968daab56">Agent-Driven Hyperparameter Optimization Framework</a> (Medium).</li>
-        <li>Recommending agent reference. <a href="https://arxiv.org/abs/2607.04433">arXiv:2607.04433</a>.</li>
         <li>Wong, W. H., Yeo, N. T. W., &amp; Tan, P. H. (2025). <i>AI Synthetic Image Generation of Defect Images.</i> CDE4301 UROP Report, NUS.</li>
       </ol>
     </section>
 
     <!-- ===================== 12 ===================== -->
     <section class="sec" id="section-12" data-title="List of Figures">
-      <div class="sec-head"><span class="sec-num">12</span><h2>List of Figures</h2></div>
+      <div class="sec-head"><span class="sec-num">11</span><h2>List of Figures</h2></div>
       <ul id="lof"></ul>
     </section>
 
@@ -1048,7 +1145,7 @@ document.querySelectorAll('[data-tabs]').forEach(group => {
     } else {
       el.textContent = n;
       const host = el.closest('p'); host.id = 'fig-' + n;
-      const title = { loop: 'Agentic tuning control loop', fid: 'YOLO pass rate per class: img2img vs txt2img', judge: 'YOLO judge recall per class on real validation images' }[el.dataset.figref] || 'Figure';
+      const title = { loop: 'Tuning agent control loop', fid: 'YOLO pass rate per class: img2img vs txt2img', judge: 'YOLO judge recall per class on real validation images', balance: 'Real vs synthetic images per class' }[el.dataset.figref] || 'Figure';
       items.push([n, title, host.id]);
     }
   });
@@ -1065,22 +1162,18 @@ document.querySelectorAll('figure .ph').forEach(ph => {
   img.src = m[0];
 });
 
-// <team-member> component: shows the avatar image, or initials if the image is missing
+// <team-member> component: compact card with name, department, year and contribution
 if (!customElements.get('team-member')) {
   customElements.define('team-member', class extends HTMLElement {
     connectedCallback() {
       const esc = v => (v || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-      const name = this.getAttribute('name') || '';
-      const initials = name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
-      const avatar = this.getAttribute('avatar');
+      const meta = [this.getAttribute('department'), this.getAttribute('year')].filter(Boolean).map(esc).join(' · ');
+      const role = this.getAttribute('contribution');
       this.innerHTML = `<div class="tm-card">
-        <div class="tm-avatar">${avatar ? `<img src="${esc(avatar)}" alt="${esc(name)}">` : esc(initials)}</div>
-        <div class="tm-name">${esc(name)}</div>
-        <div class="tm-dept">${esc(this.getAttribute('department'))}</div>
-        <div class="tm-year">${esc(this.getAttribute('year'))}</div>
+        <div class="tm-name">${esc(this.getAttribute('name'))}</div>
+        <div class="tm-meta">${meta}</div>
+        ${role ? `<div class="tm-role"><span>Contribution</span>${esc(role)}</div>` : ''}
       </div>`;
-      const img = this.querySelector('img');
-      if (img) img.onerror = () => { img.parentElement.textContent = initials; };
     }
   });
 }
@@ -1095,34 +1188,75 @@ lb.onclick = () => lb.classList.remove('on');
 addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('on'); });
 
 // Agent loop stepper
+/* agent loop stepper removed */
+
+
+// How-it-works loop drawing
 (function(){
-  const steps = [
-    ['Train + Generate', 'the LoRA is trained (default settings on the first run) and images are generated.'],
-    ['Evaluator', 'a YOLO classifier trained on real images checks each image (right class, confidence ≥ 0.8) and gives a pass rate.'],
-    ['Experiment history', 'the run, its settings and scores are logged, so later decisions can build on it.'],
-    ['Decision', 'Accept (≥ 80%) saves the run and stops: no tuning needed. Borderline → exploit nearby settings; Reject → explore elsewhere.'],
-    ['Recommender', 'only if not accepted: Optuna TPE proposes the next configuration from past runs and the Decision feedback.'],
-    ['Config Validator', 'rejects out-of-range or duplicate settings and stops if the run or GPU-hour budget is spent; then the loop retrains.'],
-  ];
-  const nodes = document.querySelectorAll('.loop .node');
-  const edges = document.querySelectorAll('.loop .edge');
-  const desc = document.getElementById('loopDesc');
-  let i = -1, timer = null;
-  function show(k){
-    nodes.forEach(n => n.classList.toggle('on', +n.dataset.n === k));
-    edges.forEach(e => e.classList.toggle('on', +e.dataset.e === k));
-    desc.innerHTML = `<b>${k + 1}/6 · ${steps[k][0]}:</b> ${steps[k][1]}`;
+  const box = document.getElementById('howLoop'); if (!box) return;
+  const svg = box.querySelector('.hl-svg');
+  const q = i => box.querySelector(`button[data-step="${i}"]`);
+  function draw(){
+    if (getComputedStyle(svg).display === 'none') return;
+    const R = box.getBoundingClientRect(), r = el => { const b = el.getBoundingClientRect(); return { l:b.left-R.left, r:b.right-R.left, t:b.top-R.top, b:b.bottom-R.top, cx:(b.left+b.right)/2-R.left, cy:(b.top+b.bottom)/2-R.top }; };
+    const g = r(q(1)), d = r(q(3)), t = r(q(4));
+    const pad = 8, bx = g.l - pad, by = g.t - 22, bw = d.r - g.l + pad*2, bh = t.b - g.t + 22 + pad;
+    const rad = 14;
+    svg.setAttribute('viewBox', `0 0 ${R.width} ${R.height}`);
+    svg.innerHTML = `<defs><marker id="hlArr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <rect class="box" x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="12"/>
+      <text class="box-lbl" x="${bx+12}" y="${by+15}">TUNING LOOP · REPEATS UNTIL IMAGES PASS</text>
+      <path class="lp" marker-end="url(#hlArr)" d="M${d.cx},${d.b} L${d.cx},${t.cy-rad} Q${d.cx},${t.cy} ${d.cx-rad},${t.cy} L${t.r+4},${t.cy}"/>
+      <text x="${(d.cx+t.r)/2}" y="${t.cy-7}" text-anchor="middle">Borderline / Reject</text>
+      <path class="lp" marker-end="url(#hlArr)" d="M${t.l},${t.cy} L${g.cx+rad},${t.cy} Q${g.cx},${t.cy} ${g.cx},${t.cy-rad} L${g.cx},${g.b+4}"/>
+      <text x="${(g.cx+t.l)/2}" y="${t.cy-7}" text-anchor="middle">Retrain</text>`;
   }
-  const next = () => { i = (i + 1) % steps.length; show(i); };
-  document.getElementById('loopNext').onclick = () => { stop(); next(); };
-  const playBtn = document.getElementById('loopPlay');
-  function stop(){ clearInterval(timer); timer = null; playBtn.textContent = 'Auto-play'; }
-  playBtn.onclick = () => {
-    if (timer) return stop();
-    next(); timer = setInterval(next, 2200); playBtn.textContent = 'Pause';
-  };
+  draw(); addEventListener('resize', draw); if (document.fonts) document.fonts.ready.then(draw);
 })();
 
+// How it works stepper
+(function(){
+  const steps = [
+    { part:'Part 1 · Image generator', c:'var(--accent-2)', t:'Upload real defect images', d:'The engineer uploads the few real images they have for each defect class, around 25 per class.', link:['#section-4','Generation Pipeline']},
+    { part:'Part 1 · Image generator', c:'var(--accent-2)', t:'Generate synthetic images', d:'A LoRA trained with Kohya_ss learns each defect and generates new images from real photos (image-to-image).', link:['#section-5','Model Optimisation']},
+    { part:'Part 2 · Tuning agent', c:'var(--accent)', t:'Evaluate every image', d:'The Evaluator agent, a YOLO classifier trained only on real TE images, checks that each generated image shows its intended defect and gives a pass rate.', link:['#s8-0','Tuning Agent: Evaluator']},
+    { part:'Part 2 · Tuning agent', c:'var(--accent)', t:'Decide: good enough?', d:'The Decision agent turns the pass rate into Accept (≥ 80%), Borderline (50–80%) or Reject (< 50%). Accept skips straight to delivery.', link:['#section-6','Tuning Agent']},
+    { part:'Part 2 · Tuning agent', c:'var(--accent)', t:'Re-tune only if needed', d:'For Borderline or Reject, the Recommender agent proposes new settings, the model retrains, and the loop runs again until the images pass.', link:['#section-6','Tuning Agent']},
+    { part:'Result', c:'var(--ok)', t:'Deliver a validated dataset', d:'The engineer receives the passing images and the settings that produced them, ready to train the inspection model.', link:null},
+  ];
+  const det = document.getElementById('howDetail'); if (!det) return;
+  const btns = document.querySelectorAll('.how-steps button');
+  function show(i){
+    const st = steps[i];
+    btns.forEach((b,k)=>b.setAttribute('aria-selected', k===i));
+    det.style.borderLeft = `3px solid ${st.c}`;
+    det.innerHTML = `<div class="hd-part" style="color:${st.c}">${st.part} · Step ${i+1} of ${steps.length}</div><h5>${st.t}</h5><p>${st.d}</p><div class="hd-nav">${st.link?`<a href="${st.link[0]}">Read more in ${st.link[1]} →</a>`:'<span></span>'}<button class="hd-next">${i < steps.length-1 ? 'Next step →' : 'Start again ↺'}</button></div>`;
+    det.querySelector('.hd-next').onclick = () => show((i+1) % steps.length);
+  }
+  btns.forEach((b,i)=>b.onclick=()=>show(i));
+  show(0);
+})();
+
+// Class balance chart (real vs synthetic needed)
+const BALANCE_DATA = [
+  { label: "OK",                  real: 200, syn: 0 },
+  { label: "NG-Single electrode", real: 30,  syn: 70 },
+  { label: "NG-No solder",        real: 25,  syn: 75 },
+  { label: "NG-Misalign",         real: 24,  syn: 76 },
+];
+(function(){
+  const el = document.getElementById('balanceChart'); if (!el) return;
+  const max = 200, target = 100;
+  let h = '';
+  BALANCE_DATA.forEach(d => {
+    const tip = d.syn ? `${d.label}: ${d.real} real + ${d.syn} synthetic = ${d.real + d.syn}` : `${d.label}: ${d.real} real (no synthetic needed)`;
+    h += `<div class="bal-row" title="${tip}"><span>${d.label}</span>
+      <div class="bal-track"><div class="bal-real${d.syn ? '' : ' full'}" style="width:${d.real / max * 100}%"></div>${d.syn ? `<div class="bal-syn" style="width:calc(${d.syn / max * 100}% - 2px)"></div>` : ''}<i class="bal-target" style="left:${target / max * 100}%"></i></div>
+      <span class="bal-val">${d.real} real${d.syn ? ` + ${d.syn} synthetic` : ''}</span></div>`;
+  });
+  h += `<div class="bal-legend"><span><i style="background:var(--accent-2)"></i>Real images (TE)</span><span><i style="background:repeating-linear-gradient(45deg,var(--accent),var(--accent) 3px,transparent 3px,transparent 6px)"></i>Synthetic images to generate</span><span><i style="border-left:1.5px dashed var(--faint);border-radius:0;width:0;height:12px"></i>~100 per class</span></div>`;
+  el.innerHTML = h;
+})();
 
 // YOLO judge results visual (validation set, real images)
 const JUDGE_DATA = [
