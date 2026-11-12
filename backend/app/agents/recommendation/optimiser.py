@@ -1,13 +1,3 @@
-"""
-CPU-only integration prototype.
-
-Connects:
-Recommender -> Evaluation Agent -> Evaluator Adapter -> Optuna
-
-No SDXL training or generation is performed.
-No YOLO training is performed.
-"""
-
 from pathlib import Path
 import json
 import optuna
@@ -26,26 +16,16 @@ from app.agents.evaluation.evaluation import (
     summarize,
 )
 
-
-# --------------------------------------------------
-# 1. PROJECT PATHS
-# --------------------------------------------------
-
 BACKEND_DIR = Path(__file__).resolve().parents[3]
 PROJECT_ROOT = BACKEND_DIR.parent
 
 RESULTS_DIR = BACKEND_DIR / "results" / "recommender"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-# CHANGE THESE TWO PATHS TO YOUR ACTUAL FILES
 YOLO_WEIGHTS = PROJECT_ROOT / "best.pt"
 
 GENERATED_DIR = PROJECT_ROOT / "generated" / "txt2img"
 
-
-# --------------------------------------------------
-# 2. LOAD GENERATED IMAGES
-# --------------------------------------------------
 
 def load_generated_images(directory):
 
@@ -78,21 +58,14 @@ def load_generated_images(directory):
 
     return images, class_names
 
-
-# --------------------------------------------------
-# 3. OPTUNA OBJECTIVE
-# --------------------------------------------------
-
 def objective(trial):
 
     print(f"\n========== TRIAL {trial.number} ==========")
 
-    # STEP A: Recommend hyperparameters
     params = suggest_hyperparameters(trial)
 
     print("Recommended hyperparameters:", params)
 
-    # STEP B: Save trial configuration
     trial_dir = RESULTS_DIR / f"trial_{trial.number:03d}"
     trial_dir.mkdir(parents=True, exist_ok=True)
 
@@ -103,30 +76,25 @@ def objective(trial):
         encoding="utf-8",
     )
 
-    # STEP C: Load existing generated images
     images, class_names = load_generated_images(
         GENERATED_DIR
     )
 
     print("Images loaded:", len(images))
 
-    # STEP D: Run actual YOLO Evaluation Agent
     rows = classify_images(
         weights=YOLO_WEIGHTS,
         images=images,
         imgsz=224,
     )
 
-    # STEP E: Summarise evaluation results
     summary = summarize(
         rows=rows,
         class_names=class_names,
     )
 
-    # STEP F: Convert evaluation to Optuna score
     score = evaluation_to_score(summary)
 
-    # STEP G: Save evaluation results
     evaluation_path = trial_dir / "evaluation.json"
 
     evaluation_path.write_text(
@@ -146,13 +114,8 @@ def objective(trial):
 
     print("Evaluation score:", score)
 
-    # STEP H: Return feedback to Optuna
     return score
 
-
-# --------------------------------------------------
-# 4. RUN OPTIMISATION LOOP
-# --------------------------------------------------
 
 if __name__ == "__main__":
 

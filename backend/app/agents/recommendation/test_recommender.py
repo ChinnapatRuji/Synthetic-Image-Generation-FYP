@@ -8,20 +8,7 @@ from recommender import (
     save_config,
     validate_config
 )
-# def mock_evaluator(config):
-#     """
-#     Artificial score for testing the optimization loop.
-#     """
-#     lr = config["learning_rate"]
-#     rank = config["network_dim"]
 
-#     lr_penalty = abs(
-#         math.log10(lr) - math.log10(5e-5)
-#     )
-
-#     rank_penalty = abs(rank - 16) / 16
-
-#     return 100 - 20 * lr_penalty - 10 * rank_penalty
 def mock_evaluator(config):
     lr = config["learning_rate"]
     rank = config["network_dim"]
@@ -41,24 +28,6 @@ def mock_evaluator(config):
         - 10 * rank_penalty
         - 10 * epoch_penalty
     )
-
-# def objective(trial):
-
-#     config = suggest_hyperparameters(trial)
-
-#     config_path = save_config(
-#         config,
-#         trial.number
-#     )
-
-#     score = mock_evaluator(config)
-
-#     print(f"\nTrial {trial.number}")
-#     print("Configuration:", config)
-#     print("Saved to:", config_path)
-#     print("Score:", round(score, 2))
-
-#     return score
 
 def objective(trial):
 

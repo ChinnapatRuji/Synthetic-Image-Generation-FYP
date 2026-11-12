@@ -3,10 +3,8 @@ from pathlib import Path
 import json
 from pydantic import BaseModel, Field, ConfigDict, model_validator
 
+# Recommend which hyperparameter to try
 def suggest_hyperparameters(trial):
-    """
-    Recommend SDXL-LoRA training hyperparameters.
-    """
 
     return {
         "learning_rate": trial.suggest_float(
@@ -28,11 +26,31 @@ def suggest_hyperparameters(trial):
         )
     }
 
+#check recommended hyperparameters
+def validate_config(config):
+    
+    validated = RecommendedConfig.model_validate(config)
+    return validated.model_dump()
 
+# save config as JSON file
+def save_config(config, trial_number):
+    output_dir = (
+        Path(__file__).resolve().parent
+        / "results"
+        / f"trial_{trial_number:03d}"
+    )
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    config_path = output_dir / "mock_config.json"
+
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+
+    return config_path
+
+# optuna record trial results
 def create_study(database_path, study_name="sdxl_hpo"):
-    """
-    Create or resume an Optuna optimisation study.
-    """
 
     database_path = Path(database_path).resolve()
     database_path.parent.mkdir(
@@ -55,32 +73,13 @@ def create_study(database_path, study_name="sdxl_hpo"):
         load_if_exists=True
     )
     
-
-def save_config(config, trial_number):
-    output_dir = (
-        Path(__file__).resolve().parent
-        / "results"
-        / f"trial_{trial_number:03d}"
-    )
-
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    #config_path = output_dir / "config.json"
-    config_path = output_dir / "mock_config.json"
-
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
-
-    return config_path
+# define validation schema for recommended hyperparameters
 class RecommendedConfig(BaseModel):
-    """
-    Validates Optuna's recommended hyperparameters.
-    """
 
     model_config = ConfigDict(extra="forbid")
 
     learning_rate: float = Field(
-        gt=0,
+        ge=1e-6,
         le=5e-4
     )
 
@@ -99,11 +98,3 @@ class RecommendedConfig(BaseModel):
         if self.network_dim not in [4, 8, 16, 32]:
             raise ValueError("Invalid LoRA rank")
         return self
-
-
-def validate_config(config):
-    """
-    Validate recommended hyperparameters.
-    """
-    validated = RecommendedConfig.model_validate(config)
-    return validated.model_dump()

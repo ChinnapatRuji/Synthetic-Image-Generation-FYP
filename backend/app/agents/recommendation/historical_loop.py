@@ -1,19 +1,8 @@
-"""
-Historical evaluation integration test.
-
-Uses real saved YOLO evaluation results.
-Does not train SDXL or YOLO.
-Does not measure hyperparameter performance.
-"""
 
 from pathlib import Path
 import optuna
 import pandas as pd
 
-# from app.agents.recommendation.recommender import (
-#     suggest_hyperparameters,
-#     create_study,
-# )
 from app.agents.recommendation.recommender import (
     suggest_hyperparameters,
     create_study,
@@ -76,8 +65,6 @@ def objective(trial):
 
     print("Pydantic validation: PASSED")
 
-    # Historical datasets are selected independently
-    # of the suggested hyperparameters.
     csv_path = RESULTS / (
         "txt2img_eval.csv"
         if trial.number % 2 == 0
