@@ -2907,6 +2907,9 @@
 </p>
 
 <h3 id="s4-previous">Previous Architecture</h3>
+<!-- FYP_CITATION_s4-previous -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> The previous application architecture and its limitations are documented in the project predecessor's UROP report [22].</p>
+
 
 <p>
   The previous implementation integrated Electron/React,
@@ -2964,6 +2967,9 @@
 </div>
 
 <h3 id="s4-current">Current Architecture</h3>
+<!-- FYP_CITATION_s4-current -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> The redesigned architecture uses established asynchronous task-processing and API frameworks [23–25].</p>
+
 
 <p>
   The redesigned backend separates request handling,
@@ -3057,6 +3063,9 @@
 </div>
 
 <h3 id="s4-workspaces">Workspace Isolation and Training Batch Management</h3>
+<!-- FYP_CITATION_s4-workspaces -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> Workspace isolation and training-batch management are implementation decisions of the current FYP, rather than features established by a cited research paper.</p>
+
 
 <p>
   Each workspace maintains its own dataset classes,
@@ -3084,6 +3093,9 @@
 </div>
 
 <h3 id="s4-configurable">Configurable Training and Generation APIs</h3>
+<!-- FYP_CITATION_s4-configurable -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> The API design builds on FastAPI's validated request models and the configurable training and inference interfaces provided by the underlying machine-learning frameworks [23, 26].</p>
+
 
 <p>
   Earlier workflows were comparatively predefined.
@@ -3154,6 +3166,9 @@
 <h3 id="s4-overview">
   Pipeline Overview
 </h3>
+<!-- FYP_CITATION_s4-overview -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> The generation pipeline is based on latent diffusion and parameter-efficient adaptation [14, 27].</p>
+
 
         <p>We have moved the pipeline from the UROP team's SDXL + LoRA to <a
             href="https://huggingface.co/SG161222/Realistic_Vision_V5.1_noVAE">Realistic Vision 5.1</a>, an SD1.5-based
@@ -3626,6 +3641,9 @@
 <h3 id="s5-1">
   Experimental Approach and Model Selection
 </h3>
+<!-- FYP_CITATION_s5-1 -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> SDXL and LoRA are described in [13, 14]. Realistic Vision V5.1 is documented in [19], while latent diffusion provides the underlying generative framework [27].</p>
+
 
 <p>
   The previous UROP implementation adopted SDXL
@@ -3676,6 +3694,9 @@
 <h3 id="s5-2">
   Shared Multiclass versus Class-Specific LoRA
 </h3>
+<!-- FYP_CITATION_s5-2 -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> LoRA uses low-rank trainable updates to adapt pretrained models [14]. The shared-versus-per-class comparison presented here is based on the project's own experiments and earlier UROP findings [22].</p>
+
 
 <p>
   Two LoRA training strategies were investigated.
@@ -3837,6 +3858,9 @@
     <h3 id="s5-hyperparameters">
   LoRA Hyperparameter Investigation
 </h3>
+<!-- FYP_CITATION_s5-hyperparameters -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> The role of low-rank adaptation is established in [14]. The effects of rank, training duration and convolutional adaptation on this solder dataset remain experimental questions rather than conclusions of that paper.</p>
+
 
 <p>
   Training experiments explored adapter capacity,
@@ -3890,6 +3914,9 @@
 <h3 id="s5-3">
   Generation Strategy Experiments
 </h3>
+<!-- FYP_CITATION_s5-3 -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> Diffusion-based generation is grounded in denoising probabilistic models and latent diffusion [27, 28]. Image-to-image inference is implemented through Diffusers [26].</p>
+
 
 <p>
   Three generation approaches were investigated
@@ -3982,6 +4009,9 @@
     <h3 id="s5-canny">
   Canny ControlNet Experiments
 </h3>
+<!-- FYP_CITATION_s5-canny -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> Canny edge detection was introduced in [29], while ControlNet provides spatial conditioning for pretrained diffusion models [30].</p>
+
 
 <p>
   Canny conditioning was introduced to improve
@@ -4075,6 +4105,9 @@
     <h3 id="s5-4">
   Preliminary Experimental Results
 </h3>
+<!-- FYP_CITATION_s5-4 -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> These results are from the current FYP's preliminary experiments. They should not be interpreted as independently established results from the literature.</p>
+
 
 <p>
   Manual generation experiments were evaluated
@@ -4138,6 +4171,9 @@
 <h3 id="s5-future">
   Key Findings and Future Improvements
 </h3>
+<!-- FYP_CITATION_s5-future -->
+<p class="caption" style="margin:8px 0 16px"><b>Technical basis:</b> Potential extensions to structural conditioning are motivated by ControlNet [30]. The proposed dataset-adaptive strategy selection remains future work.</p>
+
 
 <div class="table-wrap">
 <table>
@@ -4919,7 +4955,80 @@
               href="https://github.com/kohya-ss/sd-scripts">GitHub</a>.</li>
           <li>Wong, W. H., Yeo, N. T. W., &amp; Tan, P. H. (2025). <i>AI Synthetic Image Generation of Defect
               Images.</i> CDE4301 UROP Report, NUS.</li>
-        </ol>
+        
+
+
+<!-- FYP_NEW_REFERENCES_START -->
+<li>
+  FastAPI. <i>FastAPI Documentation.</i>
+  <a href="https://fastapi.tiangolo.com/"
+     target="_blank" rel="noopener noreferrer">
+    Official documentation
+  </a>.
+</li>
+<li>
+  Celery Project. <i>Celery: Distributed Task Queue.</i>
+  <a href="https://docs.celeryq.dev/"
+     target="_blank" rel="noopener noreferrer">
+    Official documentation
+  </a>.
+</li>
+<li>
+  Redis. <i>Redis Documentation.</i>
+  <a href="https://redis.io/docs/latest/"
+     target="_blank" rel="noopener noreferrer">
+    Official documentation
+  </a>.
+</li>
+<li>
+  Hugging Face. <i>Diffusers Documentation.</i>
+  <a href="https://huggingface.co/docs/diffusers/"
+     target="_blank" rel="noopener noreferrer">
+    Official documentation
+  </a>.
+</li>
+<li>
+  Rombach, R., Blattmann, A., Lorenz, D.,
+  Esser, P., &amp; Ommer, B. (2022).
+  <i>High-Resolution Image Synthesis with
+  Latent Diffusion Models.</i>
+  CVPR, 10684–10695.
+  <a href="https://doi.org/10.1109/CVPR52688.2022.01042"
+     target="_blank" rel="noopener noreferrer">
+    doi:10.1109/CVPR52688.2022.01042
+  </a>.
+</li>
+<li>
+  Ho, J., Jain, A., &amp; Abbeel, P. (2020).
+  <i>Denoising Diffusion Probabilistic Models.</i>
+  NeurIPS 33.
+  <a href="https://arxiv.org/abs/2006.11239"
+     target="_blank" rel="noopener noreferrer">
+    arXiv:2006.11239
+  </a>.
+</li>
+<li>
+  Canny, J. (1986).
+  <i>A Computational Approach to Edge Detection.</i>
+  IEEE Transactions on Pattern Analysis and
+  Machine Intelligence, PAMI-8(6), 679–698.
+  <a href="https://doi.org/10.1109/TPAMI.1986.4767851"
+     target="_blank" rel="noopener noreferrer">
+    doi:10.1109/TPAMI.1986.4767851
+  </a>.
+</li>
+<li>
+  Zhang, L., Rao, A., &amp; Agrawala, M. (2023).
+  <i>Adding Conditional Control to
+  Text-to-Image Diffusion Models.</i>
+  ICCV, 3836–3847.
+  <a href="https://doi.org/10.1109/ICCV51070.2023.00355"
+     target="_blank" rel="noopener noreferrer">
+    doi:10.1109/ICCV51070.2023.00355
+  </a>.
+</li>
+<!-- FYP_NEW_REFERENCES_END -->
+</ol>
       </section>
 
       <!-- ===================== 12 ===================== -->
