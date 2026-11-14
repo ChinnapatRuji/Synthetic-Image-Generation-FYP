@@ -2,7 +2,8 @@ name: Deploy FYP Website
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -23,12 +24,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout
+      - name: Checkout website without submodules
         uses: actions/checkout@v4
         with:
           submodules: false
 
-      - name: Configure Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload website
@@ -36,6 +37,6 @@ jobs:
         with:
           path: ./docs
 
-      - name: Deploy
+      - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
