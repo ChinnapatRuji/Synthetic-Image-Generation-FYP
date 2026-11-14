@@ -2369,9 +2369,7 @@
     async>
   </script>
 
-</head>
 
-<body>
 </head>
 
 <body>
@@ -4467,6 +4465,14 @@
             (TPE) to search for promising hyperparameter combinations,
             reducing the need for manual trial-and-error.
           </p>
+          <p>
+            The proposed agent-based optimisation workflow draws on
+            multi-agent hyperparameter optimisation frameworks
+            described by Madiraju and Madiraju [31] and
+            Chaithanya Vijaya [32]. These provide conceptual
+            references for coordinating parameter recommendations,
+            evaluation feedback and subsequent optimisation decisions.
+          </p>
           <div class="grid g3">
             <div class="card">
               <h5>Inputs</h5>
@@ -4582,8 +4588,11 @@
                 the Recommender with the YOLO Evaluation Agent.
                 It loads previously generated images, obtains
                 classification results and converts them into
-                an optimisation score. End-to-end execution
-                remains to be verified.
+                an optimisation score.
+
+                The integration is currently a work in progress,
+                with further testing required to verify successful
+                execution.
               </p>
             </div>
 
@@ -4723,7 +4732,8 @@
             This test verifies the evaluation-feedback interface.
             However, the historical scores are obtained from
             existing datasets rather than images generated using
-            each trial's recommended hyperparameters.
+            each trial's recommended hyperparameters. Hence, it does not yet demonstrate training-based
+  optimisation.
           </p>
 
 
@@ -4744,10 +4754,14 @@
           </p>
 
           <p>
-            This integration is implemented in code, but successful
-            end-to-end execution remains to be verified. It also
-            evaluates a fixed image dataset rather than generating
-            new images for each recommended configuration.
+            The integration between the Recommender and YOLO
+            Evaluation Agent is currently a work in progress.
+            While the integration code has been developed,
+            further testing is required.
+
+            The current implementation evaluates a fixed
+            image dataset, with trial-specific image
+            generation planned for Semester 2.
           </p>
 
 
@@ -4755,54 +4769,71 @@
 
           <div class="callout todo">
 
-            <strong>Current Limitations and Future Work</strong>
-
+            <strong>Current Limitations and Next Steps</strong>
             <p>
               The preliminary tests demonstrate the feasibility of
-              the Recommender Agent's optimisation mechanism,
-              configuration validation and evaluation-feedback
-              interfaces. However, the current implementation
-              does not yet perform full closed-loop optimisation,
-              as the recommended hyperparameters are not directly
-              linked to new training and image generation runs.
+              the Recommender Agent's hyperparameter optimisation
+              mechanism, configuration validation and
+              evaluation-feedback interface.
+
+              Simulated optimisation verifies that Optuna can use
+              parameter-dependent scores to guide subsequent
+              recommendations, while historical evaluation testing
+              demonstrates compatibility with the Evaluation Agent's
+              scoring format.
+            </p>
+            <p>
+              However, the current implementation does not yet
+              perform full closed-loop optimisation, as the
+              recommended hyperparameters are not directly linked
+              to new training and image generation runs.
             </p>
 
             <p>
               In Semester 2, the primary objective is to implement
-              the complete automated hyperparameter optimisation
-              loop by integrating the Recommender Agent with the
-              LoRA training pipeline, image generation, Evaluation
-              Agent and Decision Agent.
+              the complete automated feedback-driven hyperparameter
+              optimisation loop by integrating the Recommender Agent
+              with the LoRA training pipeline, image generation,
+              Evaluation Agent and Decision Agent.
             </p>
 
             <p>
-              For each optimisation trial, the Recommender will
-              propose a new hyperparameter configuration, which
-              will be validated and used to train a LoRA model.
-              The trained model will then generate synthetic defect
-              images, which will be assessed by the Evaluation Agent.
-              The resulting evaluation score will be returned to
-              Optuna to guide subsequent hyperparameter recommendations.
+              The process will begin with an initial LoRA training
+              run using the default hyperparameter configuration,
+              followed by synthetic defect image generation and
+              evaluation.
+
+              If the generated images do not meet the required
+              quality threshold, the Decision Agent will trigger
+              the Recommender to propose alternative hyperparameters.
             </p>
 
             <p>
-              The Decision Agent will determine whether to accept
-              the generated images, explore alternative configurations
-              or exploit promising parameter combinations. This
-              iterative process will continue until the required
-              quality threshold is achieved or the predefined
-              computational budget is exhausted.
+              Each recommended configuration will then be validated
+              and used to retrain the LoRA model and generate a new
+              set of synthetic defect images.
+
+              The Evaluation Agent will assess these images,
+              and the resulting scores will be returned to Optuna
+              to guide subsequent recommendations.
             </p>
 
             <p>
-              Once the complete loop is operational, its effectiveness
-              will be evaluated by comparing the optimised configurations
-              against manually selected settings and alternative search
-              strategies. The objective is to improve synthetic defect
-              image quality while reducing unnecessary training runs
+              This iterative process will continue until the
+              required quality threshold is achieved or the
+              predefined computational budget is exhausted.
+            </p>
+
+            <p>
+              Once the complete loop is operational, its
+              effectiveness will be evaluated by comparing the
+              optimised configurations against manually selected
+              settings and alternative search strategies.
+
+              The objective is to improve synthetic defect image
+              quality while reducing unnecessary training runs
               and manual intervention.
             </p>
-
           </div>
       </section>
 
@@ -4835,8 +4866,14 @@
           </div>
           <div class="card">
             <h5>5 · Recommender agent</h5>
-            <p>Develop and enhance the Recommender, deciding which details from the evaluation it needs to choose which parameter to
-              change (e.g. per-class pass rate, confidence, and which classes are confused).</p>
+            <p> Extend the existing Optuna-based Recommender prototype
+                into a complete feedback-driven optimisation system.
+                Integrate it with LoRA training, image generation,
+                the Evaluation Agent and the Decision Agent.
+                Future development will incorporate class-specific
+                evaluation feedback, computational budget constraints
+                and comparisons with alternative optimisation methods.
+            </p>
           </div>
           <div class="card">
             <h5>6 · Agentic chatbot in the app <span
@@ -4867,6 +4904,12 @@
               <li>Literature review: industry generative models, agentic HPO, defect evaluation</li>
               <li>Explore alternative models: Realistic Vision 5.1 txt2img vs img2img; FLUX deferred for hardware</li>
               <li>Design the AgentHPO architecture and define end-of-project goals</li>
+              <li>
+                Develop the Optuna-based Recommender prototype,
+                including Pydantic configuration validation,
+                simulated optimisation and historical evaluation
+                feedback testing.
+              </li>
             </ul>
           </div>
           <div class="sem-card s2">
@@ -4877,7 +4920,10 @@
               <li>Complete the optimised generation model</li>
               <li>Evaluator agent for uploaded datasets: classify unlabelled images for training</li>
               <li>Class-based parameter tuning for classes that fail or can improve</li>
-              <li>Develop and enhance the Recommender agent: define which evaluation details drive each parameter change</li>
+              <li>Integrate the existing Recommender Agent with LoRA
+                  training, image generation, the Evaluation Agent
+                  and the Decision Agent to implement the complete
+                  feedback-driven optimisation loop.</li>
               <li>Explore an agentic chatbot in the app</li>
               <li>Final report, poster, demo and presentation</li>
             </ul>
@@ -5018,6 +5064,24 @@
     doi:10.1109/ICCV51070.2023.00355
   </a>.
 </li>
+<li>
+  Madiraju, M. B., &amp; Madiraju, M. S. P. (2025).
+  <i>OptiMindTune: A Multi-Agent Framework for Intelligent
+  Hyperparameter Optimization.</i>
+  arXiv:2505.19205.
+  <a href="https://arxiv.org/abs/2505.19205">
+    arxiv.org/abs/2505.19205
+  </a>.
+</li>
+<li>
+  Chaithanya Vijaya. (2026).
+  <i>Agent-Driven Hyperparameter Optimization Framework.</i>
+  Medium.
+  <a href="https://medium.com/@chaithanyavijaya/agent-driven-hyperparameter-optimization-framework-dbf968daab56">
+    Medium article
+  </a>.
+</li>
+
 <!-- FYP_NEW_REFERENCES_END -->
 </ol>
       </section>
@@ -5330,9 +5394,45 @@
           label: 'Dataset evaluation', items: [
             { s: 5, e: 7, sem: 's2', planned: true, t: 'Evaluate uploaded datasets', pts: ['Extend the Evaluator to user-uploaded datasets', 'Classify unlabelled images so they can be used for training', 'Currently using labelled datasets'] }]
         },
-        {
-          label: 'Recommender agent', items: [
-            { s: 5, e: 7.5, sem: 's2', planned: true, t: 'Develop and enhance the Recommender', pts: ['Decide which evaluation details it needs', 'Map evaluation results to parameter changes', 'Connect to the Evaluator and Decision agents'] }]
+       {
+          label: 'Recommender agent',
+          items: [
+            {
+              s: 2,
+              e: 4.5,
+              sem: 's1',
+              t: 'Recommender prototype',
+              pts: [
+                'Implement Optuna TPE hyperparameter recommendations',
+                'Validate configurations using Pydantic',
+                'Test simulated optimisation and historical evaluation feedback'
+              ]
+            },
+            {
+              s: 5,
+              e: 7,
+              sem: 's2',
+              planned: true,
+              t: 'Closed-loop integration',
+              pts: [
+                'Connect Recommender to LoRA training and image generation',
+                'Integrate Evaluation Agent and Decision Agent feedback',
+                'Implement trial-specific evaluation and optimisation'
+              ]
+            },
+            {
+              s: 7,
+              e: 8.5,
+              sem: 's2',
+              planned: true,
+              t: 'Optimisation experiments',
+              pts: [
+                'Test the complete optimisation loop',
+                'Compare optimised and manually selected configurations',
+                'Evaluate image quality and computational efficiency'
+              ]
+            }
+          ]
         },
         {
           label: 'Class-based tuning', items: [
